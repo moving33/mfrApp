@@ -1,0 +1,98 @@
+.container {
+  margin: auto;
+  height: 500px;
+  width: 500px;
+}
+
+.content {
+  margin: auto;
+  display: flex;
+  position: relative;
+  background-color: grey;
+  width: 450px;
+  height: 750px;
+  margin: auto;
+  border-radius: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  position: relative;
+  display: flex;
+  margin: auto;
+  width: 400px;
+  height: 650px;
+  background-color: #eee;
+  align-items: center;
+  border-radius: 50px;
+  flex-direction: column;
+}
+
+.camera {
+  width: 100vw;
+  height: 100vw;
+  object-fit: fill;
+}
+
+.btn {
+  position: absolute;
+  bottom: 80px;
+}
+
+.icon {
+  position: absolute;
+  z-index: 8;
+  bottom: 70px;
+  color: white;
+}
+
+.coverDiv {
+  position: absolute;
+  width: 100vw;
+  height: 100vw;
+  top: calc((100vh - 100vw) / 2); 
+}
+
+.drowing {
+  width: 350px;
+  height: 350px;
+  border: 1px solid red;
+  margin: auto;
+  border-radius: 500px;
+  width: 100vw;
+  height: 100vw;
+}
+
+.drowDelete {
+  border: 1px solid white;
+  margin: auto;
+  border-radius: 500px;
+  width: 100vw;
+  height: 100vw;
+}
+
+
+.drowingContainer {
+  position: relative;
+  top: 0%;
+}
+
+.drowingContainer2 {
+  position: absolute;
+  z-index: 2;
+}
+
+.cameraBackground {
+  background-color: #000000;
+  width: 100vw;
+  height: 100vh;
+}
+
+.cameraTopContainer {
+  text-align: right;
+}
+
+.closeButton {
+  padding: 7%;
+}

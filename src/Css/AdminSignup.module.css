@@ -1,0 +1,79 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+    padding: 5%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow:scroll;
+}
+
+.inputWrapper {
+    display: flex;
+    width: 100%;
+    margin-left: 20px;
+}
+
+.text {
+    margin-top: 20px;
+    margin-bottom: 5px;
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 17px;
+    color: #353535;
+    margin-right: 285px;
+}
+
+.signupInput {
+    width: 200px;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #DCDCDC;
+    box-sizing: border-box;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+
+.signupInput1 {
+    width: 94%;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #DCDCDC;
+    box-sizing: border-box;
+    border-radius: 2px;
+    margin-right: 5px;
+}
+
+.validationBtn {
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 22px;
+
+
+    color: #7F7F7F;
+
+    width: 110px;
+    height: 50px;
+    background: #FFFFFF;
+    border: 1px solid #DCDCDC;
+    box-sizing: border-box;
+    border-radius: 2px;
+
+}
+
+.ptag{
+    font-family: Noto Sans KR;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 16px;
+    margin-right: 70px;
+    margin-top:5px;
+    color: #7F7F7F;
+
+}
