@@ -447,7 +447,7 @@
 .drowingContainer2 {
   position: absolute;
   z-index: 2;
-  margin: calc((100vh - (100vw / 3 * 4)) / 2) 0;
+  margin: calc((100vh - (100vw / 3 * 4)) / 3) 0;
   height: 100vw;
   width: 100vw;
 }
@@ -740,11 +740,14 @@
   padding-bottom: 35%;
 }
 
-/* .wireframeIcon {
+.wireframeIcon {
+  position: absolute;
   height: 120%;
   width: 100%;
   color: red;
-} */
+  display: block;
+  margin-top: auto;
+}
 
 .wireframeIcon.detected {
   color: red;

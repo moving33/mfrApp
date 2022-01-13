@@ -9,20 +9,22 @@ import Camera from "./Page/Camera";
 import Errorpage from "./Page/Errorpage"
 import { PREFIX } from "./config";
 import ConfirmPass from "./Page/ConfirmPass";
-import AdminSignup from "./Page/AdminSignup"
+import AdminSignup from "./Page/AdminSignup";
+import WebErrorPage from "./Page/WebComeErrorPage";
 
 function App() {
   return (
     <div className="App">
       <Switch>
-        <Route path={`${PREFIX}/`} component={Intro} exact />
-        <Route path={`${PREFIX}/info`} component={Info} exact />
-        <Route path={`${PREFIX}/agreements`} component={Agreements} exact />
-        <Route path={`${PREFIX}/select`} component={Select} exact />
-        <Route path={`${PREFIX}/camera`} component={Camera} exact />
-        <Route path={`${PREFIX}/errorpage`} component={Errorpage} exact />
+        <Route path={`${PREFIX}/`}            component={Intro} exact />
+        <Route path={`${PREFIX}/info`}        component={Info} exact />
+        <Route path={`${PREFIX}/agreements`}  component={Agreements} exact />
+        <Route path={`${PREFIX}/select`}      component={Select} exact />
+        <Route path={`${PREFIX}/camera`}      component={Camera} exact />
+        <Route path={`${PREFIX}/errorpage`}   component={Errorpage} exact />
         <Route path={`${PREFIX}/confirmpass`} component={ConfirmPass} exact />
         <Route path={`${PREFIX}/adminsignup`} component={AdminSignup} exact />
+        <Route path={`${PREFIX}/weberrorpage`}component={WebErrorPage} exact />
       </Switch>
     </div>
   );

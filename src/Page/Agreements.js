@@ -78,9 +78,9 @@ const Agreements = () => {
     _data.agree = true;
     
     let payload = {
-       site_manage_phone : sendData.tel
-      ,site_manage_name  : sendData.name
-      ,site_idx : sendData.site_idx
+       site_manage_phone : sendData.workplace.site_manage_phone
+      ,site_manage_name  : sendData.workplace.site_manager_name
+      ,site_idx : sendData.workplace.site_idx
       ,step_idx : sendData.step_idx
     };
 
@@ -102,7 +102,15 @@ const Agreements = () => {
       <Box step={2} text1="개인정보" text2="수집/이용 동의" />
       <div className={style.group17}></div>
       <div className={style.agree}>
-        <input label="check" type="checkbox" style={{marginRight:"10px"}}
+        <input id="check" type="checkbox" style={{marginRight:"10px"}} 
+          onChange={(e) => {
+            if(checkedInputs.length === 0) {
+              setCheckedInputs(['check', 'check2']);
+            } else {
+              setCheckedInputs([]);
+            }
+          }}
+          checked={checkedInputs.length === 2}
         ></input>
         <div className={style.borderBtm}>전체 동의하기</div>
       </div>

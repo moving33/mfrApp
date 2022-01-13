@@ -11,11 +11,10 @@ const SelectCompany = ({company, setCompany, selectKey, setSelectKey}) => {
   } 
 
 //   useEffect(() => {
-//     componyReq()
-// //  axios.post(`${API_URL}/v1/info/companyCode`)
-// //  .then((res) => {
-// //    setCompany(res.data)
-// //  })
+//  axios.post(`${API_URL}/v1/info/companyCode`)
+//  .then((res) => {
+//    setCompany(res.data)
+//  })
 //   }, []);
 
  useEffect(() => { // 페이지에서 비동기 요청이 필요할 때 useEffect 안에서 async await 처리를 해 데이터를 받아와야함

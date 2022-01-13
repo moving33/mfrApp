@@ -3,16 +3,21 @@ import { useHistory } from "react-router";
 import SubmitButton from "../Component/SubmitButton";
 import utils from "../utils";
 import style from "../Css/Main.module.css";
-
+import {
+  isMobile,
+  BrowserView,
+  MobileView,
+  isBrowser
+} from 'react-device-detect';
 import qs from "qs";
 import axios from 'axios';
 
 // import passDemo1Png from "../assets/pass_demo_1.png";
 // import passDemo2Png from "../assets/pass_demo_2.png";
 // import passDemo3Png from "../assets/pass_demo_3.png";
-import passImg1 from "../assets/passImg1.jpeg"
-import passImg2 from "../assets/passImg2.jpeg"
-import passImg3 from "../assets/passImg3.jpeg"
+import passImg1 from "../assets/passImg1.jpeg";
+import passImg2 from "../assets/passImg2.jpeg";
+import passImg3 from "../assets/passImg3.jpeg";
 import { PREFIX, API_URL } from "../config";
 
 function Intro() {
@@ -40,8 +45,10 @@ function Intro() {
     }
     axios.post(`${API_URL}/v1/siteInfo`, payload)
     .then((res) => {
+      if(!isMobile) history.push("/weberrorpage");
       if(res.data === null || res.data.result === '잘못된 요청입니다.') {
-        // history.push("/errorpage")
+        
+       
       }
       console.log("intro.js::::")
       setWorkplace(res.data)
@@ -67,7 +74,7 @@ function Intro() {
   }, [])
 
   return (
-
+  <MobileView>
     <div>
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
@@ -125,6 +132,7 @@ function Intro() {
         />
       )}
     </div>
+  </MobileView>
   );
 }
 
