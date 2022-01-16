@@ -31,7 +31,7 @@ function ErrorPage({ onClick }) {
   );
 }
 
-function Info() {
+function PassAfterInfo() {
   const history = useHistory();
 
   const {
@@ -44,7 +44,6 @@ function Info() {
   const [payload, setPayload] = useState();
   const [encData, setEncData] = useState();
   const [defaultState, setDefaultState] = useState();
-  let [emNum, setEmNum] = useState('');
   const [isError, setIsError] = useState(false);
   const [siteName, setSiteName] = useState();
   const [inputName, setInputName] = useState()
@@ -53,16 +52,20 @@ function Info() {
   const [selectKey, setSelectKey] = useState()
   let [name, setName] = useState('');
   let [tel, setTel] = useState('');
+  let [emNum, setEmNum] = useState('');
   const fRef = useRef();
+
   function nameHandler(e) {
     setName(e.target.value)
   }
   function telHandler(e) {
     setTel(e.target.value)
   }
-  function emNumHandler(e) {
+  const emNumHandler = (e) => {
     setEmNum(e.target.value)
   }
+
+
   function inputPasswordHandler(e) {
     setInputPassword(e.target.value)
   }
@@ -73,104 +76,71 @@ function Info() {
 
     if (!isMobile) history.push("/weberrorpage");
 
-    const { workplace } = qs.parse(window.location.search.slice(1));
+    const { q } = qs.parse(window.location.search.slice(1));
 
-    const payload = {
-      uuid: workplace || null
-    };
+    if (!q) {
+      history.push("/");
+    }
 
-    axios.post(`${API_URL}/v1/siteInfo`, payload)
-      .then((res) => {
-        if (res.data === null || res.data.result === '잘못된 요청입니다.') { }
-        console.log("intro.js::::");
-        console.log(res.data);
-        setDefaultState(res.data);
+    const data = JSON.parse(utils.decode(q));
+    setDefaultState(data);
 
-        axios({
-          method: 'POST',
-          //url: 'http://121.165.242.171:9998/checkplus_json',
-          url: `${API_URL}/v1/niceApiCodeController`,
-          timeout: 5000,
-        }).then((res) => {
-          localStorage.setItem('workplace', JSON.stringify(workplace));
-          console.log('default', defaultState);
-          console.log(res);
-          setEncData(res.data.enc_data);
-        }).catch(() => {
-          // window.location.reload();
-        });
-      })
-      .catch((err) => {
-        // history.push("/errorpage")
-      });
-
-    //   const { q } = qs.parse(window.location.search.slice(1));
-
-    //   if (!q) {
-    //     history.push("/");
-    //   }
-
-    //   const data = JSON.parse(utils.decode(q));
-    //   setDefaultState(data);
+    console.log(defaultState);
 
   }, []);
 
   const PassButton = () => {
-    if (tel === '') {
-      alert('전화번호를 입력해 주세요');
-      return;
-    }
-    if (name === '') {
-      alert('아름을 입력해 주세요');
-      return;
-    }
-    fRef.current.submit();
+    alert('이미 인증 하셨습니다.');
   }
 
   const onSubmit = (data) => {
-    console.log('formData:', data);
+
+    console.log('data', data.company);
+
     const { employeeNumber } = data;
 
-    //사번을 입력하지 못하면 못 지나간다.
-
     if (emNum === '') {
+
       alert('사번을 입력해 주세요');
       return;
-    }
 
+    } else {
+
+      const _data = { ...defaultState, employeeNumber };
+
+      console.log('info.js::::::::::::::');
+      // console.log(_data);
+
+      const userInfo = {
+        id: emNum,
+        userName: _data.name,
+        userPhone: _data.tel,
+        site_idx: _data.site_idx,
+        company_idx: selectKey
+      }
+
+      console.log(userInfo)
+
+      axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo)
+        .then((res) => {
+          console.log(res.data);
+          let checkEmployeeNumber = res.data.result
+          if (checkEmployeeNumber === 'false') {
+            history.push('/errornopeople');
+          } else {
+            _data.step_idx = res.data.step_idx;
+            _data.class_id = res.data.class_id;
+            history.push(
+              `${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`
+            );
+          }
+        })
+    }
     // Todo...
     // if (employeeNumber !== "123") {
     //   setIsError(true);
     //   return;
     // }
-    const _data = { ...defaultState, employeeNumber };
-
-    console.log('info.js::::::::::::::');
-    console.log(_data);
-
-    const userInfo = {
-      id: employeeNumber,
-      userName: _data.name,
-      userPhone: _data.tel,
-      site_idx: _data.site_idx
-      , company_idx: selectKey
-    }
-    console.log(userInfo)
-
-    axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo)
-      .then((res) => {
-        let checkEmployeeNumber = res.data.result
-        if (checkEmployeeNumber === 'false') {
-          history.push('/Errorpage')
-        } else {
-          _data.step_idx = res.data.step_idx;
-          _data.class_id = res.data.class_id;
-
-          history.push(
-            `${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`
-          );
-        }
-      })
   };
 
 
@@ -196,35 +166,39 @@ function Info() {
         {/* <form className={style.mainForm} onSubmit={handleSubmit(onSubmit)}> */}
         <div>
           <Input label="사업장" value={defaultState?.site_name || ""} disable />
-          <Input label="이름" value={name} onChange={nameHandler} />
+          <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} />
           {//{defaultState?.name || ""}}
           }
           <div style={{ display: "flex" }}>
-            <InputTel label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" />
+            <InputTel label="전화번호" value={defaultState?.tel || tel} onChange={telHandler} className={style.inputPhone} />
             {/* <Input label="전화번호"  onChange={inputPasswordHandler} className={style.inputPhone}/> */}
             {/* <button className={style.sendInfo} onClick={()=>{StartPass()}}>인증요청</button> */}
             <button
-              className={style.sendInfo}
+              className={style.sendInfoSuccess}
               onClick={PassButton}
-            >인증하기</button>
+            >인증완료</button>
           </div>
 
           <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
-          <Input
-            {...{ register, formName: "employeeNumber" }}
-            label="사번"
+
+          <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>사번</div>
+          <input className={style.inputPhone}
+            // {...{ register, formName: "employeeNumber" }}
+            // label="사번"
             placeholder="사번을 입력해주세요"
             value={emNum}
             onChange={emNumHandler}
           />
-
-          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} />
-          {/* </form> */}
+          <div className={style.submitButtonWrapper}>
+            <button className={style.submitButton} type="submit" label={"다음"} onClick={() => { onSubmit(defaultState?.site_name, defaultState?.name, defaultState?.tel, company, emNum) }} > 다음 </button>
+          </div>
         </div>
+        {/* </form> */}
       </div>
+
     </MobileView>
   );
 }
 
-export default Info;
+export default PassAfterInfo;

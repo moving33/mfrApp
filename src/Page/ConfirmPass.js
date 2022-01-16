@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import qs from 'querystring';
 import axios from 'axios';
-import {API_URL, PREFIX} from '../config';
+import { API_URL, PREFIX } from '../config';
 import utils from '../utils';
 import { useHistory } from 'react-router-dom';
-import {encode} from "qs/lib/utils";
+import { encode } from "qs/lib/utils";
 
 const getData = (d, k) => {
 
   console.log(d);
   console.log(k);
 
-  let base64ToString = JSON.parse( Buffer.from( d, "base64").toString() );
+  let base64ToString = JSON.parse(Buffer.from(d, "base64").toString());
   console.log(base64ToString);
 
-  if( k == 'NAME') {
+  if (k == 'NAME') {
     return base64ToString.NAME;
   }
-  if( k == 'MOBILE_NO'){
+  if (k == 'MOBILE_NO') {
     return base64ToString.MOBILE_NO;
   }
 
@@ -33,7 +33,7 @@ const getData = (d, k) => {
   }*/
 
   return null;
-} 
+}
 
 function ConfirmPass() { // 1. 첫시작 
   const history = useHistory();
@@ -45,46 +45,46 @@ function ConfirmPass() { // 1. 첫시작
     console.log(workplace);
 
     try {
-      //workplace = JSON.parse(workplace);
-      workplace =  JSON.parse(workplace) ;
-    } catch(err) {
+      //workplace = JSON.parse(workplace); 
+      workplace = JSON.parse(workplace);
+    } catch (err) {
       console.log(err);
     }
 
     const payload = {
-      uuid :workplace || null
+      uuid: workplace || null
     }
-
 
     //uuid 사업장 호출
     axios.post(`${API_URL}/v1/siteInfo`, payload)
-        .then((res) => {
-          if(res.data === null || res.data.result === '잘못된 요청입니다.') {
-            history.push("/errorpage")
-          }
-          console.log("intro.js::::")
-          //setWorkplace(res.data)
-          console.log(res.data);
 
-          const _data = {
-            //workplace,
-            //resData,
-            site_name : res.data.site_name,
-            site_idx  : res.data.site_idx,
-            class_id  : res.data.class_id,
-
-            name: getData(p.data, 'NAME'),
-            tel: getData(p.data, 'MOBILE_NO'),
-          }
-
-          console.log(_data);
-          history.push(`${PREFIX}/info?q=${utils.encode(JSON.stringify(_data))}`);
-
-        })
-        .catch((err) => {
+      .then((res) => {
+        console.log(res);
+        if (res.data === null || res.data.result === '잘못된 요청입니다.') {
           history.push("/errorpage")
-        })
+        }
+        console.log("intro.js::::")
+        //setWorkplace(res.data)
+        console.log(res.data);
 
+        const _data = {
+          //workplace,
+          //resData,
+          site_name: res.data.site_name,
+          site_idx: res.data.site_idx,
+          class_id: res.data.class_id,
+
+          name: getData(p.data, 'NAME'),
+          tel: getData(p.data, 'MOBILE_NO'),
+        }
+
+        console.log(_data);
+        history.push(`${PREFIX}/info?q=${utils.encode(JSON.stringify(_data))}`);
+
+      })
+      .catch((err) => {
+        history.push("/errorpage")
+      })
 
   }, []);
 

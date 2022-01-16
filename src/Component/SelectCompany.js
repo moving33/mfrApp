@@ -30,11 +30,6 @@ const SelectCompany = ({company, setCompany, selectKey, setSelectKey}) => {
   //  console.log(selectKey)
  }, [selectKey]) // useEffect를 설정 해야 useState가 제대로 찍힘
   
-
-
- 
-
-
   return (
     <div>
         <select className={style.selectCompany} label="회사" defaultValue={selectKey} key={selectKey} onChange={selectKeyValue}>

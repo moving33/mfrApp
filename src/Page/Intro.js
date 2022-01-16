@@ -12,9 +12,6 @@ import {
 import qs from "qs";
 import axios from 'axios';
 
-// import passDemo1Png from "../assets/pass_demo_1.png";
-// import passDemo2Png from "../assets/pass_demo_2.png";
-// import passDemo3Png from "../assets/pass_demo_3.png";
 import passImg1 from "../assets/passImg1.jpeg";
 import passImg2 from "../assets/passImg2.jpeg";
 import passImg3 from "../assets/passImg3.jpeg";
@@ -39,18 +36,21 @@ function Intro() {
   };
 
   useEffect(() => {
-    const {workplace} = qs.parse(window.location.search.slice(1));
+    if(!isMobile) history.push("/weberrorpage");
+
+    const { workplace } = qs.parse(window.location.search.slice(1));
+
     const payload = {
       uuid :workplace || null
     }
+
     axios.post(`${API_URL}/v1/siteInfo`, payload)
     .then((res) => {
-      if(!isMobile) history.push("/weberrorpage");
       if(res.data === null || res.data.result === '잘못된 요청입니다.') {
-        
-       
+  
       }
-      console.log("intro.js::::")
+      console.log("intro.js::::");
+      
       setWorkplace(res.data)
       
       axios({

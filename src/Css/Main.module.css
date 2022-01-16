@@ -82,9 +82,7 @@
 
   display: flex;
   align-items: center;
-
   color: #000000;
-
   align-items: start;
   flex-direction: column;
 
@@ -280,12 +278,9 @@
 
   display: flex;
   align-items: center;
-
   color: #545454;
-
   align-items: start;
   flex-direction: column;
-
   margin-top: 5%;
 }
 
@@ -1131,13 +1126,12 @@ color: #7F7F7F;
 
 
 
-
+.sendInfoSuccess,
 .sendInfo {
   width: 90px;
   height: 50px;
   color: #FFFFFF;
 
-  
   background: #0072CE;
   border-radius: 4px;
 
@@ -1161,7 +1155,9 @@ color: #7F7F7F;
   margin-left: 15px;
   border:none;
 }
-
+.sendInfoSuccess{
+  background: #505050;
+}
 .selectCompany {
     /* Auto Layout */
     display: flex;

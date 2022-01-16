@@ -1,7 +1,7 @@
 import { axesAreInnerMostDims } from '@tensorflow/tfjs-core/dist/ops/axis_util';
 import React, { useState, useRef } from 'react'
-import Box from "./Component/Box";
-import style from './Css/AdminSignup.module.css';
+import Box from "../Component/Box";
+import style from '../Css/AdminSignup.module.css';
 
 const AdminSignup = () => {
 
@@ -23,7 +23,6 @@ const AdminSignup = () => {
     id,
     password,
   }
-
 
   function inputPasswordHandler(e) {
     setPassword(e.target.value)
