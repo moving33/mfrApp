@@ -15,7 +15,7 @@ const getData = (d, k) => {
   console.log(base64ToString);
 
   if (k == 'NAME') {
-    return base64ToString.NAME;
+    return decodeURI(base64ToString.NAME,'utf-8');
   }
   if (k == 'MOBILE_NO') {
     return base64ToString.MOBILE_NO;
