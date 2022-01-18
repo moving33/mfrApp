@@ -1,7 +1,6 @@
 import "./App.css";
 
 import { Switch, Route } from "react-router-dom";
-import Intro from "./Page/Intro";
 import Info from "./Page/Info";
 import Agreements from "./Page/Agreements";
 import Select from "./Page/Select";
@@ -23,7 +22,6 @@ function App() {
         {/* <Route path={`${PREFIX}/`}          component={Intro} exact /> */}
         <Route path={`${PREFIX}/`}              component={Info} exact />
         <Route path={`${PREFIX}/info`}          component={PassAfterInfo} exact />
-        {/* <Route path={`${PREFIX}/startpass`} component={StartPass} exact /> */}
         <Route path={`${PREFIX}/agreements`}    component={Agreements} exact />
         <Route path={`${PREFIX}/select`}        component={Select} exact />
         <Route path={`${PREFIX}/camera`}        component={Camera} exact />

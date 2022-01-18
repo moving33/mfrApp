@@ -32,6 +32,7 @@ function ErrorPage({ onClick }) {
 }
 
 function Info() {
+
   const history = useHistory();
 
   const {
@@ -68,6 +69,10 @@ function Info() {
   }
 
   //전 화면에서 받아오는 url q값 지금은 진행을 위해서 주석 처리 웹 접근 분기도 여기서 처리
+  useEffect(() => {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function (event) { window.history.pushState(null, document.title, window.location.href); });
+  }, [window.location.href]);
 
   useEffect(() => {
 
@@ -128,13 +133,14 @@ function Info() {
   }
 
   const onSubmit = (data) => {
+
     console.log('formData:', data);
     const { employeeNumber } = data;
 
     //사번을 입력하지 못하면 못 지나간다.
 
     if (emNum === '') {
-      alert('사번을 입력해 주세요');
+      alert('인증을 먼저해 주세요');
       return;
     }
 
@@ -143,6 +149,7 @@ function Info() {
     //   setIsError(true);
     //   return;
     // }
+
     const _data = { ...defaultState, employeeNumber };
 
     console.log('info.js::::::::::::::');
@@ -161,14 +168,11 @@ function Info() {
       .then((res) => {
         let checkEmployeeNumber = res.data.result
         if (checkEmployeeNumber === 'false') {
-          history.push('/Errorpage')
+          history.replace('/Errorpage')
         } else {
           _data.step_idx = res.data.step_idx;
           _data.class_id = res.data.class_id;
-
-          history.push(
-            `${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`
-          );
+          history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
         }
       })
   };
@@ -192,7 +196,7 @@ function Info() {
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="사번을 입력해주세요" />
         <div className={style.group17} style={{ marginBottom: "10%" }}></div>
-
+        {/* <button onClick={closeBtn}>닫기</button> */}
         {/* <form className={style.mainForm} onSubmit={handleSubmit(onSubmit)}> */}
         <div>
           <Input label="사업장" value={defaultState?.site_name || ""} disable />
@@ -214,7 +218,7 @@ function Info() {
           <Input
             {...{ register, formName: "employeeNumber" }}
             label="사번"
-            placeholder="사번을 입력해주세요"
+            placeholder="인증을 하셔야 사번입력이 가능합니다"
             value={emNum}
             onChange={emNumHandler}
           />

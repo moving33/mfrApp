@@ -61,7 +61,7 @@ function ConfirmPass() { // 1. 첫시작
       .then((res) => {
         console.log(res);
         if (res.data === null || res.data.result === '잘못된 요청입니다.') {
-          history.push("/errorpage")
+          history.replace("/errorpage")
         }
         console.log("intro.js::::")
         //setWorkplace(res.data)
@@ -79,11 +79,10 @@ function ConfirmPass() { // 1. 첫시작
         }
 
         console.log(_data);
-        history.push(`${PREFIX}/info?q=${utils.encode(JSON.stringify(_data))}`);
-
+        history.replace(`${PREFIX}/info?q=${utils.encode(JSON.stringify(_data))}`);
       })
       .catch((err) => {
-        history.push("/errorpage")
+        history.replace("/errorpage")
       })
 
   }, []);

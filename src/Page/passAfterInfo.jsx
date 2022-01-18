@@ -32,6 +32,7 @@ function ErrorPage({ onClick }) {
 }
 
 function PassAfterInfo() {
+
   const history = useHistory();
 
   const {
@@ -64,22 +65,23 @@ function PassAfterInfo() {
   const emNumHandler = (e) => {
     setEmNum(e.target.value)
   }
-
-
   function inputPasswordHandler(e) {
     setInputPassword(e.target.value)
   }
+  useEffect(() => {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function (event) { window.history.pushState(null, document.title, window.location.href); });
+  }, [window.location.href]);
 
   //전 화면에서 받아오는 url q값 지금은 진행을 위해서 주석 처리 웹 접근 분기도 여기서 처리
-
   useEffect(() => {
 
-    if (!isMobile) history.push("/weberrorpage");
+    if (!isMobile) history.replace("/weberrorpage");
 
     const { q } = qs.parse(window.location.search.slice(1));
 
     if (!q) {
-      history.push("/");
+      history.replace("/");
     }
 
     const data = JSON.parse(utils.decode(q));
@@ -88,14 +90,15 @@ function PassAfterInfo() {
     console.log(defaultState);
 
   }, []);
-
+  //인증완료 클릭스
   const PassButton = () => {
     alert('이미 인증 하셨습니다.');
   }
-
+  //다음 버튼 클릭시
   const onSubmit = (data) => {
 
-    console.log('data', data.company);
+    console.log('data', data);
+    console.log('defaultState', defaultState);
 
     const { employeeNumber } = data;
 
@@ -109,7 +112,6 @@ function PassAfterInfo() {
       const _data = { ...defaultState, employeeNumber };
 
       console.log('info.js::::::::::::::');
-      // console.log(_data);
 
       const userInfo = {
         id: emNum,
@@ -126,13 +128,11 @@ function PassAfterInfo() {
           console.log(res.data);
           let checkEmployeeNumber = res.data.result
           if (checkEmployeeNumber === 'false') {
-            history.push('/errornopeople');
+            history.replace('/errornopeople');
           } else {
             _data.step_idx = res.data.step_idx;
             _data.class_id = res.data.class_id;
-            history.push(
-              `${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`
-            );
+            history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
           }
         })
     }
@@ -142,7 +142,6 @@ function PassAfterInfo() {
     //   return;
     // }
   };
-
 
   const handleCloseErrorPage = () => {
     setIsError(false);
@@ -191,7 +190,11 @@ function PassAfterInfo() {
             onChange={emNumHandler}
           />
           <div className={style.submitButtonWrapper}>
-            <button className={style.submitButton} type="submit" label={"다음"} onClick={() => { onSubmit(defaultState?.site_name, defaultState?.name, defaultState?.tel, company, emNum) }} > 다음 </button>
+            <button className={style.submitButton}
+              type="submit"
+              label={"다음"}
+              onClick={() => { onSubmit(defaultState?.site_name, defaultState?.name, defaultState?.tel, company, emNum) }}
+            > 다음 </button>
           </div>
         </div>
         {/* </form> */}

@@ -15,6 +15,7 @@ const Agreements = () => {
   const [checkedInputs, setCheckedInputs] = useState([]);
   const [sendData, setSendDate] = useState([])
   const [sendData1, setSendDate1] = useState([])
+  const history = useHistory();
 
   const changeHandler = (checked, id) => {
     if (checked) {
@@ -39,8 +40,6 @@ const Agreements = () => {
   //   setOpenModal(!openModal)
   // }
 
-  const history = useHistory();
-
   useEffect(() => {
     const fetchAgreement = async () => {
       const { data } = await axios.post(`${API_URL}/v1/codeTextApi`)
@@ -48,7 +47,6 @@ const Agreements = () => {
       setSendDate1(data)
     }
     fetchAgreement();
-
 
     const { q } = qs.parse(window.location.search.slice(1));
     setSendDate(JSON.parse(utils.decode(q)))
@@ -81,13 +79,20 @@ const Agreements = () => {
       axios.post(`${API_URL}/v1/info/personalAcceptData`, payload)
         .then((res) => {
           if (res.data.result === "true") {
-            history.push(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
+            history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
           } else {
-            history.push('/Errorpage')
+            history.replace('/Errorpage');
           }
         })
     }
   };
+
+  useEffect(() => {
+    console.log(window.history.state)
+    window.history.pushState(null, document.title, window.location.href); 
+    window.addEventListener('popstate', function(event) { window.history.pushState(null, document.title, window.location.href); });
+  }, [window.location.href]);
+
 
   return (
     <div className={style.container}>
@@ -98,12 +103,15 @@ const Agreements = () => {
           onChange={(e) => {
             if (checkedInputs.length === 0) {
               setCheckedInputs(['check', 'check2']);
+            } else if (checkedInputs.length === 1) {
+              setCheckedInputs(['check', 'check2']);
             } else {
               setCheckedInputs([]);
             }
           }}
           checked={checkedInputs.length === 2}
         ></input>
+
         <div className={style.borderBtm}>전체 동의하기</div>
       </div>
       <div className={style.contentWrapper}>

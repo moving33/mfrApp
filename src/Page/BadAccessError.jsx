@@ -4,13 +4,16 @@ import ErrorSubBox from '../Component/ErrorSubBox'
 import style from "../Css/Main.module.css";
 import '../Css/ErrorPage.css'
 import SubmitButton from '../Component/SubmitButton';
-
+import { useHistory } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const BadAccessError = () => {
-  const closeBtn = () => {
-    window.open("about:blank", "_self");
-    window.close();
-  }
+  
+  useEffect(()=>{
+    setTimeout(()=>{
+    window.location.href='https://www.s1.co.kr/';
+  },2000)});
+
   return (
     <div>
       <div>
@@ -21,9 +24,6 @@ const BadAccessError = () => {
             <p className="ErrorSubscript">허용되지 않습니다</p>
           </div>
         </div>
-      </div>
-      <div className={style.submitButtonWrapper}>
-        <button className={style.submitButton} onClick={closeBtn} > 닫기 </button>
       </div>
     </div>
   )

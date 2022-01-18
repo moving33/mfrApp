@@ -20,7 +20,7 @@ import NoImage from "../Component/NoImage";
 import { ReactComponent as WrieframeSvg } from "../assets/wireframe.svg";
 import { ReactComponent as WrieframeDetectSvg } from "../assets/wireframe-detect.svg";
 import { useHistory } from "react-router";
-import { PREFIX,API_URL } from "../config";
+import { PREFIX, API_URL } from "../config";
 import axios from "axios";
 
 
@@ -61,7 +61,7 @@ function Camera() {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({width: 200,height:256});
+    const imageSrc = webcamRef.current.getScreenshot({ width: 200, height: 256 });
     console.log("imageSrc ::: ", imageSrc);
     const _imgList = JSON.parse(JSON.stringify(imgList));
 
@@ -90,9 +90,9 @@ function Camera() {
 
   const detect = async (net) => {
     if (
-        typeof webcamRef.current !== "undefined" &&
-        webcamRef.current !== null &&
-        webcamRef.current.video.readyState === 4
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null &&
+      webcamRef.current.video.readyState === 4
     ) {
       const video = webcamRef.current.video;
       const videoWidth = webcamRef.current.video.videoWidth;
@@ -125,23 +125,23 @@ function Camera() {
         if (
 
 
-            topLeft[0] > 80 &&
-            topLeft[0] < 470 &&
-            topLeft[1] > 80 &&
-            topLeft[1] < 740 &&
-            bottomRight[0] > 80 &&
-            bottomRight[0] < 470 &&
-            bottomRight[1] > 80 &&
-            bottomRight[1] < 470
+          topLeft[0] > 80 &&
+          topLeft[0] < 470 &&
+          topLeft[1] > 80 &&
+          topLeft[1] < 740 &&
+          bottomRight[0] > 80 &&
+          bottomRight[0] < 470 &&
+          bottomRight[1] > 80 &&
+          bottomRight[1] < 470
 
-            // topLeft[0] > 150 &&
-            // topLeft[0] < 230 &&
-            // topLeft[1] > 160 &&
-            // topLeft[1] < 240 &&
-            // bottomRight[0] > 440 &&
-            // bottomRight[0] < 520 &&
-            // bottomRight[1] > 340 &&
-            // bottomRight[1] < 420
+          // topLeft[0] > 150 &&
+          // topLeft[0] < 230 &&
+          // topLeft[1] > 160 &&
+          // topLeft[1] < 240 &&
+          // bottomRight[0] > 440 &&
+          // bottomRight[0] < 520 &&
+          // bottomRight[1] > 340 &&
+          // bottomRight[1] < 420
 
         ) {
           console.log(detected, captured, capturePlay, topLeft, bottomRight);
@@ -189,23 +189,23 @@ function Camera() {
       step_idx: data.step_idx,
       classId: data.class_id,
       bussiId: data.employeeNumber,
-      phtoCnt: data.isGlass? '2':'1',
+      phtoCnt: data.isGlass ? '2' : '1',
       photos: [{
-        seqNo : '1'
-        ,isGlass : false
-        ,faceX : '0'
-        ,faceY : '255'
-        ,photoData : img
-        ,faceWidth: "129"
-        ,faceHeight: "256"
+        seqNo: '1'
+        , isGlass: false
+        , faceX: '0'
+        , faceY: '255'
+        , photoData: img
+        , faceWidth: "129"
+        , faceHeight: "256"
       }]
     }
     axios.post(`${API_URL}/v1/fileTrans`, payload)
-        .then((res) => {
-          if(res.data.result === 'true'){
-            setStep(3);
-          }
-        })
+      .then((res) => {
+        if (res.data.result === 'true') {
+          setStep(3);
+        }
+      })
     console.log(data, imgList)
   };
 
@@ -280,192 +280,202 @@ function Camera() {
     }
   }, [step]);
 
+  function closeBtn() {
+    setTimeout(() => {
+      window.location.href = 'https://www.s1.co.kr/';
+    }, 2000)
+  };
 
+
+  useEffect(() => {
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function (event) { window.history.pushState(null, document.title, window.location.href); });
+  }, [window.location.href]);
 
   return (
-      <>
-        {step === 0 && (
-            <div className={style.container}>
-              <Box step={3} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
-              <div className={style.group17}></div>
-              <WrieframeSvg
-                  className={`${style.wireframeIcon} ${
-                      detected ? style.detected : ""
-                  }`}
-              />
-              <CheckTextFields />
-              <form className={style.mainForm}>
-                <SubmitButton
-                    type="button"
-                    label={"촬영하기"}
-                    onClick={() => {
-                      setStep(1);
-                    }}
-                />
-              </form>
-            </div>
-        )}
-        {step === 1 && (
-            <div className={style.cameraBackground}>
-              <div className={style.cameraTopContainer}>
-                <img
-                    src={closePng}
-                    className={style.closeButton}
-                    onClick={closeCam}
-                />
-              </div>
-              <div className={style.coverDiv}>
-                <div className={style.drowingContainer}>
-                  <div className={style.drowingContainer2}>
-                    {/* { webFace.length === 0  && ( <div className={style.drowing}></div> ) }
+    <>
+      {step === 0 && (
+        <div className={style.container}>
+          <Box step={3} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
+          {/* <div className={style.group17}></div> */}
+          <WrieframeSvg
+            className={`${style.wireframeIcon} ${detected ? style.detected : ""
+              }`}
+          />
+          <CheckTextFields />
+          <form className={style.mainForm}>
+            <SubmitButton
+              type="button"
+              label={"촬영하기"}
+              onClick={() => {
+                setStep(1);
+              }}
+            />
+          </form>
+        </div>
+      )}
+      {step === 1 && (
+        <div className={style.cameraBackground}>
+          <div className={style.cameraTopContainer}>
+            <img
+              src={closePng}
+              className={style.closeButton}
+              onClick={closeCam}
+            />
+          </div>
+          <div className={style.coverDiv}>
+            <div className={style.drowingContainer}>
+              <div className={style.drowingContainer2}>
+                {/* { webFace.length === 0  && ( <div className={style.drowing}></div> ) }
               { webFace.length !== 0  && ( <div className={style.drowDelete}></div> ) } */}
-                    {!detected && <WrieframeSvg className={style.wireframeIcon} />}
-                    {detected && (
-                        <WrieframeDetectSvg className={style.wireframeIcon} />
-                    )}
-                  </div>
-                </div>
-                <div className={style.webcamContainer}>
-                  <canvas
-                      ref={canvasRef}
-                      className={style.camera}
-                      style={{ position: "absolute", zIndex: 3 }}
-                  ></canvas>
-                  <Webcam
-                      ref={webcamRef}
-                      videoConstraints={videoConstraints}
-                      mirrored={true}
-                      className={style.camera}
-                  />
-                </div>
-                {detected === true
-                    ?  <div className={style.webcamInfoText}>
-                      <span>얼굴을 정면으로 응시해주세요</span>
-                      <ProgressCircle
-                          capturePlay={capturePlay}
-                          onComplete={handleCaptureComplete}
-                          detected={detected}
-                          setDetected={setDetected}
-                      />
-                    </div>
-                    : <div className={style.webcamInfoText}>
-                      <span>눈, 코, 입이 보이게 촬영해주세요</span>
-                      <ProgressCircle
-                          capturePlay={capturePlay}
-                          onComplete={handleCaptureComplete}
-                      />
-                    </div>}
+                {!detected && <WrieframeSvg className={style.wireframeIcon} />}
+                {detected && (
+                  <WrieframeDetectSvg className={style.wireframeIcon} />
+                )}
               </div>
             </div>
-        )}
-        {step === 2 && (
-            <div className={style.container}>
-              {data?.isGlass && imgList.length < 2 && (
-                  <Box step={4} text1="안경을 벗고" text2="한번 더 찍어주세요" />
-              )}
-              {((data?.isGlass && imgList.length === 2) ||
-                  (!data?.isGlass && imgList.length === 1)) && (
-                  <Box step={4} text1="사진이 잘 찍혔는지" text2="확인해주세요" />
-              )}
-              <div className={style.group17}></div>
+            <div className={style.webcamContainer}>
+              <canvas
+                ref={canvasRef}
+                className={style.camera}
+                style={{ position: "absolute", zIndex: 3 }}
+              ></canvas>
+              <Webcam
+                ref={webcamRef}
+                videoConstraints={videoConstraints}
+                mirrored={true}
+                className={style.camera}
+              />
+            </div>
+            {detected === true
+              ? <div className={style.webcamInfoText}>
+                <span>얼굴을 정면으로 응시해주세요</span>
+                <ProgressCircle
+                  capturePlay={capturePlay}
+                  onComplete={handleCaptureComplete}
+                  detected={detected}
+                  setDetected={setDetected}
+                />
+              </div>
+              : <div className={style.webcamInfoText}>
+                <span>눈, 코, 입이 보이게 촬영해주세요</span>
+                <ProgressCircle
+                  capturePlay={capturePlay}
+                  onComplete={handleCaptureComplete}
+                />
+              </div>}
+          </div>
+        </div>
+      )}
+      {step === 2 && (
+        <div className={style.container}>
+          {data?.isGlass && imgList.length < 2 && (
+            <Box step={4} text1="안경을 벗고" text2="한번 더 찍어주세요" />
+          )}
+          {((data?.isGlass && imgList.length === 2) ||
+            (!data?.isGlass && imgList.length === 1)) && (
+              <Box step={4} text1="사진이 잘 찍혔는지" text2="확인해주세요" />
+            )}
+          <div className={style.group17}></div>
 
-              {!data?.isGlass && imgList[0]?.croped && (
-                  <div className={style.confirmImageContainer}>
-                    <img src={imgList[0].croped} className={style.singleImage}/>
+          {!data?.isGlass && imgList[0]?.croped && (
+            <div className={style.confirmImageContainer}>
+              <img src={imgList[0].croped} className={style.singleImage} />
+              <div
+                className={style.reopenCamera}
+                onClick={() => {
+                  reopenCamera(0);
+                }}
+              >
+                <img src={cameraPng} className={style.cameraImage} />
+                다시찍기
+              </div>
+            </div>
+          )}
+
+          {data?.isGlass && (
+            <>
+              {imgList[0]?.croped && (
+                <div className={style.confirmImageContainer2Wrapper}>
+                  <div className={style.confirmImageContainer2}>
+                    {imgList[0]?.croped && (
+                      <img
+                        src={imgList[0]?.croped}
+                        className={style.twoImage}
+                      />
+                    )}
                     <div
-                        className={style.reopenCamera}
-                        onClick={() => {
-                          reopenCamera(0);
-                        }}
+                      className={style.reopenCamera}
+                      onClick={() => {
+                        reopenCamera(0);
+                      }}
                     >
                       <img src={cameraPng} className={style.cameraImage} />
                       다시찍기
                     </div>
                   </div>
-              )}
-
-              {data?.isGlass && (
-                  <>
-                    {imgList[0]?.croped && (
-                        <div className={style.confirmImageContainer2Wrapper}>
-                          <div className={style.confirmImageContainer2}>
-                            {imgList[0]?.croped && (
-                                <img
-                                    src={imgList[0]?.croped}
-                                    className={style.twoImage}
-                                />
-                            )}
-                            <div
-                                className={style.reopenCamera}
-                                onClick={() => {
-                                  reopenCamera(0);
-                                }}
-                            >
-                              <img src={cameraPng} className={style.cameraImage} />
-                              다시찍기
-                            </div>
-                          </div>
-                          <div className={style.confirmImageContainer2}>
-                            {imgList[1]?.croped && (
-                                <img
-                                    src={imgList[1]?.croped}
-                                    className={style.twoImage}
-                                />
-                            )}
-                            {!imgList[1]?.croped && (
-                                <NoImage
-                                    onClick={() => {
-                                      reopenCamera(1);
-                                    }}
-                                />
-                            )}
-                            {imgList[1]?.croped && (
-                                <div
-                                    className={style.reopenCamera}
-                                    onClick={() => {
-                                      reopenCamera(1);
-                                    }}
-                                >
-                                  <img src={cameraPng} className={style.cameraImage} />
-                                  다시찍기
-                                </div>
-                            )}
-                          </div>
-                        </div>
+                  <div className={style.confirmImageContainer2}>
+                    {imgList[1]?.croped && (
+                      <img
+                        src={imgList[1]?.croped}
+                        className={style.twoImage}
+                      />
                     )}
-                  </>
+                    {!imgList[1]?.croped && (
+                      <NoImage
+                        onClick={() => {
+                          reopenCamera(1);
+                        }}
+                      />
+                    )}
+                    {imgList[1]?.croped && (
+                      <div
+                        className={style.reopenCamera}
+                        onClick={() => {
+                          reopenCamera(1);
+                        }}
+                      >
+                        <img src={cameraPng} className={style.cameraImage} />
+                        다시찍기
+                      </div>
+                    )}
+                  </div>
+                </div>
               )}
-
-              <div className={style.cameraButtonsContainer}>
-                <button onClick={cancel} className={style.cameraCancelButton}>
-                  등록 취소
-                  {}
-                </button>
-                <button
-                    onClick={submit}
-                    className={style.cameraSubmitButton}
-                    disabled={
-                      data.isGlass ? imgList.length !== 2 : imgList.length !== 1
-                    }
-                >
-                  사진 등록
-                </button>
-              </div>
-            </div>
-        )}
-        {step === 3 && (
-            <>
-              <div className={style.resultMessage}>
-                <div>얼굴등록이</div>
-                <div>완료 되었습니다</div>
-              </div>
-              <div className={style.resultSubMessage}>
-                <div>출입등록이 가능해지면</div>
-                <div>문자로 알려 드릴게요!</div>
-              </div>
             </>
-        )}
-      </>
+          )}
+
+          <div className={style.cameraButtonsContainer}>
+            <button onClick={cancel} className={style.cameraCancelButton}>
+              등록 취소
+              { }
+            </button>
+            <button
+              onClick={submit}
+              className={style.cameraSubmitButton}
+              disabled={
+                data.isGlass ? imgList.length !== 2 : imgList.length !== 1
+              }
+            >
+              사진 등록
+            </button>
+          </div>
+        </div>
+      )}
+      {step === 3 && (
+        <>
+          <div className={style.resultMessage}>
+            <div>얼굴등록이</div>
+            <div>완료 되었습니다</div>
+          </div>
+          <div className={style.resultSubMessage}>
+            <div>출입등록이 가능해지면</div>
+            <div>문자로 알려 드릴게요!</div>
+            {closeBtn()}
+          </div>
+        </>
+      )}
+    </>
   );
 }
 

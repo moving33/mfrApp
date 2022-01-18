@@ -295,8 +295,11 @@
 }
 
 .textFieldsContainer {
+  position: relative;
   width: 320px;
+  /* width: 100%; */
   margin: 7% 0; 
+  /* left:calc((100% / 2 ) - 200px); */
 }
 
 .textFieldItem {
@@ -758,16 +761,20 @@
   /* display: flex; */
   flex-direction: column;
   align-items: flex-start;
+  justify-content: center;
   padding: 0px;
-  
   position: absolute;
   width: 287px;
   /* height: 264px; */
+  /* left:calc((1920 / 2) - 143 ); */
   left: 20px;
   top:130px;
   font-size: 15px;
 }
-
+.fontInfo1{
+  width: 100%;
+  display: block;
+}
 .img1 {
   position:absolute;
   top: -110px;

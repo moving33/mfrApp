@@ -27,10 +27,14 @@ function Select() {
     const { q } = qs.parse(window.location.search.slice(1));
     const _data = JSON.parse(utils.decode(q));
     _data.isGlass = isGlass;
-
-    history.push(`${PREFIX}/camera?q=${utils.encode(JSON.stringify(_data))}`);
+    history.replace(`${PREFIX}/camera?q=${utils.encode(JSON.stringify(_data))}`);
   }
 
+  useEffect(() => {
+    window.history.pushState(null, document.title, window.location.href); 
+    window.addEventListener('popstate', function(event) { window.history.pushState(null, document.title, window.location.href); });
+  }, [window.location.href]);
+  
   return (
     <div className={style.container}>
       <Box step={3} text1="안경을" text2="쓰고 있나요?" />
