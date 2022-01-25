@@ -182,6 +182,7 @@ function Info() {
     setIsError(false);
   };
 
+
   // value={defaultState?.name
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
@@ -192,7 +193,7 @@ function Info() {
         <input type="hidden" name="m" value="checkplusSerivce" />
         <input type="hidden" name="EncodeData" value={encData} />
       </form>
-
+  
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="사번을 입력해주세요" />
         <div className={style.group17} style={{ marginBottom: "10%" }}></div>
@@ -210,7 +211,8 @@ function Info() {
             <button
               className={style.sendInfo}
               onClick={PassButton}
-            >인증하기</button>
+              style={{backgroundColor:"white", color:"#808080", border:"1px solid #DCDCDC"}}
+            >인증 요청</button>
           </div>
 
           <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
@@ -223,7 +225,7 @@ function Info() {
             onChange={emNumHandler}
           />
 
-          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} />
+          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{backgroun:"#dcdcdc"}}/>
           {/* </form> */}
         </div>
       </div>

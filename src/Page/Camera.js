@@ -23,8 +23,6 @@ import { useHistory } from "react-router";
 import { PREFIX, API_URL } from "../config";
 import axios from "axios";
 
-
-
 const videoConstraints = {
   width: 640,
   height: 480,
@@ -44,7 +42,7 @@ function Camera() {
   const [captured, setCaptured] = useState(false);
   const captureIdxRef = useRef(0);
   // const [captureIdx, setCaptureIdx] = useState(0);
-  const [step, setStep] = useState(0); // 0: 확인메시지창, 1: 카메라 화면, 2. 확인 화면, 3. 결고 화면
+  const [step, setStep] = useState(0); // 0: 확인메시지창, 1: 카메라 화면, 2. 확인 화면, 3. 결과 화면
   const [capturePlay, setCapturePlay] = useState(false);
 
   const capture = () => {
@@ -120,10 +118,10 @@ function Camera() {
       // }
 
       if (_webFace.length === 1) {
-        // console.log(_webFace[0])
-        const { topLeft, bottomRight } = _webFace[0];
-        if (
 
+        const { topLeft, bottomRight } = _webFace[0];
+
+        if (
 
           topLeft[0] > 80 &&
           topLeft[0] < 470 &&
@@ -133,15 +131,6 @@ function Camera() {
           bottomRight[0] < 470 &&
           bottomRight[1] > 80 &&
           bottomRight[1] < 470
-
-          // topLeft[0] > 150 &&
-          // topLeft[0] < 230 &&
-          // topLeft[1] > 160 &&
-          // topLeft[1] < 240 &&
-          // bottomRight[0] > 440 &&
-          // bottomRight[0] < 520 &&
-          // bottomRight[1] > 340 &&
-          // bottomRight[1] < 420
 
         ) {
           console.log(detected, captured, capturePlay, topLeft, bottomRight);
@@ -181,7 +170,6 @@ function Camera() {
     setStep(0);
   };
 
-
   const submit = () => {
 
     const img = imgList[0].src.split(',')[1]
@@ -215,19 +203,12 @@ function Camera() {
     setStep(1);
   };
 
-
-
   useEffect(() => {
     const { q } = qs.parse(window.location.search.slice(1));
     const _data = JSON.parse(utils.decode(q));
     console.log(_data)
     setData(_data);
 
-
-    // test
-    // setTimeout(() => {
-    //   setCapturePlay(true);
-    // }, 1000);
 
     return () => {
       clearInterval(intervalIdRef.current);
@@ -280,12 +261,20 @@ function Camera() {
     }
   }, [step]);
 
-  function closeBtn() {
+  function close() {
     setTimeout(() => {
       window.location.href = 'https://www.s1.co.kr/';
     }, 2000)
   };
 
+  const closeBtn = () => {
+    window.opener = window;
+    var win = window.open("","_self");
+      console.log('make win')
+    win.close();
+    win.self.close();
+    window.top.close();
+  }
 
   useEffect(() => {
     window.history.pushState(null, document.title, window.location.href);
@@ -324,22 +313,38 @@ function Camera() {
             />
           </div>
           <div className={style.coverDiv}>
+
             <div className={style.drowingContainer}>
               <div className={style.drowingContainer2}>
-                {/* { webFace.length === 0  && ( <div className={style.drowing}></div> ) }
-              { webFace.length !== 0  && ( <div className={style.drowDelete}></div> ) } */}
-                {!detected && <WrieframeSvg className={style.wireframeIcon} />}
+                {/* {!detected && <WrieframeSvg className={style.wireframeIcon} />}
                 {detected && (
                   <WrieframeDetectSvg className={style.wireframeIcon} />
-                )}
+                )} */}
+                <WrieframeSvg className={style.wireframeIcon}  />
               </div>
             </div>
+
             <div className={style.webcamContainer}>
-              <canvas
+              {detected === true
+                ?
+                <canvas
+                  ref={canvasRef}
+                  className={style.camera}
+                  style={{ position: "absolute", zIndex: 3, border:"1px solid blue"}}
+                ></canvas>
+                :
+                <canvas
+                  ref={canvasRef}
+                  className={style.camera}
+                  style={{ position: "absolute", zIndex: 3, border:"1px solid red"}}
+                ></canvas>
+              }
+
+              {/* <canvas
                 ref={canvasRef}
                 className={style.camera}
                 style={{ position: "absolute", zIndex: 3 }}
-              ></canvas>
+              ></canvas> */}
               <Webcam
                 ref={webcamRef}
                 videoConstraints={videoConstraints}
@@ -347,6 +352,7 @@ function Camera() {
                 className={style.camera}
               />
             </div>
+
             {detected === true
               ? <div className={style.webcamInfoText}>
                 <span>얼굴을 정면으로 응시해주세요</span>
@@ -364,6 +370,7 @@ function Camera() {
                   onComplete={handleCaptureComplete}
                 />
               </div>}
+
           </div>
         </div>
       )}
@@ -471,7 +478,7 @@ function Camera() {
           <div className={style.resultSubMessage}>
             <div>출입등록이 가능해지면</div>
             <div>문자로 알려 드릴게요!</div>
-            {closeBtn()}
+            {close()}
           </div>
         </>
       )}

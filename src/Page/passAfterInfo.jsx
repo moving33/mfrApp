@@ -175,7 +175,7 @@ function PassAfterInfo() {
             <button
               className={style.sendInfoSuccess}
               onClick={PassButton}
-            >인증완료</button>
+            >인증 완료</button>
           </div>
 
           <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>

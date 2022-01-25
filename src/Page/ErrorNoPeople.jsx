@@ -7,6 +7,12 @@ import { useEffect } from 'react';
 
 const ErrorNoPeople = () => {
 
+  useEffect(() => {
+    console.log(window.history.state)
+    window.history.pushState(null, document.title, window.location.href); 
+    window.addEventListener('popstate', function(event) { window.history.pushState(null, document.title, window.location.href); });
+  }, [window.location.href]);
+
   useEffect(()=>{
     setTimeout(()=>{
     window.location.href='https://www.s1.co.kr/';

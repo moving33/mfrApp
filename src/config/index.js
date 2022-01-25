@@ -3,6 +3,7 @@ export const PREFIX = "";
 
 let apiUrl = '';
 apiUrl = "https://121.165.242.171:10000"
+
 // apiUrl = "https://localhost:8888"
 
 // console.log(window.location.host);
@@ -13,7 +14,7 @@ apiUrl = "https://121.165.242.171:10000"
 // if (localhosts.includes(window.location.host)) {
 //   apiUrl= "http://192.168.10.49:8888"
 // } else {
-//   // apiUrl= "https://121.165.242.171:8888"
+  // apiUrl= "https://121.165.242.171:8888"
 //   apiUrl="https://localhost:9999"
 // }
 

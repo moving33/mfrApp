@@ -13,6 +13,8 @@ import WebErrorPage from "./Page/WebComeErrorPage";
 import PassAfterInfo from "./Page/passAfterInfo";
 import ErrorNoPeople from "./Page/ErrorNoPeople";
 import BadAccessError from "./Page/BadAccessError";
+import TestPage from "./Page/TestPage";
+import ClosePage from "./Page/ClosePage";
 // import StartPass from "./Page/StartPass";
 
 function App() {
@@ -31,6 +33,9 @@ function App() {
         <Route path={`${PREFIX}/errornopeople`} component={ErrorNoPeople} exact />
         <Route path={`${PREFIX}/weberrorpage`}  component={WebErrorPage} exact />
         <Route path={`${PREFIX}/badaccesserror`}component={BadAccessError} exact />
+        <Route path={`${PREFIX}/test`}          component={TestPage} exact />
+        <Route path={`${PREFIX}/closepage`}     component={ClosePage} exact />
+
       </Switch>
     </div>
   );
