@@ -2,14 +2,11 @@ export const PREFIX = "";
 
 
 let apiUrl = '';
-<<<<<<< HEAD
-apiUrl = "https://121.165.242.171:10000"
+// apiUrl = "https://121.165.242.171:10000"
 
 // apiUrl = "https://localhost:8888"
-=======
 // apiUrl = "https://121.165.242.171:10000"
 apiUrl = "https://52.231.72.160:8901"
->>>>>>> 91c013a9d8bfb6f454a5451c3a94155c512f137e
 
 // console.log(window.location.host);
 // const localhosts = [
