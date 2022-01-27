@@ -1,5 +1,6 @@
 import { axesAreInnerMostDims } from '@tensorflow/tfjs-core/dist/ops/axis_util';
 import React, { useState, useRef } from 'react'
+import { useHistory } from 'react-router-dom';
 import Box from "../Component/Box";
 import style from '../Css/AdminSignup.module.css';
 
@@ -10,50 +11,41 @@ const AdminSignup = () => {
   let [passwordCheck, setPasswordCheck] = useState('');
   let [nickname, setNickname] = useState('');
   let [phoneNum, setPhoneNum] = useState('');
-  let [passwordCheckFlag, setPasswordCheckFlag] = useState(false);
   let passwordCheckRef = useRef()
-  const [openModal, setOpenModal] = useState(false);
+  let [idCheck, setIdCheck] = useState(false);
+
+  const history = useHistory();
 
   function inputIdHandler(e) {
     setId(e.target.value);
-    console.log(id)
   }
-
-  const payload = {
-    id,
-    password,
-  }
-
   function inputPasswordHandler(e) {
     setPassword(e.target.value)
   }
-
   function inputNickNameHandler(e) {
     setNickname(e.target.value)
   }
-
   function inputPhoneNumberHandler(e) {
     setPhoneNum(e.target.value)
   }
-
   function inputConfirmPasswordHandler(e) {
     setPasswordCheck(e.target.value);
     passwordCheckRef.current.focus();
   }
 
   const checkdIdBtn = () => {
-    setOpenModal(true);
+    if (idRegCheck.test(id) === true && id === "kim123") {
+      setIdCheck(true);
+      alert('중복이 확인 되었습니다.');
+    } else alert('조건에 맞지 않습니다');
   }
 
   const formSubmitBtn = () => {
-    if (openModal === true && passwordRegCheck.test(passwordCheck) === false && password === "" && passwordCheck === "") {
-      console.log("땡");
-      console.log(openModal);
-      console.log(passwordRegCheck.test(passwordCheck));
-      console.log(password);
-      console.log(passwordCheck);
-    }
-    console.log("굿");
+    if (idCheck === false) { alert('아이디 중복체크를 해주세요'); return }
+    if (passwordRegCheck.test(passwordCheck) === false || password === '' || passwordCheck === '') { alert('비밀번호를 확인해주세요'); return }
+    if (id === '' || password === '' || passwordCheck === '' || phoneNum === '' || nickname === '') { alert('빈칸이 있는지 왁인해주세요'); return }
+    console.log("pass");
+    history.push('/successadminsignup');
   }
 
   let idRegCheck = /^(?=.*[a-z])(?=.*\d)[a-zA-Z\d]{4,12}$/;
@@ -72,8 +64,12 @@ const AdminSignup = () => {
             ? <input placeholder="아이디 입력" className={style.successInput} onChange={inputIdHandler} value={id} />
             : <input placeholder="아이디 입력" className={style.redInput} onChange={inputIdHandler} value={id} />
         }
+        {
+          idCheck === true
+            ? <button className={style.validationBtn} style={{ backgroundColor: "#0072CE", color: "#fff" }} onClick={checkdIdBtn}>중복확인</button>
+            : <button className={style.validationBtn} onClick={checkdIdBtn}>중복확인</button>
+        }
 
-        <button className={style.validationBtn} onClick={checkdIdBtn}>중복확인</button>
       </div>
 
       {//정규식 수정 완료
@@ -82,22 +78,25 @@ const AdminSignup = () => {
           : <p className={style.ptag}>영문 소문자, 숫자 조합을 4~12자 혼용하여야 합니다.</p>
       }
 
-      <span className={style.text1}>사용자명</span>
-      <input placeholder="사용자명 입력" className={style.fullSizeInput} onChange={inputNickNameHandler} value={nickname} />
+      <span className={style.text}>사용자명</span>
+      <div className={style.inputWrapper}>
+        <input placeholder="사용자명 입력" className={style.fullSizeInput} onChange={inputNickNameHandler} value={nickname} />
+      </div>
 
+      <span className={style.text}>휴대전화 번호</span>
+      <div className={style.inputWrapper}>
+        <input placeholder="숫자만 입력" type="number" className={style.fullSizeInput} onChange={inputPhoneNumberHandler} value={phoneNum} />
+      </div>
 
-      <div className={style.text2}>휴대전화 번호</div>
-      <input placeholder="숫자만 입력" type="number" className={style.fullSizeInput} onChange={inputPhoneNumberHandler} value={phoneNum} />
-
-      {passwordRegCheck.test(password) === true || password === "" || passwordCheck === "" || password === passwordCheck
+      {passwordRegCheck.test(password) === true && password !== "" && passwordCheck !== "" && password === passwordCheck
         ?
         (
           <>
-            <div className={style.text2}>비밀번호</div>
+            <div className={style.text}>비밀번호</div>
             <div className={style.inputWrapper}>
               <input placeholder="비밀번호 입력" type="password" className={style.fullSizeSuccessInput} onChange={inputPasswordHandler} value={password} />
             </div>
-            <div className={style.text2}>비밀번호 확인</div>
+            <div className={style.text}>비밀번호 확인</div>
             <div className={style.inputWrapper}>
               <input ref={passwordCheckRef} placeholder="비밀번호 확인" type="password" className={style.fullSizeSuccessInput} onChange={inputConfirmPasswordHandler} value={passwordCheck} />
             </div>
@@ -111,13 +110,13 @@ const AdminSignup = () => {
         :
         (
           <>
-            <div className={style.text2}>비밀번호</div>
+            <div className={style.text}>비밀번호</div>
             <div className={style.inputWrapper}>
               <input placeholder="비밀번호 입력" type="password" className={style.fullSizeRedInput} onChange={inputPasswordHandler} value={password} />
             </div>
-            <div className={style.text2}>비밀번호 확인</div>
+            <div className={style.text}>비밀번호 확인</div>
             <div className={style.inputWrapper}>
-              <input placeholder="비밀번호 확인" type="password" className={style.fullSizeRedInput} onChange={inputConfirmPasswordHandler} value={passwordCheck} />
+              <input ref={passwordCheckRef} placeholder="비밀번호 확인" type="password" className={style.fullSizeRedInput} onChange={inputConfirmPasswordHandler} value={passwordCheck} />
             </div>
             <div style={{ marginTop: '10px' }}>
               <p className={style.ptag1}>비밀번호가 다릅니다.</p>

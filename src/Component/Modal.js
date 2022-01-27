@@ -2,7 +2,7 @@ import React from 'react';
 import style from '../Css/Main.module.css'
 
 
-const Modal = ({ setOpen, open }) => {
+const Modal = ({ setOpen, open, nextBtn }) => {
 
   const text = [
     `2.타인얼굴 등록 관련 \n
@@ -22,7 +22,7 @@ const Modal = ({ setOpen, open }) => {
 
       <div className={style.ButtonWrapper}>
         <button className={style.NasoantralModalButton} onClick={() => { setOpen(!open) }} >미동의</button>
-        <button className={style.ModalButton} >동의</button>
+        <button className={style.ModalButton} onClick={nextBtn} >동의</button>
       </div>
     </div>
     </div>

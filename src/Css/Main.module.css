@@ -285,8 +285,11 @@
 }
 
 .errorSubBoxContainer {
+  font-family: Noto Sans KR;
+  font-size: 12px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin-top: 5%;
 }
 

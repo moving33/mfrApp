@@ -330,7 +330,7 @@ function Camera() {
                 <canvas
                   ref={canvasRef}
                   className={style.camera}
-                  style={{ position: "absolute", zIndex: 3, border:"1px solid blue"}}
+                  style={{ position: "absolute", zIndex: 3, border:"2px solid blue"}}
                 ></canvas>
                 :
                 <canvas

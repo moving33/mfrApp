@@ -5,16 +5,17 @@ import SubmitButton from "../Component/SubmitButton";
 import ReactModal from 'react-modal'
 import qs from "qs";
 import utils from "../utils";
+import AgreementsModal from "../Component/AgreementsModal";
 import { useHistory } from "react-router";
 import { PREFIX, API_URL } from "../config";
 import axios from "axios";
 
 const Agreements = () => {
 
-  // const [openModal, setOpenModal] = useState(false);
+  const [open, setOpen] = useState(false);
   const [checkedInputs, setCheckedInputs] = useState([]);
-  const [sendData, setSendDate] = useState([])
-  const [sendData1, setSendDate1] = useState([])
+  const [sendData, setSendDate] = useState([]);
+  const [sendData1, setSendDate1] = useState([]);
   const history = useHistory();
 
   const changeHandler = (checked, id) => {
@@ -23,7 +24,6 @@ const Agreements = () => {
       console.log(checkedInputs);
     } else {
       setCheckedInputs(checkedInputs.filter(el => el !== id));
-
     }
   };
 
@@ -35,10 +35,6 @@ const Agreements = () => {
       setCheckedInputs(checkedInputs.filter(el => el !== id));
     }
   };
-
-  // function openModalHandler() {
-  //   setOpenModal(!openModal)
-  // }
 
   useEffect(() => {
     const fetchAgreement = async () => {
@@ -58,41 +54,44 @@ const Agreements = () => {
   }, [checkedInputs])
 
   const handleClick = () => {
+
     if (!(checkedInputs.includes('check'))) {
       alert('필수 선택에 동의해 주셔야 합니다.');
       return;
     }
-    else {
-      const { q } = qs.parse(window.location.search.slice(1));
-      console.log(q);
-      console.log(sendData); // 전 페이지에서 넘어온 정보 들 
-      const _data = JSON.parse(utils.decode(q));
-      _data.agree = true;
-
-      let payload = {
-        site_manage_phone: sendData.tel
-        , site_manage_name: sendData.name
-        , site_idx: sendData.site_idx
-        , step_idx: sendData.step_idx
-      };
-      console.log(payload);
-      axios.post(`${API_URL}/v1/info/personalAcceptData`, payload)
-        .then((res) => {
-          if (res.data.result === "true") {
-            history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
-          } else {
-            history.replace('/Errorpage');
-          }
-        })
-    }
+    setOpen(!open);
   };
+
+  const nextBtn = () => {
+    const { q } = qs.parse(window.location.search.slice(1));
+    console.log(q);
+    console.log(sendData); // 전 페이지에서 넘어온 정보들 
+    const _data = JSON.parse(utils.decode(q));
+    _data.agree = true;
+
+    let payload = {
+      site_manage_phone: sendData.tel,
+      site_manage_name: sendData.name,
+      site_idx: sendData.site_idx,
+      step_idx: sendData.step_idx
+    };
+
+    console.log(payload);
+    axios.post(`${API_URL}/v1/info/personalAcceptData`, payload)
+      .then((res) => {
+        if (res.data.result === 'true') {
+          history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
+        } else {
+          history.replace('/Errorpage');
+        }
+      })
+  }
 
   useEffect(() => {
     console.log(window.history.state)
-    window.history.pushState(null, document.title, window.location.href); 
-    window.addEventListener('popstate', function(event) { window.history.pushState(null, document.title, window.location.href); });
+    window.history.pushState(null, document.title, window.location.href);
+    window.addEventListener('popstate', function (event) { window.history.pushState(null, document.title, window.location.href); });
   }, [window.location.href]);
-
 
   return (
     <div className={style.container}>
@@ -136,7 +135,7 @@ const Agreements = () => {
         <div className={style.infoWrapper}>
           <div className={style.info}>{sendData1.contents3}</div>
           <div className={style.info}>타인의 얼굴의 얼굴을 등록시 발생하는 모든 문제에 대해서는 서비스를 제공하는 (주)에스원에서 책임지지 아니하며
-           임의 등록으로 발생하는 모든 책임은 사용자 본인에게 귀책이 있음을 안내드립니다</div>
+            임의 등록으로 발생하는 모든 책임은 사용자 본인에게 귀책이 있음을 안내드립니다</div>
         </div>
       </div>
 
@@ -161,51 +160,13 @@ const Agreements = () => {
         </table>
       </div>
       <SubmitButton label={"동의합니다"} onClick={handleClick} />
-      {/* <OpenedModal isOpen={openModal} onClose={openModalHandler} openModalHandler={openModalHandler} setOpenModal={setOpenModal} handleClick={handleClick}/> */}
+      {
+        open === true
+          ? <AgreementsModal open={open} setOpen={setOpen} nextBtn={nextBtn} />
+          : null
+      }
     </div>
   );
 };
-
-// function OpenedModal({isOpen, onClose,openModalHandler, handleClick}) {
-//   return(
-//     <ReactModal
-//     isOpen={isOpen}
-//     onClose={openModalHandler}
-//     style={{
-//       content: {
-//         width: '300px',
-//         height: '390px',
-//         margin: 'auto'
-//       }
-//     }}>
-//       <div className={style.modalContainer}>
-//         <div className={style.modalTitle}>
-//           <div>얼굴사진 원본 정보 수집•이용 미동의 시<br />
-//               아래와 같이 일부 기능이 제한됩니다.</div>
-//         </div>
-
-//         <div className={style.modalSecond}>
-//           <div>01.<br />
-//             리더기가 업데이트 되는 경우<br />
-//             얼굴 인증 불가능 (얼굴 재등록 필요)
-//           </div>
-//         </div>
-
-//         <div className={style.modalThird}>
-//           <div>02.<br />
-//             다른 리더기에 매니저를 통한<br />
-//             사용자 정보 전송 불가능
-//           </div>
-//         </div>
-
-//         <div className={style.modalAgreement}>동의하시겠습니까?</div>
-//         <div className={style.btnWrapper}>
-//           <button onClick={onClose} className={style.leftBtn}>미동의</button>
-//           <button className={style.rightBtn} onClick={handleClick}>동의</button>
-//         </div>
-//       </div>
-//     </ReactModal>
-//   )
-// }
 
 export default Agreements;

@@ -3,31 +3,35 @@ import Modal from '../Component/Modal';
 
 
 const TestPage = () => {
-  
-let [open, setOpen] = useState(false);
-let testRef = useRef();
 
-const handleCloseModal = (e) => {
-  if( open && (!testRef.current || !testRef.current.contains(e.target)) ) setOpen(false);
-}
+  let [open, setOpen] = useState(false);
+  let testRef = useRef();
 
-useEffect(()=>{
-  window.addEventListener('click', handleCloseModal);
-  return ()=>{
-    window.addEventListener('click', handleCloseModal);
+  const handleCloseModal = (e) => {
+    if (open && (!testRef.current || !testRef.current.contains(e.target))) setOpen(false);
   }
-},[]);
+
+  useEffect(() => {
+    window.addEventListener('click', handleCloseModal);
+    return () => {
+      window.addEventListener('click', handleCloseModal);
+    }
+  }, []);
+
+  const nextBtn = () => {
+    window.open('/','_self')
+  }
 
   return (
-  <div style={{position:"relative", height:"8888px"}}>
+    <div style={{ position: "relative", height: "8888px" }}>
 
-  <button onClick={()=>{setOpen(!open)}}>open</button>
-  {open && <Modal open={open} setOpen={setOpen} ref={testRef} />}
-  {/* {open === true
+      <button onClick={() => { setOpen(!open) }}>open</button>
+      {open && <Modal open={open} setOpen={setOpen} nextBtn={nextBtn} />}
+      {/* {open === true
   ?<Modal open={open} close={close} ref={testRef}/>
   :null} */}
-  </div>
-    );
+    </div>
+  );
 };
 
 export default TestPage;
