@@ -144,8 +144,8 @@ function Camera() {
           setFaceY(topLeft);
           setFaceX(bottomRight);
 
-          console.log(faceIdTop);
-          console.log(faceIdWidth);
+          console.log(parseInt(faceIdTop));
+          console.log(parseInt(faceIdWidth));
           console.log(faceX);
           console.log(faceY);
 
@@ -213,10 +213,12 @@ function Camera() {
       })
     console.log(data, imgList)
   };
+
   // , faceWidth: "129"
   // , faceHeight: "256"
   // , faceX: '0'
   // , faceY: '255'
+  
   const reopenCamera = (captureIdx) => {
     // setCaptureIdx(0);
     captureIdxRef.current = captureIdx;
