@@ -34,7 +34,10 @@ function Camera() {
   const webcamRef = useRef(null);
   const intervalIdRef = useRef(null);
   const canvasRef = useRef();
-
+  const [faceX, setFaceX] = useState(); 
+  const [faceY, setFaceY] = useState();
+  const [faceIdTop, setFaceIdTop] = useState();
+  const [faceIdWidth, setFaceWidth] = useState();
   const [data, setData] = useState();
   const [imgList, setImgList] = useState([]);
   const [webFace, setWebFace] = useState([]);
@@ -65,7 +68,6 @@ function Camera() {
 
     _imgList[captureIdxRef.current] = { src: imageSrc };
     setImgList(_imgList);
-
 
     clearInterval(intervalIdRef.current);
     setStep(2);
@@ -119,7 +121,7 @@ function Camera() {
 
       if (_webFace.length === 1) {
 
-        const { topLeft, bottomRight } = _webFace[0];
+        const { topLeft, bottomRight, landmarks } = _webFace[0];
 
         if (
 
@@ -133,7 +135,21 @@ function Camera() {
           bottomRight[1] < 470
 
         ) {
-          console.log(detected, captured, capturePlay, topLeft, bottomRight);
+          // console.log(detected, captured, capturePlay, topLeft, bottomRight);
+          // console.log(topLeft[1], bottomRight[1]);
+          // console.log(landmarks[4],landmarks[5])
+          
+          setFaceIdTop(bottomRight[1] - topLeft[1]);
+          setFaceWidth(landmarks[5][0] - landmarks[4][0]);
+          setFaceY(topLeft);
+          setFaceX(bottomRight);
+
+          console.log(faceIdTop);
+          console.log(faceIdWidth);
+          console.log(faceX);
+          console.log(faceY);
+
+
           setDetected(true);
 
           if (!captured) {
@@ -179,14 +195,15 @@ function Camera() {
       bussiId: data.employeeNumber,
       phtoCnt: data.isGlass ? '2' : '1',
       photos: [{
-        seqNo: '1'
-        , isGlass: false
-        , faceX: '0'
-        , faceY: '255'
-        , photoData: img
-        , faceWidth: "129"
-        , faceHeight: "256"
+        seqNo: '1',
+        isGlass: false,
+        photoData: img,
+        faceHight:parseInt(faceIdTop),
+        faceWidth:parseInt(faceIdWidth),
+        faceX : faceX,
+        faceY : faceY,
       }]
+ 
     }
     axios.post(`${API_URL}/v1/fileTrans`, payload)
       .then((res) => {
@@ -196,7 +213,10 @@ function Camera() {
       })
     console.log(data, imgList)
   };
-
+  // , faceWidth: "129"
+  // , faceHeight: "256"
+  // , faceX: '0'
+  // , faceY: '255'
   const reopenCamera = (captureIdx) => {
     // setCaptureIdx(0);
     captureIdxRef.current = captureIdx;
