@@ -55,14 +55,10 @@ const Agreements = () => {
 
   const handleClick = () => {
 
-    if (!(checkedInputs.includes('check'))) {
-      alert('필수 선택에 동의해 주셔야 합니다.');
+    if (!(checkedInputs.includes('check','check2'))) {
+      alert('필수 선택에 모두 동의해 주셔야 합니다.');
       return;
     }
-    setOpen(!open);
-  };
-
-  const nextBtn = () => {
     const { q } = qs.parse(window.location.search.slice(1));
     console.log(q);
     console.log(sendData); // 전 페이지에서 넘어온 정보들 
@@ -85,7 +81,32 @@ const Agreements = () => {
           history.replace('/Errorpage');
         }
       })
-  }
+  };
+
+  // const nextBtn = () => {
+  //   const { q } = qs.parse(window.location.search.slice(1));
+  //   console.log(q);
+  //   console.log(sendData); // 전 페이지에서 넘어온 정보들 
+  //   const _data = JSON.parse(utils.decode(q));
+  //   _data.agree = true;
+
+  //   let payload = {
+  //     site_manage_phone: sendData.tel,
+  //     site_manage_name: sendData.name,
+  //     site_idx: sendData.site_idx,
+  //     step_idx: sendData.step_idx
+  //   };
+
+  //   console.log(payload);
+  //   axios.post(`${API_URL}/v1/info/personalAcceptData`, payload)
+  //     .then((res) => {
+  //       if (res.data.result === 'true') {
+  //         history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
+  //       } else {
+  //         history.replace('/Errorpage');
+  //       }
+  //     })
+  // }
 
   useEffect(() => {
     console.log(window.history.state)
@@ -146,7 +167,7 @@ const Agreements = () => {
           }}
             checked={checkedInputs.includes('check2') ? true : false}
           ></input>
-          <div>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(선택)</span></div>
+          <div>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
         </div>
         <table className={style.tableWrapper}>
           <tr>
@@ -160,11 +181,6 @@ const Agreements = () => {
         </table>
       </div>
       <SubmitButton label={"동의합니다"} onClick={handleClick} />
-      {
-        open === true
-          ? <AgreementsModal open={open} setOpen={setOpen} nextBtn={nextBtn} />
-          : null
-      }
     </div>
   );
 };

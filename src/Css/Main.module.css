@@ -11,13 +11,6 @@
 }
 
 .container {
-  /* position: absolute;
-  left: 5.56%;
-  right: 5.56%;
-  top: 9.25%;
-  bottom: 6%; */
-
-  /* background: blue; */
   width: 100vw;
   height: 100vh;
   padding: 5%;
@@ -28,15 +21,6 @@
 }
 
 .cirtificationList {
-  /* position: absolute;
-  width: 320px;10
-  height: 165px;
-  left: 20px;
-  top: 70px; */
-
-  /* background-color: black; */
-  /* margin-top: 10%; */
-  /* margin-top: 5%; */
   width: 320px;
 }
 
@@ -263,19 +247,12 @@
 }
 
 .subInputInfo {
-  /* position: absolute;
-  height: 64px;
-  left: 0%;
-  right: 2.5%;
-  top: calc(50% - 64px / 2 + 13.5px); */
-
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: bold;
   font-size: 12px;
   line-height: 6px;
   /* or 133% */
-
   display: flex;
   align-items: center;
   color: #545454;
@@ -300,9 +277,7 @@
 .textFieldsContainer {
   position: relative;
   width: 320px;
-  /* width: 100%; */
   margin: 7% 0; 
-  /* left:calc((100% / 2 ) - 200px); */
 }
 .Modal{
   width: 100%;
@@ -395,8 +370,6 @@
 
 .container {
   margin: auto;
-  /* height: 500px;
-  width: 500px; */
 }
 
 .content {
@@ -429,8 +402,6 @@
   height: 100vw;
   object-fit: fill; */
 
-  /* background-color: aqua; */
-
   width: 100vw;
   height: calc(100vw / 3 * 4);
 }
@@ -451,8 +422,6 @@
   position: absolute;
   width: 100vw;
   height: 100vw;
-  /* top: calc((100vh - 100vw) / 2);  */
-  /* top: calc((100vh - calc(100vw / 3 * 4)) / 2) */
 }
 
 .drowing {
@@ -534,10 +503,8 @@
 }
 
 .singleImage {
-  /* max-width: 70%; */
   width: 100%;
   height: 100%;
-  /* margin: 10% 0; */
 }
 
 .cameraCancelButton {
@@ -1218,30 +1185,30 @@ color: #7F7F7F;
   background: #0072CE;
 }
 .selectCompany {
-    /* Auto Layout */
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0px 13px 0px 16px;
-  
-    position: static;
-    width: 320px;
-    height: 50px;
-    left: calc(50% - 320px/2);
-    top: 23px;
-  
-    background: #FFFFFF;
-    border: 1px solid #DCDCDC;
-  
-    box-sizing: border-box;
-    border-radius: 2px;
-  
-    /* Inside Auto Layout */
-  
-    flex: none;
-    order: 1;
-    align-self: stretch;
-    flex-grow: 0;
-    margin: 6px 0px;
+  /* Auto Layout */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px 13px 0px 16px;
+
+  position: static;
+  width: 320px;
+  height: 50px;
+  left: calc(50% - 320px/2);
+  top: 23px;
+
+  background: #FFFFFF;
+  border: 1px solid #DCDCDC;
+
+  box-sizing: border-box;
+  border-radius: 2px;
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 1;
+  align-self: stretch;
+  flex-grow: 0;
+  margin: 6px 0px;
 }
