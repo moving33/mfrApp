@@ -193,7 +193,7 @@ function Camera() {
       step_idx: data.step_idx,
       //
       classId:  data.class_id,
-      bussiId:  data.employeeNumber,
+      bussiId:  data.id,
       //
       phtoCnt:  data.isGlass ? '2' : '1',
       photos: [{
@@ -502,7 +502,7 @@ function Camera() {
           <div className={style.resultSubMessage}>
             <div>출입등록이 가능해지면</div>
             <div>문자로 알려 드릴게요!</div>
-            {close()}
+            {/*close()*/}
           </div>
         </>
       )}
