@@ -233,7 +233,7 @@ function Info() {
             onChange={emNumHandler}
           />
 
-          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{backgroun:"#dcdcdc", position:'relative', marginTop:'35%'}}/>
+          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{backgroun:"#dcdcdc", position:'relative', marginTop:'15%'}}/>
           {/* </form> */}
         </div>
       </div>

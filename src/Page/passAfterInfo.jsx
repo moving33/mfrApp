@@ -130,7 +130,7 @@ function PassAfterInfo() {
           console.log(res.data);
           let checkEmployeeNumber = res.data.result
           if (checkEmployeeNumber === 'false') {
-            //history.replace('/errornopeople');
+            history.replace('/errornopeople');
           } else {
             _data.step_idx = res.data.step_idx;
             _data.class_id = res.data.class_id;
@@ -191,7 +191,7 @@ function PassAfterInfo() {
             value={emNum}
             onChange={emNumHandler}
           />
-          <div className={style.submitButtonWrapper} style={{position:'relative', marginTop:'35%'}}> 
+          <div className={style.submitButtonWrapper} style={{position:'relative', marginTop:'15%'}}> 
             <button className={style.submitButton}
               type="submit"
               label={"다음"}

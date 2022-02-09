@@ -182,8 +182,9 @@ function Camera() {
   };
 
   const cancel = () => {
-    setImgList([]);
-    setStep(0);
+    // setImgList([]);
+    // setStep(0);
+    window.location.reload();
   };
 
   const submit = () => {
@@ -400,6 +401,7 @@ function Camera() {
           </div>
         </div>
       )}
+
       {step === 2 && (
         <div className={style.container}>
           {data?.isGlass && imgList.length < 2 && (
@@ -494,6 +496,7 @@ function Camera() {
             </button>
           </div>
         </div>
+
       )}
       {step === 3 && (
         <>
