@@ -94,7 +94,6 @@ function Info() {
         console.log("intro.js::::");
         console.log(res.data);
         setDefaultState(res.data);
-        if(defaultState.site_name === " ") history.push("/errorpage");
         axios({
           method: 'POST',
           //url: 'http://121.165.242.171:9998/checkplus_json',
