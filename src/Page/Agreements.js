@@ -90,6 +90,7 @@ const Agreements = () => {
     console.log(q);
     console.log(sendData); // 전 페이지에서 넘어온 정보들 
     const _data = JSON.parse(utils.decode(q));
+    console.log("_data :", _data);
     _data.agree = true;
 
     let payload = {

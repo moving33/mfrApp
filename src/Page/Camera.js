@@ -191,9 +191,11 @@ function Camera() {
     const img = imgList[0].src.split(',')[1]
     const payload = {
       step_idx: data.step_idx,
-      classId: data.class_id,
-      bussiId: data.employeeNumber,
-      phtoCnt: data.isGlass ? '2' : '1',
+      //
+      classId:  data.class_id,
+      bussiId:  data.employeeNumber,
+      //
+      phtoCnt:  data.isGlass ? '2' : '1',
       photos: [{
         seqNo: '1',
         isGlass: false,
@@ -228,7 +230,7 @@ function Camera() {
   useEffect(() => {
     const { q } = qs.parse(window.location.search.slice(1));
     const _data = JSON.parse(utils.decode(q));
-    console.log(_data)
+    console.log("data:", _data);
     setData(_data);
 
 

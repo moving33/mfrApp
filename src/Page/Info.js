@@ -80,6 +80,10 @@ function Info() {
 
     const { workplace } = qs.parse(window.location.search.slice(1));
 
+    console.log( " workplace : ", workplace );
+
+    if ( workplace === null || workplace === undefined || workplace === "") history.push("/errorpage");
+
     const payload = {
       uuid: workplace || null
     };
@@ -118,6 +122,7 @@ function Info() {
     //   const data = JSON.parse(utils.decode(q));
     //   setDefaultState(data);
 
+    if(defaultState?.site_name === "") history.push("/errorpage");
   }, []);
 
   const PassButton = () => {
