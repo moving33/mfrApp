@@ -230,9 +230,8 @@ function Camera() {
   useEffect(() => {
     const { q } = qs.parse(window.location.search.slice(1));
     const _data = JSON.parse(utils.decode(q));
-    console.log("data:", _data);
+    console.log("data :", _data);
     setData(_data);
-
 
     return () => {
       clearInterval(intervalIdRef.current);

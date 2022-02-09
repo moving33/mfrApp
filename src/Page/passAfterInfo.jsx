@@ -119,6 +119,7 @@ function PassAfterInfo() {
         userPhone: _data.tel,
         site_idx: _data.site_idx,
         company_idx: selectKey,
+        classId: _data.class_id,
       }
 
       console.log(userInfo)
