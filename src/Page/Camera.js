@@ -213,7 +213,10 @@ function Camera() {
           setStep(3);
         }
       })
-    console.log(data, imgList)
+
+    console.log(data, imgList);
+    console.log(payload);
+
   };
 
   // , faceWidth: "129"

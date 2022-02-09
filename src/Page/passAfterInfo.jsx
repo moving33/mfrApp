@@ -129,7 +129,7 @@ function PassAfterInfo() {
           console.log(res.data);
           let checkEmployeeNumber = res.data.result
           if (checkEmployeeNumber === 'false') {
-            history.replace('/errornopeople');
+            //history.replace('/errornopeople');
           } else {
             _data.step_idx = res.data.step_idx;
             _data.class_id = res.data.class_id;
