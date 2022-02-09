@@ -2,11 +2,12 @@ export const PREFIX = "";
 
 
 let apiUrl = '';
+apiUrl = "https://mfr-dev.s1.co.kr:8901"
 // apiUrl = "https://121.165.242.171:10000"
 
 // apiUrl = "https://localhost:8888"
 // apiUrl = "https://121.165.242.171:10000"
-apiUrl = "https://52.231.72.160:8901"
+//apiUrl = "https://52.231.72.160:8901"
 
 // console.log(window.location.host);
 // const localhosts = [
