@@ -180,7 +180,7 @@ const Agreements = () => {
             <td >{sendData1.contents4}</td>
           </tr>
           <tr>
-            <th>수집•이용 목적</th>
+            <th>보유 및 이용 기간</th>
             <td >{sendData1.contents5}</td>
           </tr>
         </table>

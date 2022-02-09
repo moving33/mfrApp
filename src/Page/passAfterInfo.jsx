@@ -112,6 +112,7 @@ function PassAfterInfo() {
       const _data = { ...defaultState, employeeNumber };
 
       console.log('info.js::::::::::::::');
+      console.log(employeeNumber);
 
       const userInfo = {
         id: emNum,
@@ -182,7 +183,7 @@ function PassAfterInfo() {
           <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
 
-          <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>사번</div>
+          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom:"10%" }}>사번</div>
           <input className={style.inputPhone}
             // {...{ register, formName: "employeeNumber" }}
             // label="사번"
@@ -190,12 +191,14 @@ function PassAfterInfo() {
             value={emNum}
             onChange={emNumHandler}
           />
-          <div className={style.submitButtonWrapper}>
+          <div className={style.submitButtonWrapper} style={{position:'relative', marginTop:'35%'}}> 
             <button className={style.submitButton}
               type="submit"
               label={"다음"}
               onClick={() => { onSubmit(defaultState?.site_name, defaultState?.name, defaultState?.tel, company, emNum) }}
-            > 다음 </button>
+            > 
+              다음 
+            </button>
           </div>
         </div>
         {/* </form> */}

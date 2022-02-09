@@ -90,10 +90,14 @@ function Info() {
 
     axios.post(`${API_URL}/v1/siteInfo`, payload)
       .then((res) => {
-        if (res.data === null || res.data.result === '잘못된 요청입니다.') { }
+        if (res.data === null || res.data.result === '잘못된 요청입니다.') { history.push("/errorpage") }
         console.log("intro.js::::");
         console.log(res.data);
+
+        console.log(res.data.site_idx);
+
         setDefaultState(res.data);
+
         axios({
           method: 'POST',
           //url: 'http://121.165.242.171:9998/checkplus_json',
@@ -109,7 +113,7 @@ function Info() {
         });
       })
       .catch((err) => {
-        // history.push("/errorpage")
+        history.push("/errorpage")
       });
 
     //   const { q } = qs.parse(window.location.search.slice(1));
@@ -229,7 +233,7 @@ function Info() {
             onChange={emNumHandler}
           />
 
-          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{backgroun:"#dcdcdc"}}/>
+          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{backgroun:"#dcdcdc", position:'relative', marginTop:'35%'}}/>
           {/* </form> */}
         </div>
       </div>
