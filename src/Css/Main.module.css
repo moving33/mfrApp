@@ -306,8 +306,8 @@
 .ModalTextWrapper{
   flex-direction: column;
   align-items: flex-start;
-  margin-bottom: 27%;
-  margin-top: 10%;
+  /* margin-bottom: 27%;*/
+  margin-top: 10%; 
 }
 .ButtonWrapper{
   display: flex;
@@ -398,9 +398,7 @@
 }
 
 .camera {
-  /* width: 100vw;
-  height: 100vw;
-  object-fit: fill; */
+  /* object-fit: fill */
 
   width: 100vw;
   height: calc(100vw / 3 * 4);
@@ -612,7 +610,6 @@
   order: 1;
   flex-grow: 0;
   margin: 0px 6px;
-
   justify-content: center;
   margin: 7%;
 }

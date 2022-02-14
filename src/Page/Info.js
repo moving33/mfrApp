@@ -1,22 +1,26 @@
 import React, { useEffect, useState, useRef } from "react";
+import qs from "qs";
+import { useHistory } from "react-router";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import { isMobile, MobileView } from 'react-device-detect';
+
 import style from "../Css/Main.module.css";
 import Box from "../Component/Box";
 import Input from "../Component/Input";
 import InputTel from "../Component/InputTel";
 import SubmitButton from "../Component/SubmitButton";
-import { useHistory } from "react-router";
-import { useForm } from "react-hook-form";
-import Errorpage from './Errorpage'
 
-import qs from "qs";
+import UsefulModal from "../Component/UsefulModal";
+import AgreementsModal from "../Component/AgreementsModal";
+import Errorpage from './Errorpage'
 import utils from "../utils";
 import ErrorBox from "../Component/ErrorBox";
 import ErrorSubBox from "../Component/ErrorSubBox";
 import { PREFIX, API_URL } from "../config";
-import axios from "axios";
 import { faUserInjured } from "@fortawesome/free-solid-svg-icons";
 import SeleteComapny from '../Component/SelectCompany'
-import { isMobile, MobileView } from 'react-device-detect';
+
 
 function ErrorPage({ onClick }) {
   return (
@@ -41,20 +45,32 @@ function Info() {
     formState: { errors },
   } = useForm();
 
-
   const [payload, setPayload] = useState();
   const [encData, setEncData] = useState();
   const [defaultState, setDefaultState] = useState();
   let [emNum, setEmNum] = useState('');
   const [isError, setIsError] = useState(false);
   const [siteName, setSiteName] = useState();
-  const [inputName, setInputName] = useState()
-  const [inputPassword, setInputPassword] = useState()
-  const [company, setCompany] = useState([])
-  const [selectKey, setSelectKey] = useState()
+  const [inputName, setInputName] = useState();
+  const [inputPassword, setInputPassword] = useState();
+
+  const [openPassModal, setOpenPassModal ]    = useState(false);
+  const [openNxtBtnModal, setOpenNxtBtnModal] = useState(false);
+  const [openEmptyPhoneNumModal, setOpenEmptyPhoneNumModal] = useState(false);
+  const [openEmptyNameModal, setOpenEmptyNameModal] = useState(false);
+
+  
+  const [company, setCompany] = useState([]);
+  const [selectKey, setSelectKey] = useState();
   let [name, setName] = useState('');
   let [tel, setTel] = useState('');
   const fRef = useRef();
+
+  const passModaltext = '국내 통신사로만 본인인증이 가능하며 해당 URL접속 시 데이터 통신비용이 발생할 수 있습니다.';
+  const nextBtnModalText = '인증을 먼저해 주셔야 합니다.';
+  const emptyPhoneNum = '전화번호를 입력해 주세요'
+  const emptyName = '아름을 입력해 주세요';
+
   function nameHandler(e) {
     setName(e.target.value)
   }
@@ -80,9 +96,9 @@ function Info() {
 
     const { workplace } = qs.parse(window.location.search.slice(1));
 
-    console.log( " workplace : ", workplace );
+    console.log(" workplace : ", workplace);
 
-    if ( workplace === null || workplace === undefined || workplace === "") history.push("/errorpage");
+    if (workplace === null || workplace === undefined || workplace === "") history.push("/errorpage");
 
     const payload = {
       uuid: workplace || null
@@ -115,28 +131,20 @@ function Info() {
       .catch((err) => {
         history.push("/errorpage")
       });
-
-    //   const { q } = qs.parse(window.location.search.slice(1));
-
-    //   if (!q) {
-    //     history.push("/");
-    //   }
-
-    //   const data = JSON.parse(utils.decode(q));
-    //   setDefaultState(data);
-
-    
   }, []);
 
   const PassButton = () => {
     if (tel === '') {
-      alert('전화번호를 입력해 주세요');
+      setOpenEmptyPhoneNumModal(!openEmptyPhoneNumModal);
       return;
     }
     if (name === '') {
-      alert('아름을 입력해 주세요');
+      setOpenEmptyNameModal(!openEmptyNameModal);
       return;
     }
+    setOpenPassModal(!openPassModal)
+  }
+  const passAgree = () => {
     fRef.current.submit();
   }
 
@@ -148,15 +156,9 @@ function Info() {
     //사번을 입력하지 못하면 못 지나간다.
 
     if (emNum === '') {
-      alert('인증을 먼저해 주세요');
+      setOpenNxtBtnModal(!openNxtBtnModal)
       return;
     }
-
-    // Todo...
-    // if (employeeNumber !== "123") {
-    //   setIsError(true);
-    //   return;
-    // }
 
     const _data = { ...defaultState, employeeNumber };
 
@@ -167,8 +169,8 @@ function Info() {
       id: employeeNumber,
       userName: _data.name,
       userPhone: _data.tel,
-      site_idx: _data.site_idx
-      , company_idx: selectKey
+      site_idx: _data.site_idx,
+      company_idx: selectKey
     }
     console.log(userInfo)
 
@@ -201,7 +203,7 @@ function Info() {
         <input type="hidden" name="m" value="checkplusSerivce" />
         <input type="hidden" name="EncodeData" value={encData} />
       </form>
-  
+
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="사번을 입력해주세요" />
         <div className={style.group17} style={{ marginBottom: "10%" }}></div>
@@ -219,7 +221,7 @@ function Info() {
             <button
               className={style.sendInfo}
               onClick={PassButton}
-              style={{backgroundColor:"white", color:"#808080", border:"1px solid #DCDCDC"}}
+              style={{ backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC" }}
             >인증 요청</button>
           </div>
 
@@ -233,9 +235,29 @@ function Info() {
             onChange={emNumHandler}
           />
 
-          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{backgroun:"#dcdcdc", position:'relative', marginTop:'15%'}}/>
+          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc" }} />
           {/* </form> */}
         </div>
+        {
+          openPassModal === true
+            ? (<AgreementsModal text1={passModaltext} setOpen={setOpenPassModal} open={openPassModal} nextBtn={passAgree} />)
+            : null
+        }
+        {
+          openNxtBtnModal === true
+            ? (<UsefulModal text1={nextBtnModalText} Disagree={setOpenNxtBtnModal} open={openNxtBtnModal} />)
+            : null
+        }
+        {
+          openEmptyPhoneNumModal === true
+            ? (<UsefulModal text1={emptyPhoneNum} Disagree={setOpenEmptyPhoneNumModal} open={openEmptyPhoneNumModal} />)
+            : null
+        }
+        {
+          openEmptyNameModal === true
+            ? (<UsefulModal text1={emptyName} Disagree={setOpenEmptyNameModal} open={openEmptyNameModal} />)
+            : null
+        }
       </div>
     </MobileView>
   );

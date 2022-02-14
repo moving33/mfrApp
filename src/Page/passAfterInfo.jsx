@@ -8,6 +8,8 @@ import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
 import Errorpage from './Errorpage'
 
+import UsefulModal from "../Component/UsefulModal";
+
 import qs from "qs";
 import utils from "../utils";
 import ErrorBox from "../Component/ErrorBox";
@@ -47,10 +49,15 @@ function PassAfterInfo() {
   const [defaultState, setDefaultState] = useState();
   const [isError, setIsError] = useState(false);
   const [siteName, setSiteName] = useState();
-  const [inputName, setInputName] = useState()
-  const [inputPassword, setInputPassword] = useState()
-  const [company, setCompany] = useState([])
-  const [selectKey, setSelectKey] = useState()
+  const [inputName, setInputName] = useState();
+  const [inputPassword, setInputPassword] = useState();
+  const [company, setCompany] = useState([]);
+  const [selectKey, setSelectKey] = useState();
+
+  const [openAfterPassModal, setOpenAfterPassModal] = useState(false);
+  const [openEmNumModal, setOpenEmNumModal] = useState(false);
+
+
   let [name, setName] = useState('');
   let [tel, setTel] = useState('');
   let [emNum, setEmNum] = useState('');
@@ -92,7 +99,8 @@ function PassAfterInfo() {
   }, []);
   //인증완료 클릭스
   const PassButton = () => {
-    alert('이미 인증 하셨습니다.');
+    // alert('이미 인증 하셨습니다.');
+    setOpenAfterPassModal(!openAfterPassModal)
   }
   //다음 버튼 클릭시
   const onSubmit = (data) => {
@@ -103,8 +111,8 @@ function PassAfterInfo() {
     const { employeeNumber } = data;
 
     if (emNum === '') {
-
-      alert('사번을 입력해 주세요');
+      setOpenEmNumModal(!openEmNumModal);
+      // alert('사번을 입력해 주세요');
       return;
 
     } else {
@@ -183,7 +191,7 @@ function PassAfterInfo() {
           <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
 
-          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom:"10%" }}>사번</div>
+          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom: "10%" }}>사번</div>
           <input className={style.inputPhone}
             // {...{ register, formName: "employeeNumber" }}
             // label="사번"
@@ -191,18 +199,28 @@ function PassAfterInfo() {
             value={emNum}
             onChange={emNumHandler}
           />
-          <div className={style.submitButtonWrapper} style={{position:'relative', marginTop:'15%'}}> 
+          <div className={style.submitButtonWrapper} style={{ position: 'relative', marginTop: '15%' }}>
             <button className={style.submitButton}
               type="submit"
               label={"다음"}
               onClick={() => { onSubmit(defaultState?.site_name, defaultState?.name, defaultState?.tel, company, emNum) }}
-            > 
-              다음 
+            >
+              다음
             </button>
           </div>
         </div>
         {/* </form> */}
       </div>
+      {
+        openAfterPassModal === true
+          ? (<UsefulModal text1='이미 인증 하셨습니다.' Disagree={setOpenAfterPassModal} open={openAfterPassModal} />)
+          : null
+      }
+      {
+        openEmNumModal === true
+          ? (<UsefulModal text1='사번을 입력해 주세요' Disagree={setOpenEmNumModal} open={openEmNumModal} />)
+          : null
+      }
 
     </MobileView>
   );

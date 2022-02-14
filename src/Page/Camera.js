@@ -62,7 +62,7 @@ function Camera() {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({ width: 200, height: 256 });
+    const imageSrc = webcamRef.current.getScreenshot({ height: 256 });
     console.log("imageSrc ::: ", imageSrc);
     const _imgList = JSON.parse(JSON.stringify(imgList));
 
@@ -148,7 +148,6 @@ function Camera() {
           console.log(parseInt(faceIdWidth));
           console.log(faceX);
           console.log(faceY);
-
 
           setDetected(true);
 
@@ -264,15 +263,17 @@ function Camera() {
       imageObj.height = _w + "px";
 
       imageObj.onload = function () {
-        const sx = -40;
+        const sx = -40; //-40
         //const sy = (500 - 480) / 2;
-        const sy = -15;
-        const sw = 800;
-        const sh = 800;
+        const sy = -15; //-15
+        //캔버스의 크기
+        const sw = 800; //800
+        const sh = 800; //800
         const dx = 0;
         const dy = 0;
-        const dw = 1000;
-        const dh = 1000;
+        //안에 들어오는 이미지의 크기
+        const dw = 680; //1000
+        const dh = 1000; //1000
 
         ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy, dw, dh);
         const _imgList = JSON.parse(JSON.stringify(imgList));
@@ -357,13 +358,13 @@ function Camera() {
                 <canvas
                   ref={canvasRef}
                   className={style.camera}
-                  style={{ position: "absolute", zIndex: 3, border:"2px solid blue"}}
+                  style={{ position: "absolute", zIndex: 3, border:"4px solid blue"}}
                 ></canvas>
                 :
                 <canvas
                   ref={canvasRef}
                   className={style.camera}
-                  style={{ position: "absolute", zIndex: 3, border:"1px solid red"}}
+                  style={{ position: "absolute", zIndex: 3, border:"3px solid red"}}
                 ></canvas>
               }
 
@@ -377,6 +378,7 @@ function Camera() {
                 videoConstraints={videoConstraints}
                 mirrored={true}
                 className={style.camera}
+                screenshotFormat="image/jpeg"
               />
             </div>
 
@@ -414,7 +416,7 @@ function Camera() {
           <div className={style.group17}></div>
 
           {!data?.isGlass && imgList[0]?.croped && (
-            <div className={style.confirmImageContainer}>
+            <div className={style.confirmImageContainer} style={{textAlign:'center'}}>
               <img src={imgList[0].croped} className={style.singleImage} />
               <div
                 className={style.reopenCamera}
@@ -470,7 +472,7 @@ function Camera() {
                           reopenCamera(1);
                         }}
                       >
-                        <img src={cameraPng} className={style.cameraImage} />
+                        <img src={cameraPng} className={style.cameraImage} style={{}}/>
                         다시찍기
                       </div>
                     )}
@@ -507,7 +509,7 @@ function Camera() {
           <div className={style.resultSubMessage}>
             <div>출입등록이 가능해지면</div>
             <div>문자로 알려 드릴게요!</div>
-            {/*close()*/}
+          {close()}
           </div>
         </>
       )}

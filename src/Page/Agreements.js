@@ -6,6 +6,7 @@ import ReactModal from 'react-modal'
 import qs from "qs";
 import utils from "../utils";
 import AgreementsModal from "../Component/AgreementsModal";
+import UsefulModal from "../Component/UsefulModal";
 import { useHistory } from "react-router";
 import { PREFIX, API_URL } from "../config";
 import axios from "axios";
@@ -13,10 +14,17 @@ import axios from "axios";
 const Agreements = () => {
 
   const [open, setOpen] = useState(false);
+  const [checkModal, setCheckModal] = useState(false);
   const [checkedInputs, setCheckedInputs] = useState([]);
   const [sendData, setSendDate] = useState([]);
   const [sendData1, setSendDate1] = useState([]);
   const history = useHistory();
+
+  const text1 = "얼굴사진 원본 정보 수집 이용 미동의 시 아래와 같이 일부 기능이 제한 됩니다";
+  const text2 = `01.\n 리더기가 업테이트 되는 경우 얼굴 인증 불가능 (얼굴 재 등록 필요)`;
+  const text3 = '02.\n 다른 리더기에 매니저를 통한 사용자 정보 전송 불가능';
+  const text4 = "계속 진행하시겠습니까?";
+
 
   const changeHandler = (checked, id) => {
     if (checked) {
@@ -56,7 +64,7 @@ const Agreements = () => {
   const handleClick = () => {
 
     if (!(checkedInputs.includes('check',))) {
-      alert('필수 선택에 동의해 주셔야 합니다.');
+      setCheckModal(!checkModal);
       return;
     }
 
@@ -188,9 +196,13 @@ const Agreements = () => {
       <SubmitButton label={"동의합니다"} onClick={handleClick} />
       {
         open === true
-        ?<AgreementsModal setOpen={setOpen} open={open} nextBtn={nextBtn} />
+        ?<AgreementsModal text1={text1} text2={text2} text3={text3} text4={text4} setOpen={setOpen} open={open} nextBtn={nextBtn} />
         :null
-
+      }
+      {
+        checkModal === true
+        ?<UsefulModal text1='필수 선택에 동의해 주셔야 합니다.' Disagree={setCheckModal} open={checkModal} />
+        :null
       }
     </div>
   );
