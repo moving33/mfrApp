@@ -114,8 +114,11 @@ function Info() {
 
         setDefaultState(res.data);
 
+        const siteIdx = res.data.site_idx;
+
         axios({
           method: 'POST',
+          data: siteIdx,
           //url: 'http://121.165.242.171:9998/checkplus_json',
           url: `${API_URL}/v1/niceApiCodeController`,
           timeout: 5000,

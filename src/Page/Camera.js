@@ -247,11 +247,23 @@ function Camera() {
 
   useEffect(() => {
     if (step === 1) {
+      const stepData = {
+        step_idx: data.step_idx,
+      }
+
+      console.log(stepData);
+
+      axios.post(`${API_URL}/v1/info/pictureEntered`, stepData)
+      .then( res => console.log(res.data))
+      .catch( err => console.log(err));
+      
       setWebFace([]);
       runFacemesh();
     }
 
     if (step === 2) {
+
+
       const _w = window.innerWidth;
       const _h = window.innerHeight;
       const canvas = document.createElement("canvas");
@@ -259,8 +271,8 @@ function Camera() {
       canvas.height = 360;
       const ctx = canvas.getContext("2d");
       const imageObj = new Image();
-      imageObj.width = _w + "px";
-      imageObj.height = _w + "px";
+      // imageObj.width = _w + "px";
+      // imageObj.height = _w + "px";
 
       imageObj.onload = function () {
         const sx = -40; //-40
@@ -272,7 +284,7 @@ function Camera() {
         const dx = 0;
         const dy = 0;
         //안에 들어오는 이미지의 크기
-        const dw = 680; //1000
+        const dw = 670; //1000
         const dh = 1000; //1000
 
         ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy, dw, dh);
@@ -379,6 +391,8 @@ function Camera() {
                 mirrored={true}
                 className={style.camera}
                 screenshotFormat="image/jpeg"
+                height={480}
+                width ={640}
               />
             </div>
 
