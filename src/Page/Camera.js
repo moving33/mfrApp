@@ -187,8 +187,8 @@ function Camera() {
   };
 
   const submit = () => {
-
     const img = imgList[0].src.split(',')[1]
+
     const payload = {
       step_idx: data.step_idx,
       //
@@ -204,13 +204,18 @@ function Camera() {
         faceWidth:parseInt(faceIdWidth),
         faceX : faceX,
         faceY : faceY,
-      }]
- 
+      }],
     }
+
+    //버그 발생 부분
+
     axios.post(`${API_URL}/v1/fileTrans`, payload)
       .then((res) => {
         if (res.data.result === 'true') {
           setStep(3);
+        }else {
+          alert('사진 등록중 오류가 발생 했습니다.');
+          window.location.replace('/closepage');
         }
       })
 
@@ -306,15 +311,6 @@ function Camera() {
       window.location.href = 'https://www.s1.co.kr/';
     }, 2000)
   };
-
-  const closeBtn = () => {
-    window.opener = window;
-    var win = window.open("","_self");
-      console.log('make win')
-    win.close();
-    win.self.close();
-    window.top.close();
-  }
 
   useEffect(() => {
     window.history.pushState(null, document.title, window.location.href);
@@ -511,6 +507,7 @@ function Camera() {
               사진 등록
             </button>
           </div>
+
         </div>
 
       )}
