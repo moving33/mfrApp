@@ -62,7 +62,7 @@ function Camera() {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({ height: 256 });
+    const imageSrc = webcamRef.current.getScreenshot({ width:200, height: 256 });
     console.log("imageSrc ::: ", imageSrc);
     const _imgList = JSON.parse(JSON.stringify(imgList));
 
@@ -272,27 +272,28 @@ function Camera() {
       const _w = window.innerWidth;
       const _h = window.innerHeight;
       const canvas = document.createElement("canvas");
-      canvas.width = 360;
-      canvas.height = 360;
+      canvas.width = 200;
+      canvas.height = 300;
       const ctx = canvas.getContext("2d");
       const imageObj = new Image();
       // imageObj.width = _w + "px";
       // imageObj.height = _w + "px";
 
       imageObj.onload = function () {
-        const sx = -40; //-40
+        const sx = 0; //-40
         //const sy = (500 - 480) / 2;
-        const sy = -15; //-15
+        const sy = 0; //-15
         //캔버스의 크기
-        const sw = 800; //800
-        const sh = 800; //800
+        const sw = 1000; //800
+        const sh = 1000; //800
         const dx = 0;
         const dy = 0;
         //안에 들어오는 이미지의 크기
-        const dw = 670; //1000
-        const dh = 1000; //1000
+        const dw = 1000; //1000 670
+        const dh = 1500; //1000
 
         ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy, dw, dh);
+        // ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy);
         const _imgList = JSON.parse(JSON.stringify(imgList));
 
         _imgList[captureIdxRef.current] = {
