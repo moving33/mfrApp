@@ -118,7 +118,7 @@ function Info() {
 
         axios({
           method: 'POST',
-          data: siteIdx,
+          data: { "siteIdx" : siteIdx },
           //url: 'http://121.165.242.171:9998/checkplus_json',
           url: `${API_URL}/v1/niceApiCodeController`,
           timeout: 5000,
