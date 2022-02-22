@@ -134,8 +134,17 @@ function Info() {
       .catch((err) => {
         history.push("/errorpage")
       });
+
   }, []);
 
+  useEffect(()=>{
+
+    console.log('selectKey : ',selectKey);
+
+    console.log('company : ',company);
+
+  },[selectKey, company]);
+  
   const PassButton = () => {
     if (tel === '') {
       setOpenEmptyPhoneNumModal(!openEmptyPhoneNumModal);

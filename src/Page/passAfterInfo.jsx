@@ -56,7 +56,7 @@ function PassAfterInfo() {
 
   const [openAfterPassModal, setOpenAfterPassModal] = useState(false);
   const [openEmNumModal, setOpenEmNumModal] = useState(false);
-
+  const[openSelectKeyUndefinedModal,setOpenSelectKeyUndefinedModal] =useState(false);
 
   let [name, setName] = useState('');
   let [tel, setTel] = useState('');
@@ -119,6 +119,11 @@ function PassAfterInfo() {
 
     const { employeeNumber } = data;
 
+    if(selectKey === undefined) {
+      setOpenSelectKeyUndefinedModal(!openSelectKeyUndefinedModal);
+      return
+    }
+
     if (emNum === '') {
       setOpenEmNumModal(!openEmNumModal);
       // alert('사번을 입력해 주세요');
@@ -135,7 +140,7 @@ function PassAfterInfo() {
         id: emNum,
         userName: _data.name,
         userPhone: _data.tel,
-        site_idx: _data.site_idx || selectKey,
+        site_idx: selectKey,
         company_idx: company.companyIdx,
         classId: _data.class_id,
       }
@@ -228,6 +233,11 @@ function PassAfterInfo() {
       {
         openEmNumModal === true
           ? (<UsefulModal text1='사번을 입력해 주세요' Disagree={setOpenEmNumModal} open={openEmNumModal} />)
+          : null
+      }
+      {
+        openSelectKeyUndefinedModal === true
+          ? (<UsefulModal text1='회사를 선택해 주세요' Disagree={setOpenSelectKeyUndefinedModal} open={openSelectKeyUndefinedModal} />)
           : null
       }
 
