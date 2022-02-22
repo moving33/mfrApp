@@ -191,10 +191,12 @@ function Camera() {
 
     const payload = {
       step_idx: data.step_idx,
+
       //
       classId:  data.class_id,
       bussiId:  data.id,
       //
+      
       phtoCnt:  data.isGlass ? '2' : '1',
       photos: [{
         seqNo: '1',

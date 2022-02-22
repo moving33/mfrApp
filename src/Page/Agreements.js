@@ -54,7 +54,7 @@ const Agreements = () => {
 
     const { q } = qs.parse(window.location.search.slice(1));
     setSendDate(JSON.parse(utils.decode(q)))
-    console.log(q);
+    console.log(JSON.parse(utils.decode(q)));
   }, []);
 
   useEffect(() => {
@@ -69,28 +69,6 @@ const Agreements = () => {
     }
 
     setOpen(!open);
-    // const { q } = qs.parse(window.location.search.slice(1));
-    // console.log(q);
-    // console.log(sendData); // 전 페이지에서 넘어온 정보들 
-    // const _data = JSON.parse(utils.decode(q));
-    // _data.agree = true;
-
-    // let payload = {
-    //   site_manage_phone: sendData.tel,
-    //   site_manage_name: sendData.name,
-    //   site_idx: sendData.site_idx,
-    //   step_idx: sendData.step_idx
-    // };
-
-    // console.log(payload);
-    // axios.post(`${API_URL}/v1/info/personalAcceptData`, payload)
-    //   .then((res) => {
-    //     if (res.data.result === 'true') {
-    //       history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
-    //     } else {
-    //       history.replace('/Errorpage');
-    //     }
-    //   })
   };
 
   const nextBtn = () => {
