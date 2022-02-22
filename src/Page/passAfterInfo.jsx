@@ -169,9 +169,6 @@ function PassAfterInfo() {
   // value={defaultState?.name
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
-  console.log(company.company_idx);
-  console.log(selectKey);
-
   return (
     <MobileView>
 
