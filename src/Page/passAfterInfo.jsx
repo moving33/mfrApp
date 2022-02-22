@@ -97,6 +97,12 @@ function PassAfterInfo() {
     console.log(defaultState);
 
   }, []);
+
+  useEffect(()=>{
+    console.log('selectKey : ',selectKey);
+
+    console.log('company : ',company);
+  },[selectKey, company]);
   //인증완료 클릭스
   const PassButton = () => {
     // alert('이미 인증 하셨습니다.');
@@ -127,7 +133,7 @@ function PassAfterInfo() {
         userName: _data.name,
         userPhone: _data.tel,
         site_idx: _data.site_idx,
-        company_idx: selectKey,
+        company_idx: company.company_idx,
         classId: _data.class_id,
       }
 
