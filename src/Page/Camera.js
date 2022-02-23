@@ -47,6 +47,8 @@ function Camera() {
   // const [captureIdx, setCaptureIdx] = useState(0);
   const [step, setStep] = useState(0); // 0: 확인메시지창, 1: 카메라 화면, 2. 확인 화면, 3. 결과 화면
   const [capturePlay, setCapturePlay] = useState(false);
+  const [open, setOpen] = useState(false);
+
 
   useEffect(() => {
     const { q } = qs.parse(window.location.search.slice(1));
@@ -309,6 +311,10 @@ function Camera() {
     window.addEventListener('popstate', function (event) { window.history.pushState(null, document.title, window.location.href); });
   }, [window.location.href]);
 
+  const cameraButton = () => {
+    alert('카메라 사용허가를 거부하면 촬영이 진행되지 않습니다.');
+  }
+
   function close() {
     setTimeout(() => {
       window.location.href = 'https://www.s1.co.kr/';
@@ -330,10 +336,15 @@ function Camera() {
               type="button"
               label={"촬영하기"}
               onClick={() => {
-                setStep(1);
+                setOpen(!open);
               }}
             />
           </form>
+          {
+            open === true
+            ? <CameraModal open={open} Disagree={setOpen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'}/>
+            : null
+          }
         </div>
       )}
       {step === 1 && (
@@ -344,6 +355,7 @@ function Camera() {
               className={style.closeButton}
               onClick={closeCam}
             />
+            {cameraButton}
           </div>
           <div className={style.coverDiv}>
 
@@ -525,4 +537,19 @@ function Camera() {
   );
 }
 
+const CameraModal = ({ text1, text2 ,Disagree, open, setStep }) => {
+  return (
+    <div className={style.Modal} >
+      <div className={style.ModalWrapper}>
+        <div className={style.ModalTextWrapper}>
+          <p style={{margin:'auto'}}>{text1}</p>
+          <p style={{margin:'auto'}}>{text2}</p>
+        </div>
+        <div className={style.ButtonWrapper}>
+          <button className={style.NasoantralModalButton} onClick={ () => { Disagree(!open); setStep(1) } } >촬영하기</button>
+        </div>
+      </div>
+    </div>
+  )
+}
 export default Camera;

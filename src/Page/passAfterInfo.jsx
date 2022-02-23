@@ -113,9 +113,9 @@ function PassAfterInfo() {
 
     const { employeeNumber } = data;
 
-    if(selectKey === undefined) {
+    if( selectKey === undefined || company.company_idx === 0 ) {
       setOpenSelectKeyUndefinedModal(!openSelectKeyUndefinedModal);
-      return
+      return;
     }
 
     if (emNum === '') {
@@ -162,7 +162,6 @@ function PassAfterInfo() {
     setIsError(false);
   };
 
-  // value={defaultState?.name
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (

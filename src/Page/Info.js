@@ -136,14 +136,6 @@ function Info() {
       });
 
   }, []);
-
-  useEffect(()=>{
-
-    console.log('selectKey : ',selectKey);
-
-    console.log('company : ',company);
-
-  },[selectKey, company]);
   
   const PassButton = () => {
     if (tel === '') {
