@@ -54,7 +54,7 @@ const Agreements = () => {
 
     const { q } = qs.parse(window.location.search.slice(1));
     setSendDate(JSON.parse(utils.decode(q)))
-    console.log(JSON.parse(utils.decode(q)));
+    console.log('agreements q : ', JSON.parse(utils.decode(q)));
   }, []);
 
   useEffect(() => {
@@ -74,7 +74,7 @@ const Agreements = () => {
   const nextBtn = () => {
     const { q } = qs.parse(window.location.search.slice(1));
     console.log(q);
-    console.log(sendData); // 전 페이지에서 넘어온 정보들 
+    console.log('sendData :',sendData); // 전 페이지에서 넘어온 정보들 
     const _data = JSON.parse(utils.decode(q));
     console.log("_data :", _data);
     _data.agree = true;
@@ -86,7 +86,7 @@ const Agreements = () => {
       step_idx: sendData.step_idx,
     };
 
-    console.log(payload);
+    console.log('agreements payload : ', payload);
     axios.post(`${API_URL}/v1/info/personalAcceptData`, payload)
       .then((res) => {
         if (res.data.result === 'true') {

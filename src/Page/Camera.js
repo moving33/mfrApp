@@ -48,6 +48,17 @@ function Camera() {
   const [step, setStep] = useState(0); // 0: 확인메시지창, 1: 카메라 화면, 2. 확인 화면, 3. 결과 화면
   const [capturePlay, setCapturePlay] = useState(false);
 
+  useEffect(() => {
+    const { q } = qs.parse(window.location.search.slice(1));
+    const _data = JSON.parse(utils.decode(q));
+    console.log("data :", _data);
+    setData(_data);
+
+    return () => {
+      clearInterval(intervalIdRef.current);
+    };
+  }, []);
+
   const capture = () => {
     setCaptured(true);
     setCapturePlay(true);
@@ -144,10 +155,10 @@ function Camera() {
           setFaceY(topLeft);
           setFaceX(bottomRight);
 
-          console.log(parseInt(faceIdTop));
-          console.log(parseInt(faceIdWidth));
-          console.log(faceX);
-          console.log(faceY);
+          // console.log(parseInt(faceIdTop));
+          // console.log(parseInt(faceIdWidth));
+          // console.log(faceX);
+          // console.log(faceY);
 
           setDetected(true);
 
@@ -194,7 +205,7 @@ function Camera() {
 
       //
       classId:  data.class_id,
-      bussiId:  data.id,
+      bussiId:  data.emNum,
       //
       
       phtoCnt:  data.isGlass ? '2' : '1',
@@ -209,6 +220,7 @@ function Camera() {
       }],
     }
 
+    console.log('payload : ',payload);
     //버그 발생 부분
 
     axios.post(`${API_URL}/v1/fileTrans`, payload)
@@ -220,9 +232,6 @@ function Camera() {
           window.location.replace('/closepage');
         }
       })
-
-    console.log(data, imgList);
-    console.log(payload);
 
   };
 
@@ -236,21 +245,6 @@ function Camera() {
     captureIdxRef.current = captureIdx;
     setStep(1);
   };
-
-  useEffect(() => {
-    const { q } = qs.parse(window.location.search.slice(1));
-    const _data = JSON.parse(utils.decode(q));
-    console.log("data :", _data);
-    setData(_data);
-
-    return () => {
-      clearInterval(intervalIdRef.current);
-    };
-  }, []);
-
-  // useEffect(() => {
-  //   console.log(detected)
-  // },[detected])
 
   useEffect(() => {
     if (step === 1) {
@@ -309,17 +303,17 @@ function Camera() {
     }
   }, [step]);
 
-  function close() {
-    setTimeout(() => {
-      window.location.href = 'https://www.s1.co.kr/';
-    }, 2000)
-  };
 
   useEffect(() => {
     window.history.pushState(null, document.title, window.location.href);
     window.addEventListener('popstate', function (event) { window.history.pushState(null, document.title, window.location.href); });
   }, [window.location.href]);
 
+  function close() {
+    setTimeout(() => {
+      window.location.href = 'https://www.s1.co.kr/';
+    }, 2000)
+  };
   return (
     <>
       {step === 0 && (

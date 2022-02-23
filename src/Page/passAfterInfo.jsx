@@ -92,24 +92,18 @@ function PassAfterInfo() {
     }
 
     const data = JSON.parse(utils.decode(q));
+
+    console.log('data : ', data);
+
     setDefaultState(data);
 
     console.log(defaultState);
 
   }, []);
 
-  useEffect(()=>{
-
-    console.log('selectKey : ',selectKey);
-
-    console.log('company : ',company);
-
-  },[selectKey, company]);
-
   //인증완료 클릭시
   const PassButton = () => {
-    // alert('이미 인증 하셨습니다.');
-    setOpenAfterPassModal(!openAfterPassModal)
+    setOpenAfterPassModal(!openAfterPassModal);
   }
   //다음 버튼 클릭시
   const onSubmit = (data) => {
@@ -126,45 +120,42 @@ function PassAfterInfo() {
 
     if (emNum === '') {
       setOpenEmNumModal(!openEmNumModal);
-      // alert('사번을 입력해 주세요');
       return;
 
     } else {
 
-      const _data = { ...defaultState, employeeNumber };
+      //const _data = { ...defaultState, employeeNumber };
+      const _data = { ...defaultState, emNum };
 
+      console.log('_data : ', _data);
+      
       console.log('info.js::::::::::::::');
-      console.log(employeeNumber);
 
       const userInfo = {
         id: emNum,
         userName: _data.name,
         userPhone: _data.tel,
-        site_idx: selectKey,
-        company_idx: company.companyIdx,
+        site_idx: _data.site_idx,
+        company_idx: selectKey,
         classId: _data.class_id,
       }
 
-      console.log(userInfo)
+      console.log('userInfo : ', userInfo);
 
       axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo)
         .then((res) => {
-          console.log(res.data);
+          console.log('res.data in info : ',res.data);
           let checkEmployeeNumber = res.data.result
           if (checkEmployeeNumber === 'false') {
             history.replace('/errornopeople');
           } else {
             _data.step_idx = res.data.step_idx;
-            _data.class_id = res.data.class_id;
+            // _data.class_id = res.data.class_id;
+            console.log('pass _data to info : ', _data);
             history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
           }
         })
     }
-    // Todo...
-    // if (employeeNumber !== "123") {
-    //   setIsError(true);
-    //   return;
-    // }
   };
 
   const handleCloseErrorPage = () => {
