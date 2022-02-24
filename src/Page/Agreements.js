@@ -63,12 +63,15 @@ const Agreements = () => {
 
   const handleClick = () => {
 
-    if (!(checkedInputs.includes('check',))) {
+    if(!(checkedInputs.includes('check'))) {
       setCheckModal(!checkModal);
       return;
     }
-
+    if(checkedInputs.includes('check') && !(checkedInputs.includes('check2'))){
     setOpen(!open);
+    }else{
+      nextBtn()
+    }
   };
 
   const nextBtn = () => {
