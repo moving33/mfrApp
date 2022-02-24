@@ -230,11 +230,9 @@ function Camera() {
         if (res.data.result === 'true') {
           setStep(3);
         }else {
-          alert('사진 등록중 오류가 발생 했습니다.');
-          window.location.replace('/closepage');
+          setStep(3);
         }
       })
-
   };
 
   // , faceWidth: "129"
