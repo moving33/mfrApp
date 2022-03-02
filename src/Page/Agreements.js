@@ -63,15 +63,15 @@ const Agreements = () => {
 
   const handleClick = () => {
 
-    if(!(checkedInputs.includes('check'))) {
+    if(!(checkedInputs.includes('check','check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))) {
       setCheckModal(!checkModal);
       return;
     }
-    if(checkedInputs.includes('check') && !(checkedInputs.includes('check2'))){
-    setOpen(!open);
-    }else{
-      nextBtn()
-    }
+    // if(checkedInputs.includes('check') && !(checkedInputs.includes('check2'))){
+    // setOpen(!open);
+    // }else{
+    nextBtn()
+    // }
   };
 
   const nextBtn = () => {
@@ -161,7 +161,7 @@ const Agreements = () => {
           }}
             checked={checkedInputs.includes('check2') ? true : false}
           ></input>
-          <div>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(선택)</span></div>
+          <div>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
         </div>
         <table className={style.tableWrapper}>
           <tr>
