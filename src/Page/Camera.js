@@ -323,11 +323,10 @@ function Camera() {
       {step === 0 && (
         <div className={style.container}>
           <Box step={3} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
-          {/* <div className={style.group17}></div> */}
-          <WrieframeSvg
-            className={`${style.wireframeIcon} ${detected ? style.detected : ""
+          {/* <WrieframeSvg
+            className={`${style.wireframeIcon} ${step === 1 ? style.detected : ""
               }`}
-          />
+          /> */}
           <CheckTextFields />
           <form className={style.mainForm}>
             <SubmitButton
