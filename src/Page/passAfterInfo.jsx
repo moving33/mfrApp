@@ -146,13 +146,13 @@ function PassAfterInfo() {
         .then((res) => {
           console.log('res.data in info : ',res.data);
           let checkEmployeeNumber = res.data.result
-          if (checkEmployeeNumber === 'false') {
-            history.replace('/errornopeople');
-          } else {
+          if(checkEmployeeNumber === 'true') {
             _data.step_idx = res.data.step_idx;
             // _data.class_id = res.data.class_id;
             console.log('pass _data to info : ', _data);
             history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
+          }else{
+            history.replace('/errornopeople');
           }
         })
     }

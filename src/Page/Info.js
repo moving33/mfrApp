@@ -69,7 +69,7 @@ function Info() {
   const passModaltext = '국내 통신사로만 본인인증이 가능하며 해당 URL접속 시 데이터 통신비용이 발생할 수 있습니다.';
   const nextBtnModalText = '인증을 먼저해 주셔야 합니다.';
   const emptyPhoneNum = '전화번호를 입력해 주세요'
-  const emptyName = '아름을 입력해 주세요';
+  const emptyName = '이름을 입력해 주세요';
 
   function nameHandler(e) {
     setName(e.target.value)
