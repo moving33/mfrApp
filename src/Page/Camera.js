@@ -200,27 +200,62 @@ function Camera() {
   };
 
   const submit = () => {
-    const img = imgList[0].src.split(',')[1]
+    const img = imgList[0].src.split(',')[1];
+    console.log(img);
+    console.log(imgList);
+    let payload = {}
 
-    const payload = {
-      step_idx: data.step_idx,
-
-      //
-      classId:  data.class_id,
-      bussiId:  data.emNum,
-      //
-      
-      phtoCnt:  data.isGlass ? '2' : '1',
-      photos: [{
-        seqNo: '1',
-        isGlass: false,
-        photoData: img,
-        faceHight:parseInt(faceIdTop),
-        faceWidth:parseInt(faceIdWidth),
-        faceX : faceX,
-        faceY : faceY,
-      }],
+    if(imgList.length === 2){
+      payload = {
+        step_idx: data.step_idx,
+        
+        //
+        classId:  data.class_id,
+        bussiId:  data.emNum,
+        //
+        
+        phtoCnt:  data.isGlass ? '2' : '1',
+        photos1: [{
+          seqNo: '1',
+          isGlass: false,
+          photoData: imgList[0],
+          faceHight:parseInt(faceIdTop),
+          faceWidth:parseInt(faceIdWidth),
+          faceX : faceX,
+          faceY : faceY,
+        }],
+        photos2: [{
+          seqNo: '2',
+          isGlass: false,
+          photoData: imgList[1],
+          faceHight:parseInt(faceIdTop),
+          faceWidth:parseInt(faceIdWidth),
+          faceX : faceX,
+          faceY : faceY,
+        }],
+      }
     }
+    if(imgList.length === 1){
+      payload = {
+        step_idx: data.step_idx,
+        
+        //
+        classId:  data.class_id,
+        bussiId:  data.emNum,
+        //
+        
+        phtoCnt:  data.isGlass ? '2' : '1',
+        photos: [{
+          seqNo: '1',
+          isGlass: false,
+          photoData: img,
+          faceHight:parseInt(faceIdTop),
+          faceWidth:parseInt(faceIdWidth),
+          faceX : faceX,
+          faceY : faceY,
+        }],
+    }
+  }
 
     console.log('payload : ',payload);
     //버그 발생 부분
