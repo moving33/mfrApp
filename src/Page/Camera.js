@@ -34,7 +34,7 @@ function Camera() {
   const webcamRef = useRef(null);
   const intervalIdRef = useRef(null);
   const canvasRef = useRef();
-  const [faceX, setFaceX] = useState(); 
+  const [faceX, setFaceX] = useState();
   const [faceY, setFaceY] = useState();
   const [faceIdTop, setFaceIdTop] = useState();
   const [faceIdWidth, setFaceWidth] = useState();
@@ -75,7 +75,7 @@ function Camera() {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({ width:200, height: 256 });
+    const imageSrc = webcamRef.current.getScreenshot({ width: 200, height: 256 });
     console.log("imageSrc ::: ", imageSrc);
     const _imgList = JSON.parse(JSON.stringify(imgList));
 
@@ -151,7 +151,7 @@ function Camera() {
           // console.log(detected, captured, capturePlay, topLeft, bottomRight);
           // console.log(topLeft[1], bottomRight[1]);
           // console.log(landmarks[4],landmarks[5])
-          
+
           setFaceIdTop(bottomRight[1] - topLeft[1]);
           setFaceWidth(landmarks[5][0] - landmarks[4][0]);
           setFaceY(topLeft);
@@ -205,66 +205,65 @@ function Camera() {
     console.log(imgList);
     let payload = {}
 
-    if(imgList.length === 2){
+    if (imgList.length === 2) {
       payload = {
         step_idx: data.step_idx,
-        
+
         //
-        classId:  data.class_id,
-        bussiId:  data.emNum,
+        classId: data.class_id,
+        bussiId: data.emNum,
         //
-        
-        phtoCnt:  data.isGlass ? '2' : '1',
-        photos1: [{
+
+        phtoCnt: data.isGlass ? '2' : '1',
+        photos: [{
           seqNo: '1',
           isGlass: false,
           photoData: imgList[0],
-          faceHight:parseInt(faceIdTop),
-          faceWidth:parseInt(faceIdWidth),
-          faceX : faceX,
-          faceY : faceY,
-        }],
-        photos2: [{
+          faceHight: parseInt(faceIdTop),
+          faceWidth: parseInt(faceIdWidth),
+          faceX: faceX,
+          faceY: faceY,
+        }, {
           seqNo: '2',
           isGlass: false,
           photoData: imgList[1],
-          faceHight:parseInt(faceIdTop),
-          faceWidth:parseInt(faceIdWidth),
-          faceX : faceX,
-          faceY : faceY,
+          faceHight: parseInt(faceIdTop),
+          faceWidth: parseInt(faceIdWidth),
+          faceX: faceX,
+          faceY: faceY,
         }],
       }
     }
-    if(imgList.length === 1){
+    if (imgList.length === 1) {
       payload = {
         step_idx: data.step_idx,
-        
+
         //
-        classId:  data.class_id,
-        bussiId:  data.emNum,
+        classId: data.class_id,
+        bussiId: data.emNum,
         //
-        
-        phtoCnt:  data.isGlass ? '2' : '1',
+
+        phtoCnt: data.isGlass ? '2' : '1',
         photos: [{
           seqNo: '1',
           isGlass: false,
           photoData: img,
-          faceHight:parseInt(faceIdTop),
-          faceWidth:parseInt(faceIdWidth),
-          faceX : faceX,
-          faceY : faceY,
+          faceHight: parseInt(faceIdTop),
+          faceWidth: parseInt(faceIdWidth),
+          faceX: faceX,
+          faceY: faceY,
         }],
+      }
     }
-  }
 
-    console.log('payload : ',payload);
+    console.log('payload : ', payload);
     //버그 발생 부분
 
     axios.post(`${API_URL}/v1/fileTrans`, payload)
       .then((res) => {
         if (res.data.result === 'true') {
           setStep(3);
-        }else {
+        } else {
           setStep(3);
         }
       })
@@ -274,7 +273,7 @@ function Camera() {
   // , faceHeight: "256"
   // , faceX: '0'
   // , faceY: '255'
-  
+
   const reopenCamera = (captureIdx) => {
     // setCaptureIdx(0);
     captureIdxRef.current = captureIdx;
@@ -290,9 +289,9 @@ function Camera() {
       console.log(stepData);
 
       axios.post(`${API_URL}/v1/info/pictureEntered`, stepData)
-      .then( res => console.log(res.data))
-      .catch( err => console.log(err));
-      
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err));
+
       setWebFace([]);
       runFacemesh();
     }
@@ -374,8 +373,8 @@ function Camera() {
           </form>
           {
             open === true
-            ? <CameraModal open={open} Disagree={setOpen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'}/>
-            : null
+              ? <CameraModal open={open} Disagree={setOpen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'} />
+              : null
           }
         </div>
       )}
@@ -397,7 +396,7 @@ function Camera() {
                 {detected && (
                   <WrieframeDetectSvg className={style.wireframeIcon} />
                 )} */}
-                <WrieframeSvg className={style.wireframeIcon}  />
+                <WrieframeSvg className={style.wireframeIcon} />
               </div>
             </div>
 
@@ -407,13 +406,13 @@ function Camera() {
                 <canvas
                   ref={canvasRef}
                   className={style.camera}
-                  style={{ position: "absolute", zIndex: 3, border:"4px solid blue"}}
+                  style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
                 ></canvas>
                 :
                 <canvas
                   ref={canvasRef}
                   className={style.camera}
-                  style={{ position: "absolute", zIndex: 3, border:"3px solid red"}}
+                  style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
                 ></canvas>
               }
 
@@ -429,7 +428,7 @@ function Camera() {
                 className={style.camera}
                 screenshotFormat="image/jpeg"
                 height={480}
-                width ={640}
+                width={640}
               />
             </div>
 
@@ -467,7 +466,7 @@ function Camera() {
           <div className={style.group17}></div>
 
           {!data?.isGlass && imgList[0]?.croped && (
-            <div className={style.confirmImageContainer} style={{textAlign:'center'}}>
+            <div className={style.confirmImageContainer} style={{ textAlign: 'center' }}>
               <img src={imgList[0].croped} className={style.singleImage} />
               <div
                 className={style.reopenCamera}
@@ -523,7 +522,7 @@ function Camera() {
                           reopenCamera(1);
                         }}
                       >
-                        <img src={cameraPng} className={style.cameraImage} style={{}}/>
+                        <img src={cameraPng} className={style.cameraImage} style={{}} />
                         다시찍기
                       </div>
                     )}
@@ -561,7 +560,7 @@ function Camera() {
           <div className={style.resultSubMessage}>
             <div>출입등록이 가능해지면</div>
             <div>문자로 알려 드릴게요!</div>
-          {close()}
+            {close()}
           </div>
         </>
       )}
@@ -569,16 +568,16 @@ function Camera() {
   );
 }
 
-const CameraModal = ({ text1, text2 ,Disagree, open, setStep }) => {
+const CameraModal = ({ text1, text2, Disagree, open, setStep }) => {
   return (
     <div className={style.Modal} >
       <div className={style.ModalWrapper}>
         <div className={style.ModalTextWrapper}>
-          <p style={{margin:'auto'}}>{text1}</p>
-          <p style={{margin:'auto'}}>{text2}</p>
+          <p style={{ margin: 'auto' }}>{text1}</p>
+          <p style={{ margin: 'auto' }}>{text2}</p>
         </div>
         <div className={style.ButtonWrapper}>
-          <button className={style.NasoantralModalButton} onClick={ () => { Disagree(!open); setStep(1) } } >촬영하기</button>
+          <button className={style.NasoantralModalButton} onClick={() => { Disagree(!open); setStep(1) }} >촬영하기</button>
         </div>
       </div>
     </div>
