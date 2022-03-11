@@ -225,7 +225,7 @@ function Camera() {
           faceY: faceY,
         }, {
           seqNo: '2',
-          isGlass: false,
+          isGlass: true,
           photoData: imgList[1],
           faceHight: parseInt(faceIdTop),
           faceWidth: parseInt(faceIdWidth),
