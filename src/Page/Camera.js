@@ -75,7 +75,7 @@ function Camera() {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({ width: 200, height: 256 });
+    const imageSrc = webcamRef.current.getScreenshot({ height: 512 });
     console.log("imageSrc ::: ", imageSrc);
     const _imgList = JSON.parse(JSON.stringify(imgList));
 
@@ -200,12 +200,16 @@ function Camera() {
   };
 
   const submit = () => {
-    const img = imgList[0].src.split(',')[1];
-    console.log(img);
+    
     console.log(imgList);
+
     let payload = {}
 
     if (imgList.length === 2) {
+
+      const img = imgList[0].src.split(',')[1];
+      const img2 = imgList[1].src.split(',')[1];
+
       payload = {
         step_idx: data.step_idx,
 
@@ -218,7 +222,7 @@ function Camera() {
         photos: [{
           seqNo: '1',
           isGlass: false,
-          photoData: imgList[0],
+          photoData: img,
           faceHight: parseInt(faceIdTop),
           faceWidth: parseInt(faceIdWidth),
           faceX: faceX,
@@ -226,7 +230,7 @@ function Camera() {
         }, {
           seqNo: '2',
           isGlass: true,
-          photoData: imgList[1],
+          photoData: img2,
           faceHight: parseInt(faceIdTop),
           faceWidth: parseInt(faceIdWidth),
           faceX: faceX,
@@ -235,6 +239,9 @@ function Camera() {
       }
     }
     if (imgList.length === 1) {
+
+      const img = imgList[0].src.split(',')[1];
+
       payload = {
         step_idx: data.step_idx,
 
@@ -314,8 +321,8 @@ function Camera() {
         //const sy = (500 - 480) / 2;
         const sy = 0; //-15
         //캔버스의 크기
-        const sw = 1000; //800
-        const sh = 1000; //800
+        const sw = 2000; //800
+        const sh = 2000; //800
         const dx = 0;
         const dy = 0;
         //안에 들어오는 이미지의 크기
