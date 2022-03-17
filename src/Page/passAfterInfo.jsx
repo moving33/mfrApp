@@ -83,7 +83,7 @@ function PassAfterInfo() {
   //전 화면에서 받아오는 url q값 지금은 진행을 위해서 주석 처리 웹 접근 분기도 여기서 처리
   useEffect(() => {
 
-    if (!isMobile) history.replace("/weberrorpage");
+    // if (!isMobile) history.replace("/weberrorpage");
 
     const { q } = qs.parse(window.location.search.slice(1));
 
@@ -165,7 +165,7 @@ function PassAfterInfo() {
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
-    <MobileView>
+    <div>
 
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
@@ -231,7 +231,7 @@ function PassAfterInfo() {
           : null
       }
 
-    </MobileView>
+    </div>
   );
 }
 

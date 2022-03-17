@@ -3,7 +3,7 @@ import qs from "qs";
 import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { isMobile, MobileView } from 'react-device-detect';
+import { isMobile, MobileView, BrowserView } from 'react-device-detect';
 
 import style from "../Css/Main.module.css";
 import Box from "../Component/Box";
@@ -54,12 +54,12 @@ function Info() {
   const [inputName, setInputName] = useState();
   const [inputPassword, setInputPassword] = useState();
 
-  const [openPassModal, setOpenPassModal ]    = useState(false);
+  const [openPassModal, setOpenPassModal] = useState(false);
   const [openNxtBtnModal, setOpenNxtBtnModal] = useState(false);
   const [openEmptyPhoneNumModal, setOpenEmptyPhoneNumModal] = useState(false);
   const [openEmptyNameModal, setOpenEmptyNameModal] = useState(false);
 
-  
+
   const [company, setCompany] = useState([]);
   const [selectKey, setSelectKey] = useState();
   let [name, setName] = useState('');
@@ -92,13 +92,13 @@ function Info() {
 
   useEffect(() => {
 
-    if (!isMobile) history.push("/weberrorpage");
+    // if (!isMobile) history.push("/weberrorpage");
 
     const { workplace } = qs.parse(window.location.search.slice(1));
 
     console.log(" workplace : ", workplace);
 
-    if (workplace === null || workplace === undefined || workplace === "") history.push("/errorpage");
+    // if (workplace === null || workplace === undefined || workplace === "") history.push("/errorpage");
 
     const payload = {
       uuid: workplace || null
@@ -118,7 +118,7 @@ function Info() {
 
         axios({
           method: 'POST',
-          data: { "siteIdx" : siteIdx },
+          data: { "siteIdx": siteIdx },
           //url: 'http://121.165.242.171:9998/checkplus_json',
           url: `${API_URL}/v1/niceApiCodeController`,
           timeout: 5000,
@@ -136,7 +136,7 @@ function Info() {
       });
 
   }, []);
-  
+
   const PassButton = () => {
     if (tel === '') {
       setOpenEmptyPhoneNumModal(!openEmptyPhoneNumModal);
@@ -201,7 +201,8 @@ function Info() {
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
-    <MobileView>
+    // <MobileView></MobileView>
+    <div>
 
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
@@ -263,7 +264,7 @@ function Info() {
             : null
         }
       </div>
-    </MobileView>
+    </div>
   );
 }
 
