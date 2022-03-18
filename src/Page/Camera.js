@@ -31,6 +31,7 @@ const videoConstraints = {
 
 function Camera() {
   const history = useHistory();
+  const [ready, setReady] = useState(false);
   const webcamRef = useRef(null);
   const intervalIdRef = useRef(null);
   const canvasRef = useRef();
@@ -67,6 +68,7 @@ function Camera() {
   };
 
   const handleCaptureComplete = (detected) => {
+    setReady(false);
     setDetected(false);
     setCaptured(false);
     setCapturePlay(false);
@@ -74,16 +76,31 @@ function Camera() {
     if (!webcamRef.current || !detected) {
       return;
     }
-
-    const imageSrc = webcamRef.current.getScreenshot({ height: 512 });
-    console.log("imageSrc ::: ", imageSrc);
     const _imgList = JSON.parse(JSON.stringify(imgList));
+    const imageSrc = webcamRef.current.getScreenshot({ height: 512 });
 
-    _imgList[captureIdxRef.current] = { src: imageSrc };
-    setImgList(_imgList);
+    setTimeout(() => {
+      const imageSrc2 = webcamRef.current.getScreenshot({ height: 512 });
 
-    clearInterval(intervalIdRef.current);
-    setStep(2);
+      console.log("imageSrc  ::: ", imageSrc);
+      console.log("imageSrc2 ::: ", imageSrc2);
+
+      console.log("_imgList B ::: ", _imgList);
+
+      _imgList[captureIdxRef.current] = { src: imageSrc  };
+      _imgList[(captureIdxRef.current)+1] = { src: imageSrc2 };
+
+      console.log("_imgList A ::: ", _imgList);
+
+      setImgList(_imgList);
+
+      console.log('imgList',imgList);
+      clearInterval(intervalIdRef.current);
+
+      setStep(2);
+
+    }, 100);
+
   };
 
   const runFacemesh = async () => {
@@ -110,27 +127,11 @@ function Camera() {
       const video = webcamRef.current.video;
       const videoWidth = webcamRef.current.video.videoWidth;
       const videoHeight = webcamRef.current.video.videoHeight;
-
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
-
       const _webFace = await net.estimateFaces(video);
-
-      // console.log(_webFace);
-
-      // const ctx = canvasRef.current.getContext('2d');
-      // ctx.clearRect(0, 0, canvasRef.current.width, canvasRef.current.height)
-      // for (let i = 0; i < _webFace.length; i++) {
-      //   const start = _webFace[i].topLeft;
-      //   const end = _webFace[i].bottomRight;
-
-      //   const size = [end[0] - start[0], end[1] - start[1]];
-      //   console.log(start, end, size);
-
-      //   // Render a rectangle over each detected face.
-      //   // ctx.fillStyle = 'green';
-      //   // ctx.fillRect(start[0], start[1], size[0], size[1]);
-      // }
+      
+      console.log('_webFace', _webFace);
 
       if (_webFace.length === 1) {
 
@@ -148,31 +149,16 @@ function Camera() {
           bottomRight[1] < 470
 
         ) {
-          // console.log(detected, captured, capturePlay, topLeft, bottomRight);
-          // console.log(topLeft[1], bottomRight[1]);
-          // console.log(landmarks[4],landmarks[5])
 
           setFaceIdTop(bottomRight[1] - topLeft[1]);
           setFaceWidth(landmarks[5][0] - landmarks[4][0]);
           setFaceY(topLeft);
           setFaceX(bottomRight);
-
-          // console.log(parseInt(faceIdTop));
-          // console.log(parseInt(faceIdWidth));
-          // console.log(faceX);
-          // console.log(faceY);
-
           setDetected(true);
 
           if (!captured) {
-            // alert('detact!!! ::: ' + JSON.stringify(topLeft) + ' ::: ' + JSON.stringify(bottomRight));
-            // console.log(topLeft, bottomRight);
-
-            // clearInterval(intervalIdRef.current);
             setWebFace(_webFace);
-
             capture();
-
           }
         } else {
           setDetected(false);
@@ -200,24 +186,22 @@ function Camera() {
   };
 
   const submit = () => {
-    
-    console.log(imgList);
+
+    console.log('imgListtttttt', imgList);
 
     let payload = {}
 
-    if (imgList.length === 2) {
+    if (imgList.length === 4) {
 
-      const img = imgList[0].src.split(',')[1];
+      const img  = imgList[0].src.split(',')[1];
       const img2 = imgList[1].src.split(',')[1];
+      const img3 = imgList[2].src.split(',')[1];
+      const img4 = imgList[3].src.split(',')[1];
 
       payload = {
         step_idx: data.step_idx,
-
-        //
         classId: data.class_id,
         bussiId: data.emNum,
-        //
-
         phtoCnt: data.isGlass ? '2' : '1',
         photos: [{
           seqNo: '1',
@@ -235,21 +219,36 @@ function Camera() {
           faceWidth: parseInt(faceIdWidth),
           faceX: faceX,
           faceY: faceY,
+        },
+        {
+          seqNo: '3',
+          isGlass: true,
+          photoData: img3,
+          faceHight: parseInt(faceIdTop),
+          faceWidth: parseInt(faceIdWidth),
+          faceX: faceX,
+          faceY: faceY,
+        },
+        {
+          seqNo: '4',
+          isGlass: true,
+          photoData: img4,
+          faceHight: parseInt(faceIdTop),
+          faceWidth: parseInt(faceIdWidth),
+          faceX: faceX,
+          faceY: faceY,
         }],
       }
     }
-    if (imgList.length === 1) {
+    if (imgList.length === 2) {
 
-      const img = imgList[0].src.split(',')[1];
+      const img  = imgList[0].src.split(',')[1];
+      const img2 = imgList[1].src.split(',')[1];
 
       payload = {
         step_idx: data.step_idx,
-
-        //
         classId: data.class_id,
         bussiId: data.emNum,
-        //
-
         phtoCnt: data.isGlass ? '2' : '1',
         photos: [{
           seqNo: '1',
@@ -259,12 +258,20 @@ function Camera() {
           faceWidth: parseInt(faceIdWidth),
           faceX: faceX,
           faceY: faceY,
+        },
+        {
+          seqNo: '2',
+          isGlass: false,
+          photoData: img2,
+          faceHight: parseInt(faceIdTop),
+          faceWidth: parseInt(faceIdWidth),
+          faceX: faceX,
+          faceY: faceY,
         }],
       }
     }
 
     console.log('payload : ', payload);
-    //버그 발생 부분
 
     axios.post(`${API_URL}/v1/fileTrans`, payload)
       .then((res) => {
@@ -276,13 +283,8 @@ function Camera() {
       })
   };
 
-  // , faceWidth: "129"
-  // , faceHeight: "256"
-  // , faceX: '0'
-  // , faceY: '255'
 
   const reopenCamera = (captureIdx) => {
-    // setCaptureIdx(0);
     captureIdxRef.current = captureIdx;
     setStep(1);
   };
@@ -304,8 +306,6 @@ function Camera() {
     }
 
     if (step === 2) {
-
-
       const _w = window.innerWidth;
       const _h = window.innerHeight;
       const canvas = document.createElement("canvas");
@@ -313,8 +313,6 @@ function Camera() {
       canvas.height = 300;
       const ctx = canvas.getContext("2d");
       const imageObj = new Image();
-      // imageObj.width = _w + "px";
-      // imageObj.height = _w + "px";
 
       imageObj.onload = function () {
         const sx = 0; //-40
@@ -385,6 +383,7 @@ function Camera() {
           }
         </div>
       )}
+
       {step === 1 && (
         <div className={style.cameraBackground}>
           <div className={style.cameraTopContainer}>
@@ -399,10 +398,6 @@ function Camera() {
 
             <div className={style.drowingContainer}>
               <div className={style.drowingContainer2}>
-                {/* {!detected && <WrieframeSvg className={style.wireframeIcon} />}
-                {detected && (
-                  <WrieframeDetectSvg className={style.wireframeIcon} />
-                )} */}
                 <WrieframeSvg className={style.wireframeIcon} />
               </div>
             </div>
@@ -548,7 +543,7 @@ function Camera() {
               onClick={submit}
               className={style.cameraSubmitButton}
               disabled={
-                data.isGlass ? imgList.length !== 2 : imgList.length !== 1
+                data.isGlass ? imgList.length !== 4 : imgList.length !== 2
               }
             >
               사진 등록

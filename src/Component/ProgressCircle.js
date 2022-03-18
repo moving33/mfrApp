@@ -52,6 +52,7 @@ function ProgressCircle({capturePlay, onComplete, detected}) {
     _timer += 25;
     timeoutIds.current.push(await sleep(4500 / 4));
     setTimer(_timer);
+    
     onComplete && onComplete(_detacted);
     setTimer(0);
   }
