@@ -220,15 +220,15 @@ function Info() {
           <Input label="이름" value={name} onChange={nameHandler} />
           {//{defaultState?.name || ""}}
           }
-          <div style={{ display: "flex", justifyContent:'space-between' }}>
-            <InputTel label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" />
-            {/* <Input label="전화번호"  onChange={inputPasswordHandler} className={style.inputPhone}/> */}
-            {/* <button className={style.sendInfo} onClick={()=>{StartPass()}}>인증요청</button> */}
-            <button
-              className={style.sendInfo}
-              onClick={PassButton}
-              style={{ backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC" }}
-            >인증 요청</button>
+          <div style={{ display: "flex", width: '100%', justifyContent: 'space-between' }}>
+              <InputTel label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" />
+              {/* <input label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" style={{ width: '70%' }} /> */}
+              <button
+                className={style.sendInfo}
+                onClick={PassButton}
+                style={{ backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC" }}
+              >인증 요청</button>
+
           </div>
 
           <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
@@ -241,7 +241,7 @@ function Info() {
             onChange={emNumHandler}
           />
 
-          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc" }} />
+          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width:'90%' }} />
           {/* </form> */}
         </div>
         {

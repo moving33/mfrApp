@@ -56,7 +56,7 @@ function PassAfterInfo() {
 
   const [openAfterPassModal, setOpenAfterPassModal] = useState(false);
   const [openEmNumModal, setOpenEmNumModal] = useState(false);
-  const[openSelectKeyUndefinedModal,setOpenSelectKeyUndefinedModal] =useState(false);
+  const [openSelectKeyUndefinedModal, setOpenSelectKeyUndefinedModal] = useState(false);
 
   let [name, setName] = useState('');
   let [tel, setTel] = useState('');
@@ -113,7 +113,7 @@ function PassAfterInfo() {
 
     const { employeeNumber } = data;
 
-    if( selectKey === undefined || company.company_idx === 0 ) {
+    if (selectKey === undefined || company.company_idx === 0) {
       setOpenSelectKeyUndefinedModal(!openSelectKeyUndefinedModal);
       return;
     }
@@ -128,7 +128,7 @@ function PassAfterInfo() {
       const _data = { ...defaultState, emNum };
 
       console.log('_data : ', _data);
-      
+
       console.log('info.js::::::::::::::');
 
       const userInfo = {
@@ -144,14 +144,14 @@ function PassAfterInfo() {
 
       axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo)
         .then((res) => {
-          console.log('res.data in info : ',res.data);
+          console.log('res.data in info : ', res.data);
           let checkEmployeeNumber = res.data.result
-          if(checkEmployeeNumber === 'true') {
+          if (checkEmployeeNumber === 'true') {
             _data.step_idx = res.data.step_idx;
             // _data.class_id = res.data.class_id;
             console.log('pass _data to info : ', _data);
             history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
-          }else{
+          } else {
             history.replace('/errornopeople');
           }
         })
@@ -184,8 +184,8 @@ function PassAfterInfo() {
           }
           <div style={{ display: "flex" }}>
             <InputTel label="전화번호" value={defaultState?.tel || tel} onChange={telHandler} className={style.inputPhone} />
-            {/* <Input label="전화번호"  onChange={inputPasswordHandler} className={style.inputPhone}/> */}
-            {/* <button className={style.sendInfo} onClick={()=>{StartPass()}}>인증요청</button> */}
+
+
             <button
               className={style.sendInfoSuccess}
               onClick={PassButton}
@@ -205,6 +205,7 @@ function PassAfterInfo() {
           />
           <div className={style.submitButtonWrapper} style={{ position: 'relative', marginTop: '15%' }}>
             <button className={style.submitButton}
+              style={{ width: '90%' }}
               type="submit"
               label={"다음"}
               onClick={() => { onSubmit(defaultState?.site_name, defaultState?.name, defaultState?.tel, company, emNum) }}
