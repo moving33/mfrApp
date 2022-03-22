@@ -17,7 +17,7 @@
 
   display: flex;
   flex-direction: column;
-  align-items: center;
+  /* align-items: center; */
 }
 
 .cirtificationList {
@@ -96,7 +96,7 @@
   padding: 0px 13px 0px 16px;
 
   position: static;
-  width: 320px;
+  width: 100%;
   height: 50px;
   left: calc(50% - 320px/2);
   top: 23px;
@@ -129,7 +129,7 @@
   padding: 0px 13px 0px 16px;
 
   position: static;
-  width: 218px;
+  width: 70%;
   height: 50px;
   left: calc(50% - 320px/2);
   top: 23px;
@@ -256,7 +256,7 @@
   /* or 133% */
   display: flex;
   align-items: center;
-  color: #545454;
+  color: #8A8A8A;
   align-items: start;
   flex-direction: column;
   margin-top: 5%;
@@ -277,8 +277,8 @@
 
 .textFieldsContainer {
   position: relative;
-  width: 320px;
-  margin: 7% 0; 
+  width: 100%;
+
 }
 .Modal{
   width: 100%;
@@ -357,10 +357,12 @@
   border: 1px solid #DCDCDC;
   background-color: white;
   height: 50px;
+  color:#000000;
 }
 
 .toggleButton.active {
   border: 1px solid #0072CE;
+  color:#0072CE;
 }
 
 .glassImgContainer {
@@ -509,12 +511,10 @@
 .cameraCancelButton {
   width: 152px;
   height: 50px;
-
   background: #FFFFFF;
   border: 1px solid #DCDCDC;
   box-sizing: border-box;
   border-radius: 4px;
-
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
@@ -523,7 +523,6 @@
   display: flex;
   align-items: center;
   text-align: center;
-
   color: #353535;
   justify-content: center;
 }
@@ -569,19 +568,16 @@
 }
 
 .cameraButtonsContainer {
-  width: 320px;
+  width: 100%;
   height: 50px;
   display: flex;
-  justify-content: space-around;
-
+  justify-content: center;
   position: fixed;
   bottom: 0;
   padding-bottom: 5%;
-  width: 100%;
   left: 0%;
   text-align: center;
   height: 12%;
-
 }
 
 .reopenCamera {
@@ -771,13 +767,13 @@
 }
 
 .moveCameraInfo {
-  /* display: flex; */
+  display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   padding: 0px;
   position: absolute;
-  width: 287px;
+  width: 100%;
   /* height: 264px; */
   /* left:calc((1920 / 2) - 143 ); */
   left: 20px;
@@ -786,11 +782,14 @@
 }
 .fontInfo1{
   width: 100%;
-  display: block;
+  /* display: block; */
+  display: flex;
+
 }
 .img1,.img2,.img3,.img4,.img5{
   background-color: #DCDCDC;
   border-radius: 50%;
+
 }
 
 .img1 {
@@ -1009,7 +1008,7 @@ input[type="checkbox"]{
 
 .info {
 display: flex;
-width: 305px;
+width: 100%;
 font-family: Noto Sans KR;
 font-style: normal;
 font-weight: 500;
@@ -1145,7 +1144,7 @@ color: #7F7F7F;
   order: 1;
   align-self: stretch;
   flex-grow: 0;
-  margin: 6px 0px;
+  /* margin: 6px 0px; */
 }
 
 
@@ -1153,7 +1152,7 @@ color: #7F7F7F;
 
 .sendInfoSuccess,
 .sendInfo {
-  width: 90px;
+  width: 25%;
   height: 50px;
   color: #FFFFFF;
 
@@ -1165,6 +1164,7 @@ color: #7F7F7F;
   font-weight: 500;
   font-size: 15px;
   line-height: 22px;
+
   /* display: flex; */
   align-items: center;
   text-align: center;
@@ -1177,7 +1177,7 @@ color: #7F7F7F;
   order: 0;
   flex-grow: 0;
   margin-top: 30px;
-  margin-left: 15px;
+  margin-left: 5%;
   border:none;
 }
 .sendInfoSuccess{

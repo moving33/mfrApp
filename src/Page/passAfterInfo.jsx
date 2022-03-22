@@ -195,7 +195,7 @@ function PassAfterInfo() {
           <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
 
-          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom: "10%" }}>사번</div>
+          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom: "2%" }}>사번</div>
           <input className={style.inputPhone}
             // {...{ register, formName: "employeeNumber" }}
             // label="사번"

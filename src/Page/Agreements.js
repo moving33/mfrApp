@@ -145,6 +145,7 @@ const Agreements = () => {
             <td >{sendData1.contents2}</td>
           </tr>
         </table>
+        
         <div className={style.infoWrapper}>
           <div className={style.info}>{sendData1.contents3}</div>
           <div className={style.info} style={{marginTop:'3%'}}>

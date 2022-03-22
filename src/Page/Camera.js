@@ -87,14 +87,14 @@ function Camera() {
 
       console.log("_imgList B ::: ", _imgList);
 
-      _imgList[captureIdxRef.current] = { src: imageSrc  };
-      _imgList[(captureIdxRef.current)+1] = { src: imageSrc2 };
+      _imgList[captureIdxRef.current] = { src: imageSrc };
+      _imgList[(captureIdxRef.current) + 1] = { src: imageSrc2 };
 
       console.log("_imgList A ::: ", _imgList);
 
       setImgList(_imgList);
 
-      console.log('imgList',imgList);
+      console.log('imgList', imgList);
       clearInterval(intervalIdRef.current);
 
       setStep(2);
@@ -130,7 +130,7 @@ function Camera() {
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
       const _webFace = await net.estimateFaces(video);
-      
+
       console.log('_webFace', _webFace);
 
       if (_webFace.length === 1) {
@@ -193,7 +193,7 @@ function Camera() {
 
     if (imgList.length === 4) {
 
-      const img  = imgList[0].src.split(',')[1];
+      const img = imgList[0].src.split(',')[1];
       const img2 = imgList[1].src.split(',')[1];
       const img3 = imgList[2].src.split(',')[1];
       const img4 = imgList[3].src.split(',')[1];
@@ -242,7 +242,7 @@ function Camera() {
     }
     if (imgList.length === 2) {
 
-      const img  = imgList[0].src.split(',')[1];
+      const img = imgList[0].src.split(',')[1];
       const img2 = imgList[1].src.split(',')[1];
 
       payload = {
@@ -360,7 +360,7 @@ function Camera() {
   return (
     <>
       {step === 0 && (
-        <div className={style.container}>
+        <div className={style.container} style={{alignItems:"center"}}>
           <Box step={3} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
           {/* <WrieframeSvg
             className={`${style.wireframeIcon} ${step === 1 ? style.detected : ""
@@ -458,11 +458,11 @@ function Camera() {
 
       {step === 2 && (
         <div className={style.container}>
-          {data?.isGlass && imgList.length < 2 && (
+          {data?.isGlass && imgList.length < 4 && (
             <Box step={4} text1="안경을 벗고" text2="한번 더 찍어주세요" />
           )}
-          {((data?.isGlass && imgList.length === 2) ||
-            (!data?.isGlass && imgList.length === 1)) && (
+          {((data?.isGlass && imgList.length === 4) ||
+            (!data?.isGlass && imgList.length === 2)) && (
               <Box step={4} text1="사진이 잘 찍혔는지" text2="확인해주세요" />
             )}
           <div className={style.group17}></div>
@@ -534,20 +534,27 @@ function Camera() {
             </>
           )}
 
-          <div className={style.cameraButtonsContainer}>
-            <button onClick={cancel} className={style.cameraCancelButton}>
-              등록 취소
-              { }
-            </button>
-            <button
-              onClick={submit}
-              className={style.cameraSubmitButton}
-              disabled={
-                data.isGlass ? imgList.length !== 4 : imgList.length !== 2
-              }
-            >
-              사진 등록
-            </button>
+          <div style={{ justifyContent: 'center' }}>
+            <div className={style.cameraButtonsContainer}>
+              <button
+                onClick={cancel}
+                className={style.cameraCancelButton}
+                style={{marginRight:'2%'}}
+              >
+                등록 취소
+                { }
+              </button>
+              <button
+                onClick={submit}
+                className={style.cameraSubmitButton}
+                style={{marginLeft:'2%'}}
+                disabled={
+                  data.isGlass ? imgList.length !== 4 : imgList.length !== 2
+                }
+              >
+                사진 등록
+              </button>
+            </div>
           </div>
 
         </div>

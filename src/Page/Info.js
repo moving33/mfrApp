@@ -93,7 +93,7 @@ function Info() {
   useEffect(() => {
 
     // if (!isMobile) history.push("/weberrorpage");
-
+    //css수정
     const { workplace } = qs.parse(window.location.search.slice(1));
 
     console.log(" workplace : ", workplace);
@@ -132,7 +132,8 @@ function Info() {
         });
       })
       .catch((err) => {
-        history.push("/errorpage")
+        //css
+        //history.push("/errorpage")
       });
 
   }, []);
@@ -219,7 +220,7 @@ function Info() {
           <Input label="이름" value={name} onChange={nameHandler} />
           {//{defaultState?.name || ""}}
           }
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", justifyContent:'space-between' }}>
             <InputTel label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" />
             {/* <Input label="전화번호"  onChange={inputPasswordHandler} className={style.inputPhone}/> */}
             {/* <button className={style.sendInfo} onClick={()=>{StartPass()}}>인증요청</button> */}

@@ -26,7 +26,7 @@ const CheckTextFields = () => {
     return (
 
         <div className={style.textFieldsContainer}>
-            {/* <div className={style.moveCameraInfo}> */}
+
                 <div className={style.moveCameraInfo}>
                     <div className={style.fontInfo1}>
                         <img src={UserFocus} className={style.img1}/>
@@ -55,7 +55,7 @@ const CheckTextFields = () => {
                         <div className={style.subTitle1}>(안경착용)으로 촬영해 주세요</div>
                     </div>
                 </div>
-            {/* </div> */}
+
         </div>
     )
 }
