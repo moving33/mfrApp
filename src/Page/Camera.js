@@ -50,6 +50,7 @@ function Camera() {
   const [capturePlay, setCapturePlay] = useState(false);
   const [open, setOpen] = useState(false);
 
+  const noneSubmitImageList = []
 
   useEffect(() => {
     const { q } = qs.parse(window.location.search.slice(1));
@@ -68,6 +69,7 @@ function Camera() {
   };
 
   const handleCaptureComplete = (detected) => {
+
     setReady(false);
     setDetected(false);
     setCaptured(false);
@@ -76,25 +78,35 @@ function Camera() {
     if (!webcamRef.current || !detected) {
       return;
     }
+
     const _imgList = JSON.parse(JSON.stringify(imgList));
     const imageSrc = webcamRef.current.getScreenshot({ height: 512 });
-
+    if(captureIdxRef.current >= 1){
+      _imgList[(captureIdxRef.current) + 2]= { src: imageSrc };
+    }else{
+      _imgList[captureIdxRef.current]       = { src: imageSrc };
+    }
+    
+    console.log("_imgList first  ::: ", _imgList);
     setTimeout(() => {
+
+      
       const imageSrc2 = webcamRef.current.getScreenshot({ height: 512 });
+      console.log("_imgList Before ::: ", _imgList);
+      if(captureIdxRef.current >= 2){
+        _imgList[(captureIdxRef.current) + 3] = { src: imageSrc2 };
+      }else{
+        _imgList[(captureIdxRef.current) + 1] = { src: imageSrc2 };
+      }
+      console.log("_imgList After  ::: ", _imgList);
+      console.log(captureIdxRef.current);
 
-      console.log("imageSrc  ::: ", imageSrc);
-      console.log("imageSrc2 ::: ", imageSrc2);
-
-      console.log("_imgList B ::: ", _imgList);
-
-      _imgList[captureIdxRef.current] = { src: imageSrc };
-      _imgList[(captureIdxRef.current) + 1] = { src: imageSrc2 };
-
-      console.log("_imgList A ::: ", _imgList);
+      noneSubmitImageList.push(_imgList);
 
       setImgList(_imgList);
 
-      console.log('imgList', imgList);
+      console.log('noneSubmitImageList', noneSubmitImageList);
+
       clearInterval(intervalIdRef.current);
 
       setStep(2);
@@ -131,7 +143,7 @@ function Camera() {
       webcamRef.current.video.height = videoHeight;
       const _webFace = await net.estimateFaces(video);
 
-      console.log('_webFace', _webFace);
+      // console.log('_webFace', _webFace);
 
       if (_webFace.length === 1) {
 
@@ -187,13 +199,13 @@ function Camera() {
 
   const submit = () => {
 
-    console.log('imgListtttttt', imgList);
+    console.log('submit ImgList', imgList);
 
     let payload = {}
 
     if (imgList.length === 4) {
 
-      const img = imgList[0].src.split(',')[1];
+      const img  = imgList[0].src.split(',')[1];
       const img2 = imgList[1].src.split(',')[1];
       const img3 = imgList[2].src.split(',')[1];
       const img4 = imgList[3].src.split(',')[1];
@@ -242,7 +254,7 @@ function Camera() {
     }
     if (imgList.length === 2) {
 
-      const img = imgList[0].src.split(',')[1];
+      const img  = imgList[0].src.split(',')[1];
       const img2 = imgList[1].src.split(',')[1];
 
       payload = {
