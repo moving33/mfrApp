@@ -91,11 +91,7 @@ function Camera() {
 
       const imageSrc2 = webcamRef.current.getScreenshot({ height: 512 });
 
-      if(_imgList.length < 2){
         _imgList[(captureIdxRef.current)+2] = { src: imageSrc2 };
-      }else {
-        _imgList[(captureIdxRef.current)+2] = { src: imageSrc2 };
-      }
       
       console.log("_imgList After  ::: ", _imgList);
 
@@ -244,7 +240,7 @@ function Camera() {
     if (imgList.length === 2) {
 
       const img  = imgList[0].src.split(',')[1];
-      const img2 = imgList[1].src.split(',')[1];
+      const img2 = imgList[2].src.split(',')[1];
 
       payload = {
         step_idx: data.step_idx,
