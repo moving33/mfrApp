@@ -27,9 +27,6 @@ const TestPage = () => {
 
       <button onClick={() => { setOpen(!open) }}>open</button>
       {open && <Modal open={open} setOpen={setOpen} nextBtn={nextBtn} />}
-      {/* {open === true
-  ?<Modal open={open} close={close} ref={testRef}/>
-  :null} */}
     </div>
   );
 };

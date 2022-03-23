@@ -60,7 +60,7 @@ function ProgressCircle({capturePlay, onComplete, detected}) {
   useEffect(() => {
     return () => {
       for(const timeoutId of timeoutIds?.current) {
-        console.log(timeoutId);
+        // console.log(timeoutId);
         clearTimeout(timeoutId);
       }
     }

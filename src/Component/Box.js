@@ -10,7 +10,7 @@ const Box = ({ step, text1, text2 }) => {
         <Bar active={step > 2} />
         <Bar active={step > 3} />
       </div>
-      <div className={style.inputInfo}>
+      <div className={style.inputInfo} style={{marginBottom:'3%'}}>
         <p>{text1}</p>
         <p>{text2}</p>
       </div>

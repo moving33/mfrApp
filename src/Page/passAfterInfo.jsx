@@ -182,14 +182,16 @@ function PassAfterInfo() {
           <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} />
           {//{defaultState?.name || ""}}
           }
-          <div style={{ display: "flex" }}>
-            <InputTel label="전화번호" value={defaultState?.tel || tel} onChange={telHandler} className={style.inputPhone} />
-
-
-            <button
-              className={style.sendInfoSuccess}
-              onClick={PassButton}
-            >인증 완료</button>
+          <div style={{marginBottom:'1%'}}>
+            <label>전화번호</label>
+            <div style={{ display: "flex" }}>
+              {/* <InputTel label="전화번호" value={defaultState?.tel || tel} onChange={telHandler} className={style.inputPhone} /> */}
+              <input label="전화번호" value={defaultState?.tel || tel} onChange={telHandler} className={style.inputPhone} type="number" style={{ width: '70%' }} />
+              <button
+                className={style.sendInfoSuccess}
+                onClick={PassButton}
+              >인증 완료</button>
+            </div>
           </div>
 
           <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
@@ -205,7 +207,7 @@ function PassAfterInfo() {
           />
           <div className={style.submitButtonWrapper} style={{ position: 'relative', marginTop: '15%' }}>
             <button className={style.submitButton}
-              style={{ width: '90%' }}
+              style={{ width: '100%' }}
               type="submit"
               label={"다음"}
               onClick={() => { onSubmit(defaultState?.site_name, defaultState?.name, defaultState?.tel, company, emNum) }}

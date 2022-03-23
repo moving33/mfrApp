@@ -39,7 +39,7 @@ function Select() {
   }, [window.location.href]);
   
   return (
-    <div className={style.container} style={{alignItems:'center'}}>
+    <div className={style.container} style={{alignItems:'center', paddingTop:'10%' }}>
 
       <Box step={3} text1="안경을" text2="쓰고 있나요?" />
       <SubBox text1="인식률을 높이기 위해" text2="안경 쓴 등록자는 두번 촬영합니다." />

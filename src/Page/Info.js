@@ -203,8 +203,7 @@ function Info() {
 
   return (
     // <MobileView></MobileView>
-    <div>
-
+    <div style={{paddingTop:'5%'}}>
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
         <input type="hidden" name="EncodeData" value={encData} />
@@ -220,15 +219,16 @@ function Info() {
           <Input label="이름" value={name} onChange={nameHandler} />
           {//{defaultState?.name || ""}}
           }
-          <div style={{ display: "flex", width: '100%', justifyContent: 'space-between' }}>
-              <InputTel label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" />
-              {/* <input label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" style={{ width: '70%' }} /> */}
+          <div style={{marginBottom:'1%'}}><label>전화번호</label>
+            <div style={{ display: "flex", width: '100%' }}>
+              {/* <InputTel label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" /> */}
+              <input label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" style={{ width: '70%' }} />
               <button
                 className={style.sendInfo}
                 onClick={PassButton}
                 style={{ backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC" }}
               >인증 요청</button>
-
+            </div>
           </div>
 
           <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
@@ -241,7 +241,7 @@ function Info() {
             onChange={emNumHandler}
           />
 
-          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width:'90%' }} />
+          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width: '90%' }} />
           {/* </form> */}
         </div>
         {

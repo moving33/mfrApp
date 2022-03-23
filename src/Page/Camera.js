@@ -68,6 +68,8 @@ function Camera() {
     setCapturePlay(true);
   };
 
+  const _imgList = JSON.parse(JSON.stringify(imgList));
+
   const handleCaptureComplete = (detected) => {
 
     setReady(false);
@@ -79,33 +81,27 @@ function Camera() {
       return;
     }
 
-    const _imgList = JSON.parse(JSON.stringify(imgList));
     const imageSrc = webcamRef.current.getScreenshot({ height: 512 });
-    if(captureIdxRef.current >= 1){
-      _imgList[(captureIdxRef.current) + 2]= { src: imageSrc };
-    }else{
-      _imgList[captureIdxRef.current]       = { src: imageSrc };
-    }
-    
-    console.log("_imgList first  ::: ", _imgList);
+
+      _imgList[captureIdxRef.current] = { src: imageSrc };
+
+    console.log("_imgList Before ::: ", _imgList);
+
     setTimeout(() => {
 
-      
       const imageSrc2 = webcamRef.current.getScreenshot({ height: 512 });
-      console.log("_imgList Before ::: ", _imgList);
-      if(captureIdxRef.current >= 2){
-        _imgList[(captureIdxRef.current) + 3] = { src: imageSrc2 };
-      }else{
-        _imgList[(captureIdxRef.current) + 1] = { src: imageSrc2 };
+
+      if(_imgList.length < 2){
+        _imgList[(captureIdxRef.current)+2] = { src: imageSrc2 };
+      }else {
+        _imgList[(captureIdxRef.current)+2] = { src: imageSrc2 };
       }
+      
       console.log("_imgList After  ::: ", _imgList);
+
       console.log(captureIdxRef.current);
 
-      noneSubmitImageList.push(_imgList);
-
       setImgList(_imgList);
-
-      console.log('noneSubmitImageList', noneSubmitImageList);
 
       clearInterval(intervalIdRef.current);
 
@@ -117,13 +113,6 @@ function Camera() {
 
   const runFacemesh = async () => {
     const net = await blazeface.load();
-    // const net = await facemesh.load({
-    //   inputResolution: {
-    //     width: 3200,
-    //     height: 2400,
-    //   },
-    //   scale: 0.8,
-    // });
 
     intervalIdRef.current = setInterval(() => {
       detect(net);
@@ -343,15 +332,19 @@ function Camera() {
         // ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy);
         const _imgList = JSON.parse(JSON.stringify(imgList));
 
-        _imgList[captureIdxRef.current] = {
-          ...imgList[captureIdxRef.current],
-          croped: canvas.toDataURL(),
-        };
+          _imgList[captureIdxRef.current] = {
+            ...imgList[captureIdxRef.current],
+            croped: canvas.toDataURL(),
+          };
+
+        console.log('_imgList croped',_imgList);
+
         setImgList(_imgList);
       };
 
       imageObj.src = imgList[captureIdxRef.current].src;
     }
+
   }, [step]);
 
 
@@ -372,12 +365,8 @@ function Camera() {
   return (
     <>
       {step === 0 && (
-        <div className={style.container} style={{alignItems:"center"}}>
+        <div className={style.container} style={{alignItems:"center", paddingTop:'5%'}}>
           <Box step={3} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
-          {/* <WrieframeSvg
-            className={`${style.wireframeIcon} ${step === 1 ? style.detected : ""
-              }`}
-          /> */}
           <CheckTextFields />
           <form className={style.mainForm}>
             <SubmitButton
@@ -469,7 +458,7 @@ function Camera() {
       )}
 
       {step === 2 && (
-        <div className={style.container}>
+        <div className={style.container} style={{paddingTop:'5%'}}>
           {data?.isGlass && imgList.length < 4 && (
             <Box step={4} text1="안경을 벗고" text2="한번 더 찍어주세요" />
           )}
@@ -478,6 +467,9 @@ function Camera() {
               <Box step={4} text1="사진이 잘 찍혔는지" text2="확인해주세요" />
             )}
           <div className={style.group17}></div>
+
+
+
 
           {!data?.isGlass && imgList[0]?.croped && (
             <div className={style.confirmImageContainer} style={{ textAlign: 'center' }}>
@@ -494,11 +486,16 @@ function Camera() {
             </div>
           )}
 
+
+
+
           {data?.isGlass && (
             <>
               {imgList[0]?.croped && (
                 <div className={style.confirmImageContainer2Wrapper}>
+
                   <div className={style.confirmImageContainer2}>
+
                     {imgList[0]?.croped && (
                       <img
                         src={imgList[0]?.croped}
@@ -515,6 +512,7 @@ function Camera() {
                       다시찍기
                     </div>
                   </div>
+
                   <div className={style.confirmImageContainer2}>
                     {imgList[1]?.croped && (
                       <img
@@ -536,6 +534,7 @@ function Camera() {
                           reopenCamera(1);
                         }}
                       >
+
                         <img src={cameraPng} className={style.cameraImage} style={{}} />
                         다시찍기
                       </div>
