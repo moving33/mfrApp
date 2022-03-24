@@ -133,7 +133,7 @@ input::placeholder{
   background: #F2F2F2;
 }
 .primaryInput::placeholder{
-  padding: 0px 13px 0px 3px;
+  padding: 0px 13px 0px 2px;
 }
 
 .primaryInputTel {
@@ -171,7 +171,7 @@ input::placeholder{
   background: #F2F2F2;
 }
 .primaryInputTel::placeholder{
-  padding: 0px 13px 0px 3px;
+  padding: 0px 13px 0px 2px;
 }
 
 .mainForm {
@@ -1040,22 +1040,16 @@ color: #7F7F7F;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 13px 0px 16px;
-
+  padding: 0px 13px 0px 13px;
   position: static;
-  
   height: 50px;
   left: calc(50% - 320px/2);
   top: 23px;
-
   background: #FFFFFF;
   border: 1px solid #DCDCDC;
-
   box-sizing: border-box;
   border-radius: 2px;
-
   /* Inside Auto Layout */
-
   flex: none;
   /* order: 1; */
   align-self: stretch;
@@ -1066,7 +1060,7 @@ color: #7F7F7F;
   border: 1px solid #0072CE;
 }
 .inputPhone::placeholder{
-  padding: 0px 13px 0px 3px;
+  padding: 0px 13px 0px 2px;
 }
 
 
@@ -1116,17 +1110,14 @@ color: #7F7F7F;
   height: 50px;
   left: calc(50% - 320px/2);
   top: 23px;
-
   background: #FFFFFF;
   border: 1px solid #DCDCDC;
-
   box-sizing: border-box;
   border-radius: 2px;
 
   /* Inside Auto Layout */
   background: url('../Image/Open.png') no-repeat 95% 50%;
   appearance: none;
-
   flex: none;
   order: 1;
   align-self: stretch;
@@ -1135,6 +1126,11 @@ color: #7F7F7F;
 }
 
 .selectCompany:focus{
+  border: 2px solid #0072CE;
+  background: url('../Image/blueArrow.png') no-repeat 97% 50%;
+}
+
+.selectCompany:focus-visible{
   border: 1px solid #0072CE;
   background: url('../Image/blueArrow.png') no-repeat 97% 50%;
 }

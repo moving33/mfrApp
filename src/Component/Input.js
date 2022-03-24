@@ -15,7 +15,6 @@ function Input(props) {
           {...props}
           {...(typeof props?.register === 'function' ? props?.register(props.formName) : {})}
         />
-
       </div>
     </div>
 
