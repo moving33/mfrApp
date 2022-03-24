@@ -25,7 +25,6 @@ bottom: 0%;
   display: flex;
   flex-direction: column;
   /* align-items: center; */
-
 }
 
 .cirtificationList {
@@ -781,165 +780,43 @@ bottom: 0%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  padding: 0px;
-  position: absolute;
+  justify-content: flex-start;
+  margin-top:10%;
   width: 100%;
-  height: 264px;
-  /* left:calc((1920 / 2) - 143 ); */
-  left: 20px;
-  top:130px;
+  height: 100%;
   font-size: 15px;
+  /* flex-direction: row; */
+  /* justify-content: center; */
+  /* left:calc((1920 / 2) - 143 ); */
+  /* left: 5%; */
+  /* top:130px; */
+  /* position: absolute; */
 }
 .fontInfo1{
   width: 100%;
-  /* display: block; */
   display: flex;
-
+  flex-direction: row;
+  justify-content: flex-start;
+  margin-bottom: 8%;
 }
-.img1,.img2,.img3,.img4,.img5{
-  background-color: #DCDCDC;
+.img{
+  /* background-color: #DCDCDC; */
   border-radius: 50%;
-
-}
-
-.img1 {
-  position:absolute;
-  top: -110px;
 }
 
 .title9 {
-  position: absolute;
-  top: -103px;
-  left: 50px;
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 22px;
   /* identical to box height, or 147% */
-
   display: flex;
-  align-items: flex-end;
 
   color: #353535;
 }
 
-.img2 {
-  position:absolute;
-  top: -55px;
-}
 
-.title2 {
-  position: absolute;
-  top: -50px;
-  left: 50px;
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 22px;
-  /* identical to box height, or 147% */
-
-  display: flex;
-  align-items: flex-end;
-
-  color: #353535;
-}
-
-.img3 {
-  position:absolute;
-  top: 10px;
-}
-
-.title3 {
-  position: absolute;
-  top: 3px;
-  left: 50px;
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 22px;
-  /* identical to box height, or 147% */
-
-  display: flex;
-  align-items: flex-end;
-
-  color: #353535;
-}
-
-.subTitle {
-  position: absolute;
-  top: 30px;
-  left: 50px;
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 22px;
-  display: flex;
-  align-items: flex-end;
-  color: #353535;
-}
-
-.img4 {
-  position:absolute;
-  top: 75px;
-}
-
-.title4 {
-  position: absolute;
-  top: 80px;
-  left: 50px;
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 22px;
-  /* identical to box height, or 147% */
-
-  display: flex;
-  align-items: flex-end;
-
-  color: #353535;
-}
-
-.img5 {
-  position:absolute;
-  top: 143px;
-}
-
-.title5 {
-  position: absolute;
-  top: 135px;
-  left: 50px;
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 22px;
-  /* identical to box height, or 147% */
-
-  display: flex;
-  align-items: flex-end;
-
-  color: #353535;
-}
-
-.subTitle1 {
-  position: absolute;
-  top: 165px;
-  left: 50px;
-  font-family: Noto Sans KR;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 15px;
-  line-height: 22px;
-  display: flex;
-  align-items: flex-end;
-  color: #353535;
-}
 
 input[type="checkbox"]{
   width: 20px;

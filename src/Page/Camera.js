@@ -83,7 +83,7 @@ function Camera() {
 
     const imageSrc = webcamRef.current.getScreenshot({ height: 512 });
 
-      _imgList[captureIdxRef.current] = { src: imageSrc };
+    _imgList[captureIdxRef.current] = { src: imageSrc };
 
     console.log("_imgList Before ::: ", _imgList);
 
@@ -91,8 +91,8 @@ function Camera() {
 
       const imageSrc2 = webcamRef.current.getScreenshot({ height: 512 });
 
-        _imgList[(captureIdxRef.current)+2] = { src: imageSrc2 };
-      
+      _imgList[(captureIdxRef.current) + 2] = { src: imageSrc2 };
+
       console.log("_imgList After  ::: ", _imgList);
 
       console.log(captureIdxRef.current);
@@ -190,7 +190,7 @@ function Camera() {
 
     if (imgList.length === 4) {
 
-      const img  = imgList[0].src.split(',')[1];
+      const img = imgList[0].src.split(',')[1];
       const img2 = imgList[1].src.split(',')[1];
       const img3 = imgList[2].src.split(',')[1];
       const img4 = imgList[3].src.split(',')[1];
@@ -239,7 +239,7 @@ function Camera() {
     }
     if (imgList.length === 2) {
 
-      const img  = imgList[0].src.split(',')[1];
+      const img = imgList[0].src.split(',')[1];
       const img2 = imgList[2].src.split(',')[1];
 
       payload = {
@@ -328,12 +328,12 @@ function Camera() {
         // ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy);
         const _imgList = JSON.parse(JSON.stringify(imgList));
 
-          _imgList[captureIdxRef.current] = {
-            ...imgList[captureIdxRef.current],
-            croped: canvas.toDataURL(),
-          };
+        _imgList[captureIdxRef.current] = {
+          ...imgList[captureIdxRef.current],
+          croped: canvas.toDataURL(),
+        };
 
-        console.log('_imgList croped',_imgList);
+        console.log('_imgList croped', _imgList);
 
         setImgList(_imgList);
       };
@@ -361,13 +361,14 @@ function Camera() {
   return (
     <>
       {step === 0 && (
-        <div className={style.container} style={{width:'100wv', height:'100vh',alignItems:"center", paddingTop:'10%'}}>
+        <div className={style.container} style={{ paddingTop: '10%' }}>
 
           <Box step={4} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
+          <div>
+            <CheckTextFields />
+          </div>
 
-          <CheckTextFields />
-          
-          <form className={style.mainForm} style={{bottom:'10%', position:'absolute'}}>
+          <form className={style.mainForm} style={{bottom:0, marginTop:'20%'}}>
             <SubmitButton
               type="button"
               label={"촬영하기"}
@@ -458,7 +459,7 @@ function Camera() {
       )}
 
       {step === 2 && (
-        <div className={style.container} style={{paddingTop:'5%'}}>
+        <div className={style.container} style={{ paddingTop: '5%' }}>
           {data?.isGlass && imgList.length < 4 && (
             <Box step={5} text1="안경을 벗고" text2="한번 더 찍어주세요" />
           )}
@@ -550,7 +551,7 @@ function Camera() {
               <button
                 onClick={cancel}
                 className={style.cameraCancelButton}
-                style={{marginRight:'2%'}}
+                style={{ marginRight: '2%' }}
               >
                 등록 취소
                 { }
@@ -558,7 +559,7 @@ function Camera() {
               <button
                 onClick={submit}
                 className={style.cameraSubmitButton}
-                style={{marginLeft:'2%'}}
+                style={{ marginLeft: '2%' }}
                 disabled={
                   data.isGlass ? imgList.length !== 4 : imgList.length !== 2
                 }
