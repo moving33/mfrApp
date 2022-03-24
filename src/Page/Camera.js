@@ -237,7 +237,7 @@ function Camera() {
         }],
       }
     }
-    if (imgList.length === 2) {
+    if (imgList.length === 3) {
 
       const img = imgList[0].src.split(',')[1];
       const img2 = imgList[2].src.split(',')[1];

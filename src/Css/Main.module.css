@@ -642,7 +642,9 @@ input::placeholder{
   flex-grow: 0;
   margin: 0px 6px;
   justify-content: center;
-  margin: 7%;
+  margin: 1%;
+  margin-left: -10%;
+  margin-top: -5%;
 }
 
 .confirmImageContainer {
