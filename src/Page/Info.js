@@ -214,7 +214,7 @@ function Info() {
         <div className={style.group17} style={{ marginBottom: "10%" }}></div>
 
         <div>
-          <Input label="사업장" value={defaultState?.site_name || ""} disable="true" background={'#F2F2F2'} color={'#B2B2B2'} />
+          <Input label="사업장" value={defaultState?.site_name || ""} disable="true" background={'#F2F2F2'} color={'#B2B2B2'}  title='true' />
           <Input label="이름" placeholder={"이름을 입력해 주세요"} value={name} onChange={nameHandler} />
 
           <div style={{ marginBottom: '1%' }}><label>전화번호</label>

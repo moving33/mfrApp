@@ -178,7 +178,7 @@ function PassAfterInfo() {
 
         {/* <form className={style.mainForm} onSubmit={handleSubmit(onSubmit)}> */}
         <div>
-          <Input label="사업장" value={defaultState?.site_name || ""} disable  background={'#F2F2F2'} color={'#B2B2B2'}/>
+          <Input label="사업장" value={defaultState?.site_name || ""} disable  background={'#F2F2F2'} color={'#B2B2B2'} title='true'/>
           <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} />
           {//{defaultState?.name || ""}}
           }
@@ -199,8 +199,6 @@ function PassAfterInfo() {
 
           <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom: "2%" }}>사번</div>
           <input className={style.inputPhone}
-            // {...{ register, formName: "employeeNumber" }}
-            // label="사번"
             placeholder="사번을 입력해주세요"
             value={emNum}
             onChange={emNumHandler}
