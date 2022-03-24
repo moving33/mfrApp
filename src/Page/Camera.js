@@ -432,7 +432,7 @@ function Camera() {
 
             {detected === true
               ? <div className={style.webcamInfoText}>
-                <span>얼굴을 정면으로 응시해주세요</span>
+                <span>정면을 계속 응시해주세요</span>
                 <ProgressCircle
                   capturePlay={capturePlay}
                   onComplete={handleCaptureComplete}
@@ -441,7 +441,7 @@ function Camera() {
                 />
               </div>
               : <div className={style.webcamInfoText}>
-                <span>눈, 코, 입이 보이게 촬영해주세요</span>
+                <span>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 맞춰 촬영해주세요</span>
                 <ProgressCircle
                   capturePlay={capturePlay}
                   onComplete={handleCaptureComplete}
