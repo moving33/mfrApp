@@ -590,7 +590,7 @@ const CameraModal = ({ text1, text2, Disagree, open, setStep }) => {
           <p style={{ margin: 'auto' }}>{text2}</p>
         </div>
         <div className={style.ButtonWrapper}>
-          <button className={style.NasoantralModalButton} onClick={() => { Disagree(!open); setStep(1) }} >촬영하기</button>
+          <button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1) }} >촬영하기</button>
         </div>
       </div>
     </div>
