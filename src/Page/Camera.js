@@ -321,7 +321,7 @@ function Camera() {
         const dx = 0;
         const dy = 0;
         //안에 들어오는 이미지의 크기
-        const dw = 1000; //1000 670
+        const dw = 900; //1000 670
         const dh = 1000; //1000
 
         ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy, dw, dh);
@@ -555,7 +555,7 @@ function Camera() {
                 className={style.cameraSubmitButton}
                 style={{ marginLeft: '2%' }}
                 disabled={
-                  data.isGlass ? imgList.length !== 4 : imgList.length !== 2
+                  data.isGlass ? imgList.length !== 4 : imgList.length !== 3
                 }
               >
                 사진 등록
