@@ -545,7 +545,7 @@ function Camera() {
               <button
                 onClick={cancel}
                 className={style.cameraCancelButton}
-                style={{ marginRight: '2%' }}
+                style={{ marginRight: '1%' }}
               >
                 등록 취소
                 { }
@@ -553,7 +553,7 @@ function Camera() {
               <button
                 onClick={submit}
                 className={style.cameraSubmitButton}
-                style={{ marginLeft: '2%' }}
+                style={{ marginLeft: '1%' }}
                 disabled={
                   data.isGlass ? imgList.length !== 4 : imgList.length !== 3
                 }

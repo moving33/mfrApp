@@ -8,14 +8,16 @@ function InputTel(props) {
     <div className={style.mainFormItem}>
       <div>{props.label}</div>
       <div>
-        <input 
-          className={style.primaryInputTel}
-          {...props}
-          {...(typeof props?.register === 'function' ? props?.register(props.formName) : {})}
-        />
+        <div className={style.inputTeam}>
+          <input
+            className={style.primaryInputTel}
+            {...props}
+            {...(typeof props?.register === 'function' ? props?.register(props.formName) : {})}
+          />
+        </div>
       </div>
     </div>
-    
+
   )
 }
 

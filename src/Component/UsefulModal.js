@@ -10,8 +10,9 @@ const UsefulModal = ({ text1, text2, text3, Disagree, open }) => {
           <p>{text2}</p>
           <p>{text3}</p>
         </div>
+
         <div className={style.ButtonWrapper}>
-          <button className={style.NasoantralModalButton} onClick={() => { Disagree(!open) }} >뒤로가기</button>
+          <button className={style.usefulModalButton} onClick={() => { Disagree(!open) }} >뒤로가기</button>
         </div>
       </div>
     </div>

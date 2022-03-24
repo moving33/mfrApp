@@ -174,8 +174,12 @@ const Agreements = () => {
           </tr>
         </table>
       </div>
-
-      <SubmitButton label={"동의합니다"} onClick={handleClick} />
+{
+  !(checkedInputs.includes('check','check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2')) 
+  ?<SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
+  :<SubmitButton label={"동의합니다"} onClick={handleClick} />
+}
+      
 
       {/* {
         open === true

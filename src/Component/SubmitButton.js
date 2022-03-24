@@ -3,8 +3,6 @@ import style from "../Css/Main.module.css";
 
 
 function SubmitButton(props) {
-
-  console.log(props.onClick);
   
   return (
     <div className={style.submitButtonWrapper}>
@@ -14,6 +12,7 @@ function SubmitButton(props) {
         className={style.submitButton}
         {...props}
         value={props.label}
+        style={{backgroundColor:props?.color || '#0072ce', border:props.borderColor || '#0072ce', }}
       />
     </div>
   )
