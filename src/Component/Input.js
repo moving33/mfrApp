@@ -5,7 +5,7 @@ function Input(props) {
   return (
     <div className={style.mainFormItem}>
       <div>{props.label}</div>
-      <input 
+      <input
         className={style.primaryInput}
         placeholder={props?.placeholder}
         style={{background:props?.background || '#fff', color: props?.color || '#000'  }}

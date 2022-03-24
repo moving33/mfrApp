@@ -75,6 +75,7 @@ const CheckTextFields = () => {
                         <div className={style.title9}>(안경착용)으로 촬영해 주세요</div>
                     </div>
                 </div>
+                
             </div>
         </div>
     )

@@ -322,7 +322,7 @@ function Camera() {
         const dy = 0;
         //안에 들어오는 이미지의 크기
         const dw = 1000; //1000 670
-        const dh = 1500; //1000
+        const dh = 1000; //1000
 
         ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy, dw, dh);
         // ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy);
@@ -419,12 +419,6 @@ function Camera() {
                   style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
                 ></canvas>
               }
-
-              {/* <canvas
-                ref={canvasRef}
-                className={style.camera}
-                style={{ position: "absolute", zIndex: 3 }}
-              ></canvas> */}
               <Webcam
                 ref={webcamRef}
                 videoConstraints={videoConstraints}
@@ -464,7 +458,7 @@ function Camera() {
             <Box step={5} text1="안경을 벗고" text2="한번 더 찍어주세요" />
           )}
           {((data?.isGlass && imgList.length === 4) ||
-            (!data?.isGlass && imgList.length === 2)) && (
+            (!data?.isGlass && imgList.length === 3)) && (
               <Box step={5} text1="사진이 잘 찍혔는지" text2="확인해주세요" />
             )}
           <div className={style.group17}></div>

@@ -67,12 +67,13 @@ function Select() {
         }
         
       </div>
-
+      <div style={{marginTop:'5%'}}>
       {
         btnAble === false
         ?<SubmitButton label={'다음'} style={{backgroundColor:"#dcdcdc", borderColor:"#dcdcdc"}} />
         :<SubmitButton label={'다음'} onClick={handleClick} />
       }
+      </div>
 
     </div>
   )
