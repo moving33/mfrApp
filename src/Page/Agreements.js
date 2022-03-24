@@ -21,7 +21,7 @@ const Agreements = () => {
   const history = useHistory();
 
   const text1 = "얼굴사진 원본 정보 수집 이용 미동의 시 아래와 같이 일부 기능이 제한 됩니다";
-  const text2 = `01.\n 리더기가 업테이트 되는 경우 얼굴 인증 불가능 (얼굴 재 등록 필요)`;
+  const text2 = `01.\n 리더기가 업데이트 되는 경우 얼굴 인증 불가능 (얼굴 재 등록 필요)`;
   const text3 = '02.\n 다른 리더기에 매니저를 통한 사용자 정보 전송 불가능';
   const text4 = "계속 진행하시겠습니까?";
 
@@ -107,7 +107,7 @@ const Agreements = () => {
 
   return (
     <div className={style.container}>
-      <Box step={2} text1="개인정보" text2="수집/이용 동의" />
+      <Box step={2} text1="개인정보" text2="수집・이용 동의" /> 
       <div className={style.group17}></div>
       <div className={style.agree}>
         <input id="check" type="checkbox" style={{ marginRight: "10px" }}
