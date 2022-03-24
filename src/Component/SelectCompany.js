@@ -36,7 +36,7 @@ const SelectCompany = ({company, setCompany, selectKey, setSelectKey}) => {
   
   return (
     <div>
-        <select className={style.selectCompany} label="회사" defaultValue={selectKey} key={selectKey} onChange={selectKeyValue}>
+        <select className={style.selectCompany} label="회사" defaultValue={selectKey} key={selectKey} onChange={selectKeyValue} >
           {
             company.map((item) => {
               return (

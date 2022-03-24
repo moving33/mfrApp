@@ -321,7 +321,7 @@ function Camera() {
         const dx = 0;
         const dy = 0;
         //안에 들어오는 이미지의 크기
-        const dw = 900; //1000 670
+        const dw = 1000; //1000 670
         const dh = 1000; //1000
 
         ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy, dw, dh);
@@ -441,7 +441,7 @@ function Camera() {
                 />
               </div>
               : <div className={style.webcamInfoText}>
-                <span>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 맞춰 촬영해주세요</span>
+                <span style={{textAlign:'left'}}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
                 <ProgressCircle
                   capturePlay={capturePlay}
                   onComplete={handleCaptureComplete}
@@ -462,8 +462,6 @@ function Camera() {
               <Box step={5} text1="사진이 잘 찍혔는지" text2="확인해주세요" />
             )}
           <div className={style.group17}></div>
-
-
 
 
           {!data?.isGlass && imgList[0]?.croped && (
