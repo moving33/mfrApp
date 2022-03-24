@@ -178,7 +178,7 @@ function PassAfterInfo() {
 
         {/* <form className={style.mainForm} onSubmit={handleSubmit(onSubmit)}> */}
         <div>
-          <Input label="사업장" value={defaultState?.site_name || ""} disable />
+          <Input label="사업장" value={defaultState?.site_name || ""} disable  background={'#F2F2F2'} color={'#B2B2B2'}/>
           <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} />
           {//{defaultState?.name || ""}}
           }

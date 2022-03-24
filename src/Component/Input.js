@@ -7,6 +7,8 @@ function Input(props) {
       <div>{props.label}</div>
       <input 
         className={style.primaryInput}
+        placeholder={props?.placeholder}
+        style={{background:props?.background || '#fff', color: props?.color || '#000'  }}
         {...props}
         {...(typeof props?.register === 'function' ? props?.register(props.formName) : {})}
       />

@@ -63,15 +63,14 @@ const Agreements = () => {
 
   const handleClick = () => {
 
-    if(!(checkedInputs.includes('check','check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))) {
-      setCheckModal(!checkModal);
+    if(!(checkedInputs.includes('check','check2')) || 
+        !(checkedInputs.includes('check')) || 
+        !(checkedInputs.includes('check2'))) {
       return;
     }
-    // if(checkedInputs.includes('check') && !(checkedInputs.includes('check2'))){
-    // setOpen(!open);
-    // }else{
+
     nextBtn()
-    // }
+
   };
 
   const nextBtn = () => {
@@ -175,8 +174,10 @@ const Agreements = () => {
           </tr>
         </table>
       </div>
+
       <SubmitButton label={"동의합니다"} onClick={handleClick} />
-      {
+
+      {/* {
         open === true
         ?<AgreementsModal text1={text1} text2={text2} text3={text3} text4={text4} setOpen={setOpen} open={open} nextBtn={nextBtn} />
         :null
@@ -185,7 +186,7 @@ const Agreements = () => {
         checkModal === true
         ?<UsefulModal text1='필수 선택에 동의해 주셔야 합니다.' Disagree={setCheckModal} open={checkModal} />
         :null
-      }
+      } */}
     </div>
   );
 };

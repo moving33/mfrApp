@@ -361,10 +361,13 @@ function Camera() {
   return (
     <>
       {step === 0 && (
-        <div className={style.container} style={{alignItems:"center", paddingTop:'5%'}}>
-          <Box step={3} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
+        <div className={style.container} style={{width:'100wv', height:'100vh',alignItems:"center", paddingTop:'10%'}}>
+
+          <Box step={4} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
+
           <CheckTextFields />
-          <form className={style.mainForm}>
+          
+          <form className={style.mainForm} style={{bottom:'10%', position:'absolute'}}>
             <SubmitButton
               type="button"
               label={"촬영하기"}
@@ -373,6 +376,7 @@ function Camera() {
               }}
             />
           </form>
+
           {
             open === true
               ? <CameraModal open={open} Disagree={setOpen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'} />
@@ -456,11 +460,11 @@ function Camera() {
       {step === 2 && (
         <div className={style.container} style={{paddingTop:'5%'}}>
           {data?.isGlass && imgList.length < 4 && (
-            <Box step={4} text1="안경을 벗고" text2="한번 더 찍어주세요" />
+            <Box step={5} text1="안경을 벗고" text2="한번 더 찍어주세요" />
           )}
           {((data?.isGlass && imgList.length === 4) ||
             (!data?.isGlass && imgList.length === 2)) && (
-              <Box step={4} text1="사진이 잘 찍혔는지" text2="확인해주세요" />
+              <Box step={5} text1="사진이 잘 찍혔는지" text2="확인해주세요" />
             )}
           <div className={style.group17}></div>
 

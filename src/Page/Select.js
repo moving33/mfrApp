@@ -25,6 +25,7 @@ function Select() {
   const [btnAble, setBtnAble] = useState(false);
 
   const handleClick = () => {
+    console.log('asdasdadsadad');
     const { q } = qs.parse(window.location.search.slice(1));
     const _data = JSON.parse(utils.decode(q));
     console.log("_data :", _data);

@@ -11,6 +11,9 @@ import Input from "../Component/Input";
 import InputTel from "../Component/InputTel";
 import SubmitButton from "../Component/SubmitButton";
 
+import "../Css/Main.module.css";
+
+
 import UsefulModal from "../Component/UsefulModal";
 import AgreementsModal from "../Component/AgreementsModal";
 import Errorpage from './Errorpage'
@@ -192,18 +195,15 @@ function Info() {
       })
   };
 
-
   const handleCloseErrorPage = () => {
     setIsError(false);
   };
 
-
-  // value={defaultState?.name
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
     // <MobileView></MobileView>
-    <div style={{paddingTop:'5%'}}>
+    <div style={{ paddingTop: '5%' }}>
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
         <input type="hidden" name="EncodeData" value={encData} />
@@ -212,17 +212,15 @@ function Info() {
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="사번을 입력해주세요" />
         <div className={style.group17} style={{ marginBottom: "10%" }}></div>
-        {/* <button onClick={closeBtn}>닫기</button> */}
-        {/* <form className={style.mainForm} onSubmit={handleSubmit(onSubmit)}> */}
+
         <div>
-          <Input label="사업장" value={defaultState?.site_name || ""} disable />
-          <Input label="이름" value={name} onChange={nameHandler} />
-          {//{defaultState?.name || ""}}
-          }
-          <div style={{marginBottom:'1%'}}><label>전화번호</label>
+          <Input label="사업장" value={defaultState?.site_name || ""} disable="true" background={'#F2F2F2'} color={'#B2B2B2'} />
+          <Input label="이름" placeholder={"이름을 입력해 주세요"} value={name} onChange={nameHandler} />
+
+          <div style={{ marginBottom: '1%' }}><label>전화번호</label>
             <div style={{ display: "flex", width: '100%' }}>
-              {/* <InputTel label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" /> */}
-              <input label="전화번호" value={tel} onChange={telHandler} className={style.inputPhone} type="number" style={{ width: '70%' }} />
+
+              <input label="전화번호" value={tel} onChange={telHandler} placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
               <button
                 className={style.sendInfo}
                 onClick={PassButton}
@@ -236,12 +234,12 @@ function Info() {
           <Input
             {...{ register, formName: "employeeNumber" }}
             label="사번"
-            placeholder="인증을 하셔야 사번입력이 가능합니다"
+            placeholder="사번을 입력해 주세요"
             value={emNum}
             onChange={emNumHandler}
           />
 
-          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width: '90%' }} />
+          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width: '100%' }} />
           {/* </form> */}
         </div>
         {
