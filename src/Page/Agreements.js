@@ -107,7 +107,7 @@ const Agreements = () => {
 
   return (
     <div className={style.container}>
-      <Box step={2} text1="개인정보" text2="수집・이용 동의" /> 
+      <Box step={2} text1="개인정보" text2="수집•이용 동의" /> 
       <div className={style.group17}></div>
       <div className={style.agree}>
         <input id="check" type="checkbox" style={{ marginRight: "10px" }}
@@ -136,12 +136,12 @@ const Agreements = () => {
         </div>
         <table className={style.tableWrapper}>
           <tr>
-            <th>수집•이용 목적</th>
-            <td >{sendData1.contents1}</td>
+            <th style={{fontSize:'12px'}}>수집•이용 목적</th>
+            <td style={{fontSize:'12px'}}>{sendData1.contents1}</td>
           </tr>
           <tr>
-            <th>보유 및 이용 기간</th>
-            <td >{sendData1.contents2}</td>
+            <th style={{fontSize:'12px'}}>보유 및 이용 기간</th>
+            <td style={{fontSize:'12px'}}>{sendData1.contents2}</td>
           </tr>
         </table>
         
@@ -165,12 +165,12 @@ const Agreements = () => {
         </div>
         <table className={style.tableWrapper}>
           <tr>
-            <th>수집•이용 목적</th>
-            <td >{sendData1.contents4}</td>
+            <th style={{fontSize:'12px'}}>수집•이용 목적</th>
+            <td style={{fontSize:'12px'}}>{sendData1.contents4}</td>
           </tr>
           <tr>
-            <th>보유 및 이용 기간</th>
-            <td >{sendData1.contents5}</td>
+            <th style={{fontSize:'12px'}}>보유 및 이용 기간</th>
+            <td style={{fontSize:'12px'}}>{sendData1.contents5}</td>
           </tr>
         </table>
       </div>
