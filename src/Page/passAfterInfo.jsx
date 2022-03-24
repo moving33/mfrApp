@@ -182,19 +182,14 @@ function PassAfterInfo() {
         {/* <form className={style.mainForm} onSubmit={handleSubmit(onSubmit)}> */}
         <div>
           <Input label="사업장" value={defaultState?.site_name || ""} disable background={'#F2F2F2'} color={'#B2B2B2'} title='true' />
-          <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} setValue={setName} valueOn={nameOn} setValueOn={setNameOn} />
+          <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} setValue={setName} />
           {//{defaultState?.name || ""}}
           }
           <div style={{ marginBottom: '1%' }}>
             <label>전화번호</label>
             <div style={{ display: "flex" }}>
               <div className={style.inputTeam} style={{ width: '100%' }}>
-                <input label="전화번호" value={defaultState?.tel || tel} id='telInput' onFocus={()=>{setTelOn(!telOn)}} onChange={telHandler} placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '100%' }} 
-                onBlur={()=>{telOn && setTelOn(!telOn)}}
-                />
-              {/* {
-                telOn && <span className={style.clearMe} onClick={()=>{setTel(''); setTelOn(!telOn)}}><img src={'./image/clearButton.png'} /></span>
-              } */}
+                <input label="전화번호" value={defaultState?.tel || tel} id='telInput' onChange={telHandler} placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '100%' }} />
               </div>
               {/* <input label="전화번호" value={defaultState?.tel || tel} onChange={telHandler} className={style.inputPhone} type="number" style={{ width: '70%' }} /> */}
               <button
@@ -213,12 +208,7 @@ function PassAfterInfo() {
               placeholder="사번을 입력해주세요"
               value={emNum}
               onChange={emNumHandler}
-              onFocus={ ()=>{setEmnumOn(!emnumOn)}}
-              onBlur ={ ()=>{ emnumOn ? setEmnumOn(!emnumOn) : console.log('asd')} }
             />
-              {/* {
-                emnumOn && <span className={style.clearMe} onClick={()=>{setEmNum(''); setEmnumOn(!emnumOn)}}><img src={'./image/clearButton.png'} /></span>
-              } */}
           </div>
           <div className={style.submitButtonWrapper} style={{ position: 'relative', marginTop: '15%' }}>
             <button className={style.submitButton}

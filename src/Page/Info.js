@@ -217,16 +217,13 @@ function Info() {
 
         <div>
           <Input label="사업장" value={defaultState?.site_name || ""} disable="true" background={'#F2F2F2'} color={'#B2B2B2'}  title='true' />
-          <Input label="이름" placeholder={"이름을 입력해 주세요"} value={name} setValue={setName} onChange={nameHandler} valueOn={nameOn} setValueOn={setNameOn} />
+          <Input label="이름" placeholder={"이름을 입력해 주세요"} value={name} setValue={setName} onChange={nameHandler} />
 
           <div style={{ marginBottom: '1%' }}><label>전화번호</label>
             <div style={{ display: "flex", width: '100%' }}>
 
               <div className={style.inputTeam} style={{width:'100%'}}>
-              <input label="전화번호" value={tel} onChange={telHandler} onFocus={()=>{setTelOn(!telOn)}}  placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '100%' }} />
-              {/* {
-                telOn && <span className={style.clearMe} onClick={()=>{setTel(''); setTelOn(!telOn)}}><img src={'./image/clearButton.png'} /></span>
-              } */}
+              <input label="전화번호" value={tel} onChange={telHandler} placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '100%' }} />
               </div>
 
               <button
