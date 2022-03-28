@@ -134,9 +134,11 @@ function PassAfterInfo() {
 
       console.log('info.js::::::::::::::');
 
+      console.log('_data.name ' , encodeURIComponent( _data.name) )
+
       const userInfo = {
         id: emNum,
-        userName: _data.name,
+        userName: encodeURIComponent( _data.name) ,
         userPhone: _data.tel,
         site_idx: _data.site_idx,
         company_idx: selectKey,
@@ -168,7 +170,7 @@ function PassAfterInfo() {
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
-    <div>
+      <div style={{ paddingTop: '5%' }}>
 
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
@@ -176,7 +178,7 @@ function PassAfterInfo() {
       </form>
 
       <div className={style.container}>
-        <Box step={1} text1="본인 확인을 위해" text2="사번을 입력해주세요" />
+        <Box step={1} text1="본인 확인을 위해" text2="정보를 입력해주세요" />
         <div className={style.group17} style={{ marginBottom: "10%" }}></div>
 
         {/* <form className={style.mainForm} onSubmit={handleSubmit(onSubmit)}> */}
@@ -205,7 +207,7 @@ function PassAfterInfo() {
           <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom: "2%" }}>사번</div>
           <div className={style.inputTeam}>
             <input className={style.inputPhone}
-              placeholder="사번을 입력해주세요"
+              placeholder="정보를 입력해주세요"
               value={emNum}
               onChange={emNumHandler}
             />

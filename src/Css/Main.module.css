@@ -41,6 +41,7 @@ input::placeholder{
 
 .cirtificationList {
   width: 320px;
+  /*margin-top: 5%;*/
 }
 
 .barContainer {
@@ -525,15 +526,15 @@ input::placeholder{
 }
 
 .singleImage {
-  /* width: 100%;
-  height: 100%; */
+   width: 85%;
+   height: 100%;
 
-  width:  240px;
-  height: 240px;
+  /*width:  240px;
+  height: 240px;*/
 }
 
 .cameraCancelButton {
-  width: 45%;
+  width: 40%;
   height: 50px;
   background: #FFFFFF;
   border: 1px solid #DCDCDC;
@@ -555,7 +556,8 @@ input::placeholder{
 .NasoantralModalButton,
 .ModalButton,
 .cameraSubmitButton {
-  width:45%;
+  margin-left: 5% !important;
+  width:40%;
   height: 50px;
   background: #0072CE;
   border-radius: 4px;
@@ -667,7 +669,8 @@ input::placeholder{
 }
 
 .twoImage {
-  width: 95%; 
+  width:  95%;
+  height: 85%;
 }
 
 .confirmImageContainer2Wrapper {

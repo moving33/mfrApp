@@ -212,7 +212,7 @@ function Info() {
       </form>
 
       <div className={style.container}>
-        <Box step={1} text1="본인 확인을 위해" text2="사번을 입력해주세요" />
+        <Box step={1} text1="본인 확인을 위해" text2="정보를 입력해주세요" />
         <div className={style.group17} style={{ marginBottom: "10%" }}></div>
 
         <div>
