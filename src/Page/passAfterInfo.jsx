@@ -169,7 +169,6 @@ function PassAfterInfo() {
 
   return (
     <div>
-
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
         <input type="hidden" name="EncodeData" value={encData} />
@@ -177,40 +176,32 @@ function PassAfterInfo() {
 
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="사번을 입력해주세요" />
-        <div className={style.group17} style={{ marginBottom: "10%" }}></div>
 
-        {/* <form className={style.mainForm} onSubmit={handleSubmit(onSubmit)}> */}
+
         <div>
+
           <Input label="사업장" value={defaultState?.site_name || ""} disable background={'#F2F2F2'} color={'#B2B2B2'} title='true' />
+
           <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} setValue={setName} />
-          {//{defaultState?.name || ""}}
-          }
-          <div style={{ marginBottom: '1%' }}>
+
+          <div style={{ marginBottom: '1%' ,  marginTop:'5%'}}>
             <label>전화번호</label>
-            <div style={{ display: "flex" }}>
-              <div className={style.inputTeam} style={{ width: '100%' }}>
-                <input label="전화번호" value={defaultState?.tel || tel} id='telInput' onChange={telHandler} placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '100%' }} />
-              </div>
-              {/* <input label="전화번호" value={defaultState?.tel || tel} onChange={telHandler} className={style.inputPhone} type="number" style={{ width: '70%' }} /> */}
-              <button
-                className={style.sendInfoSuccess}
-                onClick={PassButton}
-              >인증 완료</button>
+            <div style={{ display: "flex", width: '100%' }}>
+                <input label="전화번호" value={defaultState?.tel || tel} id='telInput' 
+                onChange={telHandler} placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
+              <button className={style.sendInfoSuccess} onClick={PassButton}>인증 완료</button>
             </div>
           </div>
 
-          <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
+          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginTop:'5%' }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
 
-          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom: "2%" }}>사번</div>
+          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom: "2%",  marginTop:'5%' }}>사번</div>
           <div className={style.inputTeam}>
-            <input className={style.inputPhone}
-              placeholder="사번을 입력해주세요"
-              value={emNum}
-              onChange={emNumHandler}
-            />
+            <input className={style.inputPhone} placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler} />
           </div>
-          <div className={style.submitButtonWrapper} style={{ position: 'relative', marginTop: '15%' }}>
+
+          <div className={style.submitButtonWrapper} style={{ position: 'relative', marginTop: '8%' }}>
             <button className={style.submitButton}
               style={{ width: '100%' }}
               type="submit"

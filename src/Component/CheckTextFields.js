@@ -2,9 +2,9 @@ import React from 'react';
 import style from "../Css/Main.module.css";
 import ChalkboardTeacher from '../assets/ChalkboardTeacher.png';
 import Eyeglasses from '../assets/Eyeglasses.png';
-import FaceMask from '../assets/FaceMask.png';
-import SmileyBlank from '../assets/SmileyBlank.png';
-import UserFocus from '../assets/UserFocus.png';
+import Group121 from '../assets/Group121.png';
+import good from '../assets/good.png';
+import faceCheck from '../assets/faceCheck.png';
 
 
 
@@ -31,7 +31,7 @@ const CheckTextFields = () => {
 
                 <div className={style.fontInfo1}>
                     <div style={{width:'15%'}}>
-                        <img src={UserFocus} className={style.img} />
+                        <img src={faceCheck} className={style.img} />
                     </div>
                     <div div style={{width:'85%'}}>
                         <div className={style.title9}>안내선에 얼굴 위치를 맞춰주세요</div>
@@ -43,13 +43,13 @@ const CheckTextFields = () => {
                         <img src={ChalkboardTeacher} className={style.img} />
                     </div>
                     <div div style={{width:'85%'}}>
-                        <div className={style.title9}>단색 배경에서 촬영해 주세요</div>
+                        <div className={style.title9}>단색 촬영해 주세요</div>
                         </div>
                 </div>
 
                 <div className={style.fontInfo1}>
                     <div style={{width:'15%'}}>
-                        <img src={SmileyBlank} className={style.img} />
+                        <img src={good} className={style.img} />
                     </div>
                     <div style={{width:'85%'}}>
                         <div className={style.title9}>자연스러운 표정으로 카메라를</div>
@@ -59,7 +59,7 @@ const CheckTextFields = () => {
 
                 <div className={style.fontInfo1}>
                     <div style={{width:'15%'}}>
-                        <img src={FaceMask} className={style.img} />
+                        <img src={Group121} className={style.img} />
                     </div>
                     <div div style={{width:'85%'}}>
                         <div className={style.title9}>모자, 선글라스, 마스크는 벗어주세요</div>

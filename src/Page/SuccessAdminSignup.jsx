@@ -10,11 +10,13 @@ const SuccessAdminSignup = () => {
     window.history.pushState(null, document.title, window.location.href);
     window.addEventListener('popstate', function (event) { window.history.pushState(null, document.title, window.location.href); });
   }, [window.location.href]);
+
   useEffect(() => {
     setTimeout(() => {
       window.location.href = 'https://www.s1.co.kr/';
     }, 2000)
   });
+
   return (
     <div>
       <div className={style.errorBoxContainer}>
@@ -23,8 +25,7 @@ const SuccessAdminSignup = () => {
         </div>
       </div>
       <div className={style.errorSubBoxContainer}>
-          <p className="ErrorSubscript">관리자로부터 최종 승인을 받으신 후</p>
-          <p className="ErrorSubscript">사용하실 수 있습니다.</p>
+          <p className="ErrorSubscript">관리자로부터 최종 승인을 받으신 후 <br /> 사용하실 수 있습니다.</p>
       </div>
     </div>
   );

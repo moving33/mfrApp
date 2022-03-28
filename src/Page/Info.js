@@ -205,7 +205,7 @@ function Info() {
 
   return (
     // <MobileView></MobileView>
-    <div style={{ paddingTop: '5%' }}>
+    <div>
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
         <input type="hidden" name="EncodeData" value={encData} />
@@ -213,43 +213,36 @@ function Info() {
 
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="사번을 입력해주세요" />
-        <div className={style.group17} style={{ marginBottom: "10%" }}></div>
+
 
         <div>
           <Input label="사업장" value={defaultState?.site_name || ""} disable="true" background={'#F2F2F2'} color={'#B2B2B2'}  title='true' />
+
           <Input label="이름" placeholder={"이름을 입력해 주세요"} value={name} setValue={setName} onChange={nameHandler} />
 
-          <div style={{ marginBottom: '1%' }}><label>전화번호</label>
+          <div style={{ marginBottom: '1%', marginTop:'5%' }}><label>전화번호</label>
             <div style={{ display: "flex", width: '100%' }}>
-
-              <div className={style.inputTeam} style={{width:'100%'}}>
-              <input label="전화번호" value={tel} onChange={telHandler} placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '100%' }} />
-              </div>
-
+              <input label="전화번호" value={tel} onChange={telHandler} placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
               <button
                 className={style.sendInfo}
                 onClick={PassButton}
-                style={{ backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC" }}
+                style={{ backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC"}}
               >인증 요청</button>
             </div>
           </div>
 
-          <div className={style.companyLabel} style={{ width: "91%", left: "0" }}>회사</div>
+          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginTop:'5%' }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
-          <Input
-            {...{ register, formName: "employeeNumber" }}
-            label="사번"
-            placeholder="사번을 입력해 주세요"
-            value={emNum}
-            onChange={emNumHandler}
-          />
+
+          <Input {...{ register, formName: "employeeNumber" }} label="사번" placeholder="사번을 입력해 주세요" value={emNum} onChange={emNumHandler} />
 
           <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width: '100%' }} />
+
           {/* </form> */}
         </div>
         {
           openPassModal === true
-            ? (<AgreementsModal text1={passModaltext} setOpen={setOpenPassModal} open={openPassModal} nextBtn={passAgree} />)
+            ? (<AgreementsModal title={'인증 요청'} text1={passModaltext} setOpen={setOpenPassModal} open={openPassModal} nextBtn={passAgree} />)
             : null
         }
         {

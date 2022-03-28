@@ -1,16 +1,15 @@
 import React from 'react';
 import style from '../Css/Main.module.css'
 
-const AgreementsModal = ({ text1, text2, text3, text4, setOpen, open, nextBtn }) => {
+const AgreementsModal = ({ text1, text2, setOpen, open, nextBtn, title }) => {
 
   return (
     <div className={style.Modal} >
       <div className={style.ModalWrapper}>
+        <div className={style.agreeModalTitle}>{title}</div>
         <div className={style.ModalTextWrapper}>
           <p>{text1}</p>
           <p>{text2}</p>
-          <p>{text3}</p>
-          <p>{text4}</p>
         </div>
 
         <div className={style.ButtonWrapper}>

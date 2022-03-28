@@ -109,7 +109,7 @@ input::placeholder{
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 13px 0px 16px;
+  padding: 0px 13px 0px 13px;
   position: static;
   width: 100%;
   height: 50px;
@@ -181,6 +181,7 @@ input::placeholder{
 
 .mainFormItem {
   margin-bottom: 2%;
+  margin-top: 5%;
 }
 
 .mainFormItem div {
@@ -241,7 +242,7 @@ input::placeholder{
   bottom: 0;
   background: #0072CE;
   border-radius: 4px;
-
+  font-size:18px;
   /* Inside Auto Layout */
 
   flex: none;
@@ -284,11 +285,14 @@ input::placeholder{
 }
 
 .errorSubBoxContainer {
+  margin-top: 5%;
   font-family: Noto Sans KR;
   font-size: 15px;
   display: flex;
+  font-weight: 500;
   flex-direction: column;
   align-items: center;
+  text-align: center;
   /* margin-top: 2%; */
 }
 
@@ -319,8 +323,9 @@ input::placeholder{
   margin-bottom: 5%;
   align-items: center;
   font-family: Noto Sans KR;
+  color: #646464;
   font-style: normal;
-  font-weight: bold;
+  font-weight: 500;
   font-size: 15px;
   line-height: 22px;
 }
@@ -328,7 +333,7 @@ input::placeholder{
   flex-direction: column;
   align-items: flex-start;
   /* margin-bottom: 27%;*/
-  margin-top: 10%; 
+  margin-top: 15%; 
 }
 .ButtonWrapper{
   display: flex;
@@ -502,9 +507,9 @@ input::placeholder{
   position: fixed;
   bottom: 2%;
   width: 100vw;
-
+  padding: 3%;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 
   text-align: center;
   font-family: Noto Sans KR;
@@ -527,9 +532,8 @@ input::placeholder{
 .singleImage {
   /* width: 100%;
   height: 100%; */
-
-  width:  240px;
-  height: 240px;
+  width: 85%; 
+  height:110%;
 }
 
 .cameraCancelButton {
@@ -581,7 +585,7 @@ input::placeholder{
   background: #ffffff;
   border: 1px solid #dcdcdc;
   color: #000000;
-  font-weight: bold;
+  font-weight: 500;
 }
 .usefulModalButton{
   width: 90%;
@@ -589,7 +593,7 @@ input::placeholder{
   background: #ffffff;
   border: 1px solid #dcdcdc;
   color: #000000;
-  font-weight: bold;
+  font-weight: 500;
 }
 
 .cameraSubmitButton:disabled {
@@ -597,7 +601,6 @@ input::placeholder{
   border: 1px solid #DCDCDC;
   box-sizing: border-box;
   border-radius: 4px;
-
   color: #B2B2B2;
 }
 
@@ -668,6 +671,7 @@ input::placeholder{
 
 .twoImage {
   width: 95%; 
+  height:85%;
 }
 
 .confirmImageContainer2Wrapper {
@@ -726,7 +730,6 @@ input::placeholder{
   /* or 133% */
 
   text-align: center;
-
   color: #000000;
 }
 
@@ -830,13 +833,14 @@ input::placeholder{
 .img{
   /* background-color: #DCDCDC; */
   border-radius: 50%;
+
 }
 
 .title9 {
   font-family: Noto Sans KR;
   font-style: normal;
-  font-weight: bold;
-  font-size: 17px;
+  font-weight: 700;
+  font-size: 15px;
   line-height: 22px;
   /* identical to box height, or 147% */
   display: flex;
@@ -973,6 +977,17 @@ color: #7F7F7F;
   margin-top: 10px;
   color: #646464;
 }
+.agreeModalTitle{
+  position: absolute;
+  font-family: 'Noto Sans KR';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  margin-bottom: 23px;
+  /* identical to box height, or 156% */
+  color: #000000;
+}
 
 .modalContainer{
   /* width: 100%; */
@@ -1041,6 +1056,7 @@ color: #7F7F7F;
   justify-content: space-between;
   align-items: center;
   padding: 0px 13px 0px 13px;
+  margin-top: 2%;
   position: static;
   height: 50px;
   left: calc(50% - 320px/2);
@@ -1091,6 +1107,7 @@ color: #7F7F7F;
   order: 0;
   flex-grow: 0;
   /* margin-top: 22px; */
+  margin-top: 2%;
   margin-left: 5%;
   border:none;
 }
