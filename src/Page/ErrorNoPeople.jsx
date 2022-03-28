@@ -28,8 +28,9 @@ const ErrorNoPeople = () => {
         </div>
       </div>
 
-      <div className={style.errorSubBoxContainer} style={{marginTop:'3%'}}>
-        <p className="ErrorSubscript">
+      <div className={style.errorSubBoxContainer}>
+        <p className="ErrorSubscript" style={{marginTop:"20px"}}>
+
           출입자명단에 등록된 사용자만<br />
           얼굴등록을 진행할 수 있습니다.
         </p>
