@@ -81,7 +81,7 @@ function Camera() {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({ height: 512 });
+    const imageSrc = webcamRef.current.getScreenshot({ width:400, height: 512 });
 
     _imgList[captureIdxRef.current] = { src: imageSrc };
 
@@ -89,7 +89,7 @@ function Camera() {
 
     setTimeout(() => {
 
-      const imageSrc2 = webcamRef.current.getScreenshot({ height: 512 });
+      const imageSrc2 = webcamRef.current.getScreenshot({ width:400, height: 512 });
 
       _imgList[(captureIdxRef.current) + 2] = { src: imageSrc2 };
 
@@ -303,14 +303,17 @@ function Camera() {
     }
 
     if (step === 2) {
-      const _w = window.innerWidth;
-      const _h = window.innerHeight;
       const canvas = document.createElement("canvas");
-      canvas.width = 200;
+      canvas.width  = 200;
       canvas.height = 300;
+
       const ctx = canvas.getContext("2d");
+
       const imageObj = new Image();
 
+      console.log('imageObj',imageObj);
+      console.log('imageObj width',imageObj.width);
+      console.log('imageObj height',imageObj.height);
       imageObj.onload = function () {
         const sx = 0; //-40
         //const sy = (500 - 480) / 2;
@@ -325,7 +328,7 @@ function Camera() {
         const dh = 1000; //1000
 
         ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy, dw, dh);
-        // ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy);
+        // ctx.drawImage(imageObj,0,0);
         const _imgList = JSON.parse(JSON.stringify(imgList));
 
         _imgList[captureIdxRef.current] = {
@@ -426,8 +429,7 @@ function Camera() {
                 className={style.camera}
                 screenshotFormat="image/jpeg"
                 height={480}
-
-                width={640}
+                width ={640}
               />
             </div>
 

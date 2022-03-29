@@ -427,7 +427,6 @@ input::placeholder{
 
 .camera {
   /* object-fit: fill */
-
   width: 100vw;
   height: calc(100vw / 3 * 4);
 }
