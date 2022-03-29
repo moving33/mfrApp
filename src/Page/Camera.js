@@ -432,7 +432,7 @@ function Camera() {
 
             {detected === true
               ? <div className={style.webcamInfoText}>
-                <span style={{textAlign:'left',marginLeft:"-18px"}}>정면을 계속 응시해주세요</span>
+                <span style={{textAlign:'left'}}>정면을 계속 응시해주세요</span>
                 <ProgressCircle
                   capturePlay={capturePlay}
                   onComplete={handleCaptureComplete}
