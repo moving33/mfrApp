@@ -1078,16 +1078,13 @@ color: #7F7F7F;
   width: 25%;
   height: 50px;
   color: #FFFFFF;
-
   background: #0072CE;
   border-radius: 4px;
-
   font-family: Noto Sans KR;
   font-style: normal;
   font-weight: 500;
   font-size: 15px;
   line-height: 22px;
-
   /* display: flex; */
   align-items: center;
   text-align: center;
@@ -1100,7 +1097,7 @@ color: #7F7F7F;
   order: 0;
   flex-grow: 0;
   /* margin-top: 22px; */
-  margin-top: 2%;
+  margin-top: 1%;
   margin-left: 5%;
   border:none;
 }

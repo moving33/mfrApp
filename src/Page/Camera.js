@@ -396,8 +396,8 @@ function Camera() {
             />
             {cameraButton}
           </div>
-          <div className={style.coverDiv}>
 
+          <div className={style.coverDiv}>
             <div className={style.drowingContainer}>
               <div className={style.drowingContainer2}>
                 <WrieframeSvg className={style.wireframeIcon} />
@@ -426,6 +426,7 @@ function Camera() {
                 className={style.camera}
                 screenshotFormat="image/jpeg"
                 height={480}
+
                 width={640}
               />
             </div>
