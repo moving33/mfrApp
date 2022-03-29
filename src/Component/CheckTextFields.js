@@ -43,7 +43,7 @@ const CheckTextFields = () => {
                         <img src={ChalkboardTeacher} className={style.img} />
                     </div>
                     <div div style={{width:'85%'}}>
-                        <div className={style.title9}>단색 촬영해 주세요</div>
+                        <div className={style.title9}>단색 배경에서 촬영해 주세요</div>
                         </div>
                 </div>
 

@@ -433,7 +433,7 @@ function Camera() {
 
             {detected === true
               ? <div className={style.webcamInfoText}>
-                <span style={{textAlign:'left'}}>정면을 계속 응시해주세요</span>
+                <span style={{textAlign:'left', margin:"0 0 0 10px"}}>정면을 계속 응시해주세요</span>
                 <ProgressCircle
                   capturePlay={capturePlay}
                   onComplete={handleCaptureComplete}
@@ -569,7 +569,7 @@ function Camera() {
         <>
           <div className={style.resultMessage}>
             <div>얼굴등록이</div>
-            <div>완료 되었습니다</div>
+            <div>완료되었습니다</div>
           </div>
           <div className={style.resultSubMessage}>
             <div>출입등록이 가능해지면</div>

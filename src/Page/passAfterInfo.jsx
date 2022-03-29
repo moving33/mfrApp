@@ -175,7 +175,7 @@ function PassAfterInfo() {
       </form>
 
       <div className={style.container}>
-        <Box step={1} text1="본인 확인을 위해" text2="사번을 입력해주세요" />
+        <Box step={1} text1="본인 확인을 위해" text2="정보를 입력해주세요" />
 
 
         <div>
@@ -188,7 +188,7 @@ function PassAfterInfo() {
             <label>전화번호</label>
             <div style={{ display: "flex", width: '100%' }}>
                 <input label="전화번호" value={defaultState?.tel || tel} id='telInput' 
-                onChange={telHandler} placeholder={"숫자만 입력해 주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
+                onChange={telHandler} placeholder={"숫자만 입력해주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
               <button className={style.sendInfoSuccess} onClick={PassButton}>인증 완료</button>
             </div>
           </div>

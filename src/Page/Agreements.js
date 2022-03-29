@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import style from "../Css/Main.module.css";
 import Box from "../Component/Box";
 import SubmitButton from "../Component/SubmitButton";
@@ -7,8 +7,8 @@ import qs from "qs";
 import utils from "../utils";
 import AgreementsModal from "../Component/AgreementsModal";
 import UsefulModal from "../Component/UsefulModal";
-import {useHistory} from "react-router";
-import {PREFIX, API_URL} from "../config";
+import { useHistory } from "react-router";
+import { PREFIX, API_URL } from "../config";
 import axios from "axios";
 
 const Agreements = () => {
@@ -46,13 +46,13 @@ const Agreements = () => {
 
     useEffect(() => {
         const fetchAgreement = async () => {
-            const {data} = await axios.post(`${API_URL}/v1/codeTextApi`)
+            const { data } = await axios.post(`${API_URL}/v1/codeTextApi`)
             console.log(data)
             setSendDate1(data)
         }
         fetchAgreement();
 
-        const {q} = qs.parse(window.location.search.slice(1));
+        const { q } = qs.parse(window.location.search.slice(1));
         setSendDate(JSON.parse(utils.decode(q)))
         console.log('agreements q : ', JSON.parse(utils.decode(q)));
     }, []);
@@ -74,7 +74,7 @@ const Agreements = () => {
     };
 
     const nextBtn = () => {
-        const {q} = qs.parse(window.location.search.slice(1));
+        const { q } = qs.parse(window.location.search.slice(1));
         console.log(q);
         console.log('sendData :', sendData); // 전 페이지에서 넘어온 정보들
         const _data = JSON.parse(utils.decode(q));
@@ -109,47 +109,47 @@ const Agreements = () => {
 
     return (
         <div className={style.container}>
-            <Box step={2} text1="개인정보" text2="수집•이용 동의"/>
+            <Box step={2} text1="개인정보" text2="수집•이용 동의" />
             <div className={style.group17}></div>
             <div className={style.agree}>
-                <input id="check" type="checkbox" style={{marginRight: "10px"}}
-                       onChange={(e) => {
-                           if (checkedInputs.length === 0) {
-                               setCheckedInputs(['check', 'check2']);
-                           } else if (checkedInputs.length === 1) {
-                               setCheckedInputs(['check', 'check2']);
-                           } else {
-                               setCheckedInputs([]);
-                           }
-                       }}
-                       checked={checkedInputs.length === 2}
+                <input id="check" type="checkbox" style={{ marginRight: "10px" }}
+                    onChange={(e) => {
+                        if (checkedInputs.length === 0) {
+                            setCheckedInputs(['check', 'check2']);
+                        } else if (checkedInputs.length === 1) {
+                            setCheckedInputs(['check', 'check2']);
+                        } else {
+                            setCheckedInputs([]);
+                        }
+                    }}
+                    checked={checkedInputs.length === 2}
                 ></input>
 
                 <div className={style.borderBtm}>전체 동의하기</div>
             </div>
             <div className={style.contentWrapper}>
                 <div className={style.secondCheck}>
-                    <input label="check" type="checkbox" style={{marginRight: '10px'}} onChange={e => {
+                    <input label="check" type="checkbox" style={{ marginRight: '10px' }} onChange={e => {
                         changeHandler(e.currentTarget.checked, 'check');
                     }}
-                           checked={checkedInputs.includes('check') ? true : false}
+                        checked={checkedInputs.includes('check') ? true : false}
                     ></input>
-                    <div>얼굴사진 특정정보 수집•이용 동의<span style={{color: '#0172ce'}}>(필수)</span></div>
+                    <div>얼굴사진 특징정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
                 </div>
                 <table className={style.tableWrapper}>
                     <tr>
-                        <th style={{fontSize: '12px',textAlign: "center"}}>수집•이용 목적</th>
-                        <td style={{fontSize: '12px'}}>{sendData1.contents1}</td>
+                        <th style={{ fontSize: '12px', textAlign: "center" }}>수집•이용 목적</th>
+                        <td style={{ fontSize: '12px' }}>{sendData1.contents1}</td>
                     </tr>
                     <tr>
-                        <th style={{fontSize: '12px',textAlign: "center"}}>보유 및 이용 기간</th>
-                        <td style={{fontSize: '12px'}}>{sendData1.contents2}</td>
+                        <th style={{ fontSize: '12px', textAlign: "center" }}>보유 및 이용 기간</th>
+                        <td style={{ fontSize: '12px' }}>{sendData1.contents2}</td>
                     </tr>
                 </table>
 
                 <div className={style.infoWrapper}>
                     <div className={style.info}>{sendData1.contents3}</div>
-                    <div className={style.info} style={{marginTop: '3%'}}>
+                    <div className={style.info} style={{ marginTop: '3%' }}>
                         타인의 얼굴의 얼굴을 등록시 발생하는 모든 문제에 대해서는 서비스를 제공하는 (주)에스원에서 책임지지 아니하며
                         임의 등록으로 발생하는 모든 책임은 사용자 본인에게 귀책이 있음을 안내드립니다
                     </div>
@@ -158,28 +158,28 @@ const Agreements = () => {
 
             <div className={style.contentWrapper}>
                 <div className={style.secondCheck}>
-                    <input id="check2" type="checkbox" style={{marginRight: '10px'}} onChange={e => {
+                    <input id="check2" type="checkbox" style={{ marginRight: '10px' }} onChange={e => {
                         changeHandler1(e.currentTarget.checked, 'check2');
                     }}
-                           checked={checkedInputs.includes('check2') ? true : false}
+                        checked={checkedInputs.includes('check2') ? true : false}
                     ></input>
-                    <div>얼굴사진 원본정보 수집•이용 동의<span style={{color: '#0172ce'}}>(필수)</span></div>
+                    <div>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
                 </div>
                 <table className={style.tableWrapper}>
                     <tr>
-                        <th style={{fontSize: '12px',textAlign: "center"}}>수집•이용 목적</th>
-                        <td style={{fontSize: '12px'}}>{sendData1.contents4}</td>
+                        <th style={{ fontSize: '12px', textAlign: "center" }}>수집•이용 목적</th>
+                        <td style={{ fontSize: '12px' }}>{sendData1.contents4}</td>
                     </tr>
                     <tr>
-                        <th style={{fontSize: '12px',textAlign: "center"}}>보유 및 이용 기간</th>
-                        <td style={{fontSize: '12px'}}>{sendData1.contents5}</td>
+                        <th style={{ fontSize: '12px', textAlign: "center" }}>보유 및 이용 기간</th>
+                        <td style={{ fontSize: '12px' }}>{sendData1.contents5}</td>
                     </tr>
                 </table>
             </div>
             {
                 !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
-                    ? <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'}/>
-                    : <SubmitButton label={"동의합니다"} onClick={handleClick}/>
+                    ? <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
+                    : <SubmitButton label={"동의합니다"} onClick={handleClick} />
             }
 
 
