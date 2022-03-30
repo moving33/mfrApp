@@ -7,7 +7,6 @@ function Input(props) {
   return (
     <div className={style.mainFormItem}>
       <div>{props.label}</div>
-
         <input
           className={style.primaryInput}
           placeholder={props?.placeholder}
@@ -15,7 +14,6 @@ function Input(props) {
           {...props}
           {...(typeof props?.register === 'function' ? props?.register(props.formName) : {})}
         />
-
     </div>
 
   )

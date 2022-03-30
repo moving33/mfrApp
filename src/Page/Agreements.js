@@ -150,8 +150,8 @@ const Agreements = () => {
                 <div className={style.infoWrapper}>
                     <div className={style.info}>{sendData1.contents3}</div>
                     <div className={style.info} style={{ marginTop: '3%' }}>
-                        타인의 얼굴의 얼굴을 등록시 발생하는 모든 문제에 대해서는 서비스를 제공하는 (주)에스원에서 책임지지 아니하며
-                        임의 등록으로 발생하는 모든 책임은 사용자 본인에게 귀책이 있음을 안내드립니다
+                        타인의 얼굴 임의 등록 시 발생하는 문제에 대해서는 서비스를 제공하는 주체((주)에스원)는 
+                        책임지지 아니하며 임의 등록으로 발생되는 모든 책임은 사용자 본인에게 귀책이 있음을 안내드립니다.
                     </div>
                 </div>
             </div>

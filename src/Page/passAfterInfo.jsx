@@ -184,7 +184,7 @@ function PassAfterInfo() {
 
           <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} setValue={setName} />
 
-          <div style={{ marginBottom: '1%' ,  marginTop:'5%'}}>
+          <div style={{ marginTop:'5%'}}>
             <label>전화번호</label>
             <div style={{ display: "flex", width: '100%' }}>
                 <input label="전화번호" value={defaultState?.tel || tel} id='telInput' 
@@ -193,7 +193,7 @@ function PassAfterInfo() {
             </div>
           </div>
 
-          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginTop:'5%' }}>회사</div>
+          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginTop:'4%' }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
 
           <div className={style.companyLabel} style={{ width: "91%", left: "0", marginBottom: "2%",  marginTop:'5%' }}>사번</div>
@@ -201,7 +201,7 @@ function PassAfterInfo() {
             <input className={style.inputPhone} placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler} />
           </div>
 
-          <div className={style.submitButtonWrapper} style={{ position: 'relative', marginTop: '8%' }}>
+          <div className={style.submitButtonWrapper} style={{ position: 'relative' }}>
             <button className={style.submitButton}
               style={{ width: '100%' }}
               type="submit"
