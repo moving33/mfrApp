@@ -35,27 +35,33 @@ function Camera() {
   const webcamRef = useRef(null);
   const intervalIdRef = useRef(null);
   const canvasRef = useRef();
+  //얼굴의 랜드마크로 가로값 세로값 계산 
   const [faceX, setFaceX] = useState();
   const [faceY, setFaceY] = useState();
   const [faceIdTop, setFaceIdTop] = useState();
   const [faceIdWidth, setFaceWidth] = useState();
+  //전페이지에서 날라온 데이터
   const [data, setData] = useState();
+  //촤영된 사진의 리스트
   const [imgList, setImgList] = useState([]);
   const [webFace, setWebFace] = useState([]);
+  //얼굴이 들어왔는지
   const [detected, setDetected] = useState(false);
   const [captured, setCaptured] = useState(false);
+  //카메라 ref
   const captureIdxRef = useRef(0);
-  // const [captureIdx, setCaptureIdx] = useState(0);
+  //컴포넌트 페이지 단계
   const [step, setStep] = useState(0); // 0: 확인메시지창, 1: 카메라 화면, 2. 확인 화면, 3. 결과 화면
+  //사진 촬영시작 유무
   const [capturePlay, setCapturePlay] = useState(false);
+  //모달 오픈
   const [open, setOpen] = useState(false);
-
-  const noneSubmitImageList = []
+  const [imgW, setImgW] = useState();
+  const [imgP, setImgP] = useState();
 
   useEffect(() => {
     const { q } = qs.parse(window.location.search.slice(1));
     const _data = JSON.parse(utils.decode(q));
-    console.log("data :", _data);
     setData(_data);
 
     return () => {
@@ -70,8 +76,8 @@ function Camera() {
 
   const _imgList = JSON.parse(JSON.stringify(imgList));
 
-  const handleCaptureComplete = (detected) => {
-
+  const handleCaptureComplete = async (detected) => {
+    console.log(imgW);
     setReady(false);
     setDetected(false);
     setCaptured(false);
@@ -81,30 +87,20 @@ function Camera() {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({ width:400, height: 512 });
+    const imageSrc = webcamRef.current.getScreenshot({ width:imgW, height:512 }); //사진 원본 촬영 
+    console.log(imageSrc);
 
-    _imgList[captureIdxRef.current] = { src: imageSrc };
-
-    console.log("_imgList Before ::: ", _imgList);
+    _imgList[captureIdxRef.current] = { src: imageSrc };   //사진 배열 안에 넣기
 
     setTimeout(() => {
-
-      const imageSrc2 = webcamRef.current.getScreenshot({ width:400, height: 512 });
+      const imageSrc2 = webcamRef.current.getScreenshot({ width:imgW, height:512 });
 
       _imgList[(captureIdxRef.current) + 2] = { src: imageSrc2 };
 
-      console.log("_imgList After  ::: ", _imgList);
-
-      console.log(captureIdxRef.current);
-
       setImgList(_imgList);
-
       clearInterval(intervalIdRef.current);
-
       setStep(2);
-
     }, 100);
-
   };
 
   const runFacemesh = async () => {
@@ -116,6 +112,16 @@ function Camera() {
   };
 
   const detect = async (net) => {
+
+    let element = document.getElementById('cameraCanvas');
+    let _h = 512 / element?.clientHeight;
+    let _w = _h * window.innerWidth;
+    setImgP(_h);
+    setImgW(_w);
+    console.log(_h);
+    // console.log(window.innerWidth);
+    console.log(_w);
+
     if (
       typeof webcamRef.current !== "undefined" &&
       webcamRef.current !== null &&
@@ -126,16 +132,11 @@ function Camera() {
       const videoHeight = webcamRef.current.video.videoHeight;
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
+        
       const _webFace = await net.estimateFaces(video);
-
-      // console.log('_webFace', _webFace);
-
       if (_webFace.length === 1) {
-
         const { topLeft, bottomRight, landmarks } = _webFace[0];
-
         if (
-
           topLeft[0] > 80 &&
           topLeft[0] < 470 &&
           topLeft[1] > 80 &&
@@ -144,15 +145,12 @@ function Camera() {
           bottomRight[0] < 470 &&
           bottomRight[1] > 80 &&
           bottomRight[1] < 470
-
         ) {
-
           setFaceIdTop(bottomRight[1] - topLeft[1]);
           setFaceWidth(landmarks[5][0] - landmarks[4][0]);
           setFaceY(topLeft);
           setFaceX(bottomRight);
           setDetected(true);
-
           if (!captured) {
             setWebFace(_webFace);
             capture();
@@ -177,14 +175,10 @@ function Camera() {
   };
 
   const cancel = () => {
-    // setImgList([]);
-    // setStep(0);
     window.location.reload();
   };
 
   const submit = () => {
-
-    console.log('submit ImgList', imgList);
 
     let payload = {}
 
@@ -268,8 +262,6 @@ function Camera() {
       }
     }
 
-    console.log('payload : ', payload);
-
     axios.post(`${API_URL}/v1/fileTrans`, payload)
       .then((res) => {
         if (res.data.result === 'true') {
@@ -292,11 +284,9 @@ function Camera() {
         step_idx: data.step_idx,
       }
 
-      console.log(stepData);
-
       axios.post(`${API_URL}/v1/info/pictureEntered`, stepData)
-        .then(res => console.log(res.data))
-        .catch(err => console.log(err));
+        .then(res => {})
+        .catch(err => {});
 
       setWebFace([]);
       runFacemesh();
@@ -304,39 +294,31 @@ function Camera() {
 
     if (step === 2) {
       const canvas = document.createElement("canvas");
-      canvas.width  = 200;
-      canvas.height = 300;
-
+      canvas.width  = 300; //200
+      canvas.height = 300; //300
       const ctx = canvas.getContext("2d");
 
       const imageObj = new Image();
-
-      console.log('imageObj',imageObj);
-      console.log('imageObj width',imageObj.width);
-      console.log('imageObj height',imageObj.height);
       imageObj.onload = function () {
-        const sx = 0; //-40
-        //const sy = (500 - 480) / 2;
-        const sy = 0; //-15
-        //캔버스의 크기
-        const sw = 2000; //800
-        const sh = 2000; //800
+
+        const sx = 100 * imgP; //
+        const sy = 80; //
+        const sw = 200; //800 2000
+        const sh = 200; //800 2000
         const dx = 0;
         const dy = 0;
-        //안에 들어오는 이미지의 크기
-        const dw = 1000; //1000 670
-        const dh = 1000; //1000
+        const dw = 300; //1000 
+        const dh = 300; //1000
 
-        ctx.drawImage(imageObj, sx, sy, sw, sh, dx, dy, dw, dh);
-        // ctx.drawImage(imageObj,0,0);
+        ctx.drawImage(imageObj, sx, sy, sh, sw, dx, dy, dw, dh);
+        // ctx.drawImage(imageObj, sx, sy);
+
         const _imgList = JSON.parse(JSON.stringify(imgList));
 
         _imgList[captureIdxRef.current] = {
           ...imgList[captureIdxRef.current],
           croped: canvas.toDataURL(),
         };
-
-        console.log('_imgList croped', _imgList);
 
         setImgList(_imgList);
       };
@@ -371,7 +353,7 @@ function Camera() {
             <CheckTextFields />
           </div>
 
-          <form className={style.mainForm} style={{bottom:0, marginTop:'20%'}}>
+          <form className={style.mainForm} style={{ bottom: 0, marginTop: '20%' }}>
             <SubmitButton
               type="button"
               label={"촬영하기"}
@@ -414,12 +396,14 @@ function Camera() {
                   ref={canvasRef}
                   className={style.camera}
                   style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
+                  id='cameraCanvas'
                 ></canvas>
                 :
                 <canvas
                   ref={canvasRef}
                   className={style.camera}
                   style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
+                  id='cameraCanvas'
                 ></canvas>
               }
               <Webcam
@@ -429,13 +413,13 @@ function Camera() {
                 className={style.camera}
                 screenshotFormat="image/jpeg"
                 height={480}
-                width ={640}
+                width={640}
               />
             </div>
 
             {detected === true
               ? <div className={style.webcamInfoText}>
-                <span style={{textAlign:'left', margin:"0 0 0 10px"}}>정면을 계속 응시해주세요</span>
+                <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>정면을 계속 응시해주세요</span>
                 <ProgressCircle
                   capturePlay={capturePlay}
                   onComplete={handleCaptureComplete}
@@ -444,7 +428,7 @@ function Camera() {
                 />
               </div>
               : <div className={style.webcamInfoText}>
-                <span style={{textAlign:'left', margin:"0 0 0 10px"}}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
+                <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
                 <ProgressCircle
                   capturePlay={capturePlay}
                   onComplete={handleCaptureComplete}
