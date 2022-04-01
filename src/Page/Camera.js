@@ -16,7 +16,7 @@ import CheckTextFields from "../Component/CheckTextFields";
 import ProgressCircle from "../Component/ProgressCircle";
 import cameraPng from "../assets/camera.png";
 import NoImage from "../Component/NoImage";
-
+import { FullScreen, useFullScreenHandle } from 'react-full-screen';
 import { ReactComponent as WrieframeSvg } from "../assets/wireframe.svg";
 import { ReactComponent as WrieframeDetectSvg } from "../assets/wireframe-detect.svg";
 import { useHistory } from "react-router";
@@ -58,6 +58,12 @@ function Camera() {
   const [open, setOpen] = useState(false);
   const [imgW, setImgW] = useState();
   const [imgP, setImgP] = useState();
+  const [noImageHight, setNoImageHight] = useState();
+
+  const fullScreen = useFullScreenHandle();
+
+
+
 
   useEffect(() => {
     const { q } = qs.parse(window.location.search.slice(1));
@@ -74,6 +80,14 @@ function Camera() {
     setCapturePlay(true);
   };
 
+  useEffect(() => {
+    if (step === 2) {
+      let noIMG = document?.getElementById('twoImg')?.offsetHeight;
+      setNoImageHight(noIMG);
+      console.log('noImageHight', noImageHight);
+    }
+  }, [imgList]);
+
   const _imgList = JSON.parse(JSON.stringify(imgList));
 
   const handleCaptureComplete = async (detected) => {
@@ -87,17 +101,20 @@ function Camera() {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({ width:imgW, height:512 }); //사진 원본 촬영 
+    const imageSrc = webcamRef.current.getScreenshot({ width: imgW, height: 512 }); //사진 원본 촬영 
+    // const imageSrc = webcamRef.current.getScreenshot(); //사진 원본 촬영 
     console.log(imageSrc);
 
     _imgList[captureIdxRef.current] = { src: imageSrc };   //사진 배열 안에 넣기
 
     setTimeout(() => {
-      const imageSrc2 = webcamRef.current.getScreenshot({ width:imgW, height:512 });
+      const imageSrc2 = webcamRef.current.getScreenshot({ width: imgW, height: 512 });
+      // const imageSrc2 = webcamRef.current.getScreenshot();
 
       _imgList[(captureIdxRef.current) + 2] = { src: imageSrc2 };
 
       setImgList(_imgList);
+      fullScreen.exit();
       clearInterval(intervalIdRef.current);
       setStep(2);
     }, 100);
@@ -132,14 +149,15 @@ function Camera() {
       const videoHeight = webcamRef.current.video.videoHeight;
       webcamRef.current.video.width = videoWidth;
       webcamRef.current.video.height = videoHeight;
-        
+
       const _webFace = await net.estimateFaces(video);
+      console.log(_webFace);
       if (_webFace.length === 1) {
         const { topLeft, bottomRight, landmarks } = _webFace[0];
         if (
           topLeft[0] > 80 &&
           topLeft[0] < 470 &&
-          topLeft[1] > 80 &&
+          topLeft[1] > 150 && // 80
           topLeft[1] < 740 &&
           bottomRight[0] > 80 &&
           bottomRight[0] < 470 &&
@@ -163,6 +181,7 @@ function Camera() {
   };
 
   const closeCam = () => {
+    fullScreen.exit();
     if (data.isGlass && imgList?.length > 0) {
       // 안경 썻음 (2회 촬영)
       setStep(2);
@@ -285,8 +304,8 @@ function Camera() {
       }
 
       axios.post(`${API_URL}/v1/info/pictureEntered`, stepData)
-        .then(res => {})
-        .catch(err => {});
+        .then(res => { })
+        .catch(err => { });
 
       setWebFace([]);
       runFacemesh();
@@ -294,24 +313,24 @@ function Camera() {
 
     if (step === 2) {
       const canvas = document.createElement("canvas");
-      canvas.width  = 300; //200
-      canvas.height = 300; //300
+      canvas.width = imgW; //200
+      canvas.height = 450;  //300
       const ctx = canvas.getContext("2d");
 
       const imageObj = new Image();
       imageObj.onload = function () {
 
-        const sx = 100 * imgP; //
-        const sy = 80; //
-        const sw = 200; //800 2000
-        const sh = 200; //800 2000
+        const sx = 0; //
+        const sy = 0; //
+        //
+        const sw = imgW; //800 2000
+        const sh = 400; //800 2000
         const dx = 0;
         const dy = 0;
-        const dw = 300; //1000 
-        const dh = 300; //1000
-
-        ctx.drawImage(imageObj, sx, sy, sh, sw, dx, dy, dw, dh);
-        // ctx.drawImage(imageObj, sx, sy);
+        const dw = imgW; //1000 
+        const dh = 450; //1000
+        // ctx.drawImage(imageObj, sx, sy, sh, sw, dx, dy, dw, dh);
+        ctx.drawImage(imageObj, sx, sy);
 
         const _imgList = JSON.parse(JSON.stringify(imgList));
 
@@ -346,7 +365,7 @@ function Camera() {
   return (
     <>
       {step === 0 && (
-        <div className={style.container} style={{ paddingTop: '10%' }}>
+        <div className={style.container}>
 
           <Box step={4} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
           <div>
@@ -365,80 +384,80 @@ function Camera() {
 
           {
             open === true
-              ? <CameraModal open={open} Disagree={setOpen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'} />
+              ? <CameraModal open={open} Disagree={setOpen} fullScreen={fullScreen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'} />
               : null
           }
         </div>
       )}
 
-      {step === 1 && (
-        <div className={style.cameraBackground}>
-          <div className={style.cameraTopContainer}>
-            <img
-              src={closePng}
-              className={style.closeButton}
-              onClick={closeCam}
-            />
-            {cameraButton}
-          </div>
-
-          <div className={style.coverDiv}>
-            <div className={style.drowingContainer}>
-              <div className={style.drowingContainer2}>
-                <WrieframeSvg className={style.wireframeIcon} />
-              </div>
-            </div>
-
-            <div className={style.webcamContainer}>
-              {detected === true
-                ?
-                <canvas
-                  ref={canvasRef}
-                  className={style.camera}
-                  style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
-                  id='cameraCanvas'
-                ></canvas>
-                :
-                <canvas
-                  ref={canvasRef}
-                  className={style.camera}
-                  style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
-                  id='cameraCanvas'
-                ></canvas>
-              }
-              <Webcam
-                ref={webcamRef}
-                videoConstraints={videoConstraints}
-                mirrored={true}
-                className={style.camera}
-                screenshotFormat="image/jpeg"
-                height={480}
-                width={640}
+      <FullScreen handle={fullScreen}>
+        {step === 1 && (
+          <div className={style.cameraBackground} id='cameraBack'>
+            <div className={style.cameraTopContainer}>
+              <img
+                src={closePng}
+                className={style.closeButton}
+                onClick={closeCam}
               />
+              {cameraButton}
             </div>
 
-            {detected === true
-              ? <div className={style.webcamInfoText}>
-                <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>정면을 계속 응시해주세요</span>
-                <ProgressCircle
-                  capturePlay={capturePlay}
-                  onComplete={handleCaptureComplete}
-                  detected={detected}
-                  setDetected={setDetected}
+            <div className={style.coverDiv}>
+              <div className={style.drowingContainer}>
+                <div className={style.drowingContainer2}>
+                  <WrieframeSvg className={style.wireframeIcon} />
+                </div>
+              </div>
+
+              <div className={style.webcamContainer}>
+                {detected === true
+                  ?
+                  <canvas
+                    ref={canvasRef}
+                    className={style.camera}
+                    style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
+                    id='cameraCanvas'
+                  ></canvas>
+                  :
+                  <canvas
+                    ref={canvasRef}
+                    className={style.camera}
+                    style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
+                    id='cameraCanvas'
+                  ></canvas>
+                }
+                <Webcam
+                  ref={webcamRef}
+                  videoConstraints={videoConstraints}
+                  mirrored={true}
+                  className={style.camera}
+                  screenshotFormat="image/jpeg"
+                  width={480}
+                  height={640}
                 />
               </div>
-              : <div className={style.webcamInfoText}>
-                <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
-                <ProgressCircle
-                  capturePlay={capturePlay}
-                  onComplete={handleCaptureComplete}
-                />
-              </div>}
 
+              {detected === true
+                ? <div className={style.webcamInfoText}>
+                  <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>정면을 계속 응시해주세요</span>
+                  <ProgressCircle
+                    capturePlay={capturePlay}
+                    onComplete={handleCaptureComplete}
+                    detected={detected}
+                    setDetected={setDetected}
+                  />
+                </div>
+                : <div className={style.webcamInfoText}>
+                  <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
+                  <ProgressCircle
+                    capturePlay={capturePlay}
+                    onComplete={handleCaptureComplete}
+                  />
+                </div>}
+            </div>
           </div>
-        </div>
-      )}
-
+        )}
+      </FullScreen>
       {step === 2 && (
         <div className={style.container} style={{ paddingTop: '5%' }}>
           {data?.isGlass && imgList.length < 4 && (
@@ -466,9 +485,6 @@ function Camera() {
             </div>
           )}
 
-
-
-
           {data?.isGlass && (
             <>
               {imgList[0]?.croped && (
@@ -480,6 +496,7 @@ function Camera() {
                       <img
                         src={imgList[0]?.croped}
                         className={style.twoImage}
+                        id='twoImg'
                       />
                     )}
                     <div
@@ -500,11 +517,12 @@ function Camera() {
                         className={style.twoImage}
                       />
                     )}
-                    {!imgList[1]?.croped && (
+                    {(!imgList[1]?.croped && noImageHight) && (
                       <NoImage
                         onClick={() => {
                           reopenCamera(1);
                         }}
+                        height={noImageHight}
                       />
                     )}
                     {imgList[1]?.croped && (
@@ -568,7 +586,7 @@ function Camera() {
   );
 }
 
-const CameraModal = ({ text1, text2, Disagree, open, setStep }) => {
+const CameraModal = ({ text1, text2, Disagree, open, setStep, fullScreen }) => {
   return (
     <div className={style.Modal} >
       <div className={style.ModalWrapper}>
@@ -577,7 +595,7 @@ const CameraModal = ({ text1, text2, Disagree, open, setStep }) => {
           <p style={{ margin: 'auto' }}>{text2}</p>
         </div>
         <div className={style.ButtonWrapper}>
-          <button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1) }} >촬영하기</button>
+          <button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1); fullScreen.enter(); }} >촬영하기</button>
         </div>
       </div>
     </div>

@@ -220,7 +220,7 @@ function Info() {
 
           <Input label="이름" placeholder={"이름을 입력해주세요"} value={name} setValue={setName} onChange={nameHandler} />
 
-          <div style={{ marginTop:'5%' }}>전화번호</div>
+          <div className={style.inputLabelStyle} style={{ marginTop:'5%' }}>전화번호</div>
             <div style={{ display: "flex", width: '100%' }}>
               <input label="전화번호" value={tel} onChange={telHandler} placeholder={"숫자만 입력해주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
               <button
@@ -231,7 +231,7 @@ function Info() {
             </div>
 
 
-          <div className={style.companyLabel} style={{ width: "91%", left: "0", marginTop:'4%' }}>회사</div>
+          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop:'4%' }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
 
           <Input {...{ register, formName: "employeeNumber" }} label="사번" placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler} />

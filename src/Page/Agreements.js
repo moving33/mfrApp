@@ -20,12 +20,6 @@ const Agreements = () => {
     const [sendData1, setSendDate1] = useState([]);
     const history = useHistory();
 
-    const text1 = "얼굴사진 원본 정보 수집 이용 미동의 시 아래와 같이 일부 기능이 제한 됩니다";
-    const text2 = `01.\n 리더기가 업데이트 되는 경우 얼굴 인증 불가능 (얼굴 재 등록 필요)`;
-    const text3 = '02.\n 다른 리더기에 매니저를 통한 사용자 정보 전송 불가능';
-    const text4 = "계속 진행하시겠습니까?";
-
-
     const changeHandler = (checked, id) => {
         if (checked) {
             setCheckedInputs([...checkedInputs, id]);
@@ -62,12 +56,12 @@ const Agreements = () => {
     }, [checkedInputs])
 
     const handleClick = () => {
-
-        if (!(checkedInputs.includes('check', 'check2')) ||
-            !(checkedInputs.includes('check')) ||
-            !(checkedInputs.includes('check2'))) {
-            return;
-        }
+        console.log('run');
+        // if (!(checkedInputs.includes('check', 'check2')) ||
+        //     !(checkedInputs.includes('check')) ||
+        //     !(checkedInputs.includes('check2'))) {
+        //     return;
+        // }
 
         nextBtn()
 
@@ -124,7 +118,6 @@ const Agreements = () => {
                     }}
                     checked={checkedInputs.length === 2}
                 ></input>
-
                 <div className={style.borderBtm}>전체 동의하기</div>
             </div>
             <div className={style.contentWrapper}>
@@ -134,16 +127,16 @@ const Agreements = () => {
                     }}
                         checked={checkedInputs.includes('check') ? true : false}
                     ></input>
-                    <div>얼굴사진 특징정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                    <div style={{fontSize:'15px', fontWeight:700}}>얼굴사진 특징정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
                 </div>
                 <table className={style.tableWrapper}>
                     <tr>
-                        <th style={{ fontSize: '12px', textAlign: "center" }}>수집•이용 목적</th>
-                        <td style={{ fontSize: '12px' }}>{sendData1.contents1}</td>
+                        <th className={style.agreementsTh}>수집•이용 목적</th>
+                        <td classNAme={style.agreementsTd}>{sendData1.contents1}</td>
                     </tr>
                     <tr>
-                        <th style={{ fontSize: '12px', textAlign: "center" }}>보유 및 이용 기간</th>
-                        <td style={{ fontSize: '12px' }}>{sendData1.contents2}</td>
+                        <th className={style.agreementsTh}>보유 및 이용 기간</th>
+                        <td classNAme={style.agreementsTd}>{sendData1.contents2}</td>
                     </tr>
                 </table>
 
@@ -163,36 +156,25 @@ const Agreements = () => {
                     }}
                         checked={checkedInputs.includes('check2') ? true : false}
                     ></input>
-                    <div>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                    <div style={{fontSize:'15px', fontWeight:700}}>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
                 </div>
                 <table className={style.tableWrapper}>
                     <tr>
-                        <th style={{ fontSize: '12px', textAlign: "center" }}>수집•이용 목적</th>
-                        <td style={{ fontSize: '12px' }}>{sendData1.contents4}</td>
+                        <th className={style.agreementsTh}>수집•이용 목적</th>
+                        <td classNAme={style.agreementsTd}>{sendData1.contents4}</td>
                     </tr>
                     <tr>
-                        <th style={{ fontSize: '12px', textAlign: "center" }}>보유 및 이용 기간</th>
-                        <td style={{ fontSize: '12px' }}>{sendData1.contents5}</td>
+                        <th className={style.agreementsTh}>보유 및 이용 기간</th>
+                        <td classNAme={style.agreementsTd}>{sendData1.contents5}</td>
                     </tr>
                 </table>
             </div>
             {
                 !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
-                    ? <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
-                    : <SubmitButton label={"동의합니다"} onClick={handleClick} />
+                ? <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
+                : <SubmitButton label={"동의합니다"} onClick={handleClick} />
             }
 
-
-            {/* {
-        open === true
-        ?<AgreementsModal text1={text1} text2={text2} text3={text3} text4={text4} setOpen={setOpen} open={open} nextBtn={nextBtn} />
-        :null
-      }
-      {
-        checkModal === true
-        ?<UsefulModal text1='필수 선택에 동의해 주셔야 합니다.' Disagree={setCheckModal} open={checkModal} />
-        :null
-      } */}
         </div>
     );
 };

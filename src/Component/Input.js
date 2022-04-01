@@ -6,7 +6,7 @@ function Input(props) {
 
   return (
     <div className={style.mainFormItem}>
-      <div>{props.label}</div>
+      <div className={style.inputLabelStyle}>{props.label}</div>
         <input
           className={style.primaryInput}
           placeholder={props?.placeholder}

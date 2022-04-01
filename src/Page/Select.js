@@ -48,12 +48,11 @@ function Select() {
       <div className={style.group17}></div>
 
       <div className={style.glassImgContainer}>
-        { isGlass && <img className={style.glassImage} src={glassPng}   alt="glassimage" />}
+        { isGlass && <img className={style.glassImage} src={glassPng}   alt="glassimage"   />}
         {!isGlass && <img className={style.glassImage} src={noGlassPng} alt="noglassimage" />}
       </div>
 
       <div className={style.toggleButtonWrapper}>
-
         {btnAble === false
         ?
         <>
