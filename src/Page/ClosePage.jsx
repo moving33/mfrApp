@@ -23,14 +23,14 @@ const ClosePage = () => {
     <div>
       <div className={style.errorBoxContainer}>
         <div className={style.inputInfo}>
-          <p>사진 등록 중</p>
-          <p>오류가 발생했습니다.</p>
+          <p>패스 인증 API</p>
+          <p>TEST</p>
         </div>
       </div>
-      <div className={style.errorSubBoxContainer}>
+      {/* <div className={style.errorSubBoxContainer}>
         <p className="ErrorSubscript">담당자에게</p>
         <p className="ErrorSubscript">문의해 주세요.</p>
-      </div>
+      </div> */}
     </div>
   )
 }
