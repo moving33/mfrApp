@@ -558,7 +558,7 @@ input::placeholder{
 }
 
 .webcamInfoText {
-  position: fixed;
+  /* position: fixed; */
   bottom: 2%;
   width: 100vw;
   padding: 3%;
