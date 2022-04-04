@@ -59,11 +59,30 @@ function Camera() {
   const [imgW, setImgW] = useState();
   const [imgP, setImgP] = useState();
   const [noImageHight, setNoImageHight] = useState();
+  const [userOS, setUserOS] = useState();
 
   const fullScreen = useFullScreenHandle();
 
 
+  useEffect(() => {
 
+    var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
+    console.log(varUA);
+    if (varUA.indexOf('android') > -1) {
+      setUserOS('A');
+      console.log(userOS);
+      return userOS;
+    } else if (varUA.indexOf("iphone") > -1 || varUA.indexOf("ipad") > -1 || varUA.indexOf("ipod") > -1) {
+      setUserOS('I');
+      console.log(userOS);
+      return userOS;
+    } else {
+      setUserOS('Oß');
+      console.log(userOS);
+      return "other";
+    }
+
+  })
 
   useEffect(() => {
     const { q } = qs.parse(window.location.search.slice(1));
@@ -384,80 +403,152 @@ function Camera() {
 
           {
             open === true
-              ? <CameraModal open={open} Disagree={setOpen} fullScreen={fullScreen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'} />
+              ? <CameraModal open={open} Disagree={setOpen} fullScreen={fullScreen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'} userOS={userOS} />
               : null
           }
         </div>
       )}
-
-      <FullScreen handle={fullScreen}>
-        {step === 1 && (
-          <div className={style.cameraBackground} id='cameraBack'>
-            <div className={style.cameraTopContainer}>
-              <img
-                src={closePng}
-                className={style.closeButton}
-                onClick={closeCam}
-              />
-              {cameraButton}
-            </div>
-
-            <div className={style.coverDiv}>
-              <div className={style.drowingContainer}>
-                <div className={style.drowingContainer2}>
-                  <WrieframeSvg className={style.wireframeIcon} />
-                </div>
-              </div>
-
-              <div className={style.webcamContainer}>
-                {detected === true
-                  ?
-                  <canvas
-                    ref={canvasRef}
-                    className={style.camera}
-                    style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
-                    id='cameraCanvas'
-                  ></canvas>
-                  :
-                  <canvas
-                    ref={canvasRef}
-                    className={style.camera}
-                    style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
-                    id='cameraCanvas'
-                  ></canvas>
-                }
-                <Webcam
-                  ref={webcamRef}
-                  videoConstraints={videoConstraints}
-                  mirrored={true}
-                  className={style.camera}
-                  screenshotFormat="image/jpeg"
-                  width={480}
-                  height={640}
+      {userOS === 'A'
+        ?
+        <FullScreen handle={fullScreen}>
+          {step === 1 && (
+            <div className={style.cameraBackground} id='cameraBack'>
+              <div className={style.cameraTopContainer}>
+                <img
+                  src={closePng}
+                  className={style.closeButton}
+                  onClick={closeCam}
                 />
+                {cameraButton}
               </div>
 
-              {detected === true
-                ? <div className={style.webcamInfoText}>
-                  <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>정면을 계속 응시해주세요</span>
-                  <ProgressCircle
-                    capturePlay={capturePlay}
-                    onComplete={handleCaptureComplete}
-                    detected={detected}
-                    setDetected={setDetected}
+              <div className={style.coverDiv}>
+                <div className={style.drowingContainer}>
+                  <div className={style.drowingContainer2}>
+                    <WrieframeSvg className={style.wireframeIcon} />
+                  </div>
+                </div>
+
+                <div className={style.webcamContainer}>
+                  {detected === true
+                    ?
+                    <canvas
+                      ref={canvasRef}
+                      className={style.camera}
+                      style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
+                      id='cameraCanvas'
+                    ></canvas>
+                    :
+                    <canvas
+                      ref={canvasRef}
+                      className={style.camera}
+                      style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
+                      id='cameraCanvas'
+                    ></canvas>
+                  }
+                  <Webcam
+                    ref={webcamRef}
+                    videoConstraints={videoConstraints}
+                    mirrored={true}
+                    className={style.camera}
+                    screenshotFormat="image/jpeg"
+                    width={480}
+                    height={640}
                   />
                 </div>
-                : <div className={style.webcamInfoText}>
-                  <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
-                  <ProgressCircle
-                    capturePlay={capturePlay}
-                    onComplete={handleCaptureComplete}
-                  />
-                </div>}
+
+                {detected === true
+                  ? <div className={style.webcamInfoText}>
+                    <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>정면을 계속 응시해주세요</span>
+                    <ProgressCircle
+                      capturePlay={capturePlay}
+                      onComplete={handleCaptureComplete}
+                      detected={detected}
+                      setDetected={setDetected}
+                    />
+                  </div>
+                  : <div className={style.webcamInfoText}>
+                    <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
+                    <ProgressCircle
+                      capturePlay={capturePlay}
+                      onComplete={handleCaptureComplete}
+                    />
+                  </div>}
+              </div>
             </div>
-          </div>
-        )}
-      </FullScreen>
+          )}
+        </FullScreen>
+        :
+        <>
+          {step === 1 && (
+            <div className={style.cameraBackground} id='cameraBack'>
+              <div className={style.cameraTopContainer}>
+                <img
+                  src={closePng}
+                  className={style.closeButton}
+                  onClick={closeCam}
+                />
+                {cameraButton}
+              </div>
+
+              <div className={style.coverDiv}>
+                <div className={style.drowingContainer}>
+                  <div className={style.drowingContainer2}>
+                    <WrieframeSvg className={style.wireframeIcon} />
+                  </div>
+                </div>
+
+                <div className={style.webcamContainer}>
+                  {detected === true
+                    ?
+                    <canvas
+                      ref={canvasRef}
+                      className={style.camera}
+                      style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
+                      id='cameraCanvas'
+                    ></canvas>
+                    :
+                    <canvas
+                      ref={canvasRef}
+                      className={style.camera}
+                      style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
+                      id='cameraCanvas'
+                    ></canvas>
+                  }
+                  <Webcam
+                    ref={webcamRef}
+                    videoConstraints={videoConstraints}
+                    mirrored={true}
+                    className={style.camera}
+                    screenshotFormat="image/jpeg"
+                    width={480}
+                    height={640}
+                  />
+                </div>
+
+                {detected === true
+                  ? <div className={style.webcamInfoText}>
+                    <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>정면을 계속 응시해주세요</span>
+                    <ProgressCircle
+                      capturePlay={capturePlay}
+                      onComplete={handleCaptureComplete}
+                      detected={detected}
+                      setDetected={setDetected}
+                    />
+                  </div>
+                  : <div className={style.webcamInfoText}>
+                    <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
+                    <ProgressCircle
+                      capturePlay={capturePlay}
+                      onComplete={handleCaptureComplete}
+                    />
+                  </div>}
+              </div>
+            </div>
+          )}
+        </>
+      }
+
       {step === 2 && (
         <div className={style.container} style={{ paddingTop: '5%' }}>
           {data?.isGlass && imgList.length < 4 && (
@@ -586,7 +677,7 @@ function Camera() {
   );
 }
 
-const CameraModal = ({ text1, text2, Disagree, open, setStep, fullScreen }) => {
+const CameraModal = ({ text1, text2, Disagree, open, setStep, fullScreen, userOS }) => {
   return (
     <div className={style.Modal} >
       <div className={style.ModalWrapper}>
@@ -595,7 +686,11 @@ const CameraModal = ({ text1, text2, Disagree, open, setStep, fullScreen }) => {
           <p style={{ margin: 'auto' }}>{text2}</p>
         </div>
         <div className={style.ButtonWrapper}>
-          <button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1); fullScreen.enter(); }} >촬영하기</button>
+          {userOS === 'A'
+          ?<button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1); fullScreen.enter(); }} >촬영하기</button>
+          :<button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1);}} >촬영하기</button>
+        }
+          
         </div>
       </div>
     </div>
