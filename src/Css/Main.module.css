@@ -14,11 +14,9 @@ input::placeholder{
 .gradient{
   width: 90vw;
   height: 150px;
-
   bottom:0;
   position: absolute;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, white 100%);
-  opacity: 0.7;
 }
 .inputTeam{
   position: relative;
