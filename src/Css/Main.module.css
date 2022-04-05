@@ -16,6 +16,7 @@ input::placeholder{
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
+  /* font-size: 48px; */
   line-height: 17px;
   display: flex;
   align-items: center;
@@ -75,6 +76,7 @@ input::placeholder{
 .cirtificationList {
   margin-top:40px;
   width: 320px;
+  /* width:1280px; */
 }
 
 .barContainer {
@@ -113,6 +115,7 @@ input::placeholder{
   font-style: normal;
   font-weight: bold;
   font-size: 24px;
+  /* font-size: 92px; */
   line-height: 32px;
   font-weight: 700;
   /* or 133% */
@@ -145,12 +148,16 @@ input::placeholder{
   justify-content: space-between;
   align-items: center;
   font-size:15px;
+  /* font-size:60px; */
   padding: 0px 13px 0px 13px;
   margin: 6px 0px;
+  /* margin: 24px 0px; */
   position: static;
   height: 50px;
+  /* height: 200px; */
   left: calc(50% - 320px/2);
   top: 23px;
+  /* top: 92px; */
   line-height: 22px;
   background: #FFFFFF;
   border: 1px solid #DCDCDC;
@@ -183,12 +190,16 @@ input::placeholder{
   position: static;
   width: 100%;
   height: 50px;
+  /* height: 200px; */
   left: calc(50% - 320px/2);
   top: 23px;
+  /* top: 92px; */
   background: #FFFFFF;
   border: 1px solid #DCDCDC;
+  /* border: 4px solid #DCDCDC; */
   box-sizing: border-box;
   border-radius: 2px;
+  /* border-radius: 8px; */
 
   /* Inside Auto Layout */
 
@@ -197,6 +208,7 @@ input::placeholder{
   align-self: stretch;
   flex-grow: 0;
   margin: 6px 0px;
+  /* margin: 24px 0px; */
   display: inline-block;
 }
 
@@ -271,14 +283,18 @@ input::placeholder{
 
 .submitButton {  
   position: static;
+  font-weight: 500;
   width: 100%;
   height: 50px;
+  /* height: 200px; */
   left: calc(50% - 320px/2);
   top: calc(50% - 50px/2);
   bottom: 0;
   background: #0072CE;
   border-radius: 4px;
+  /* border-radius: 16px; */
   font-size:18px;
+  /* font-size:72px; */
   /* Inside Auto Layout */
 
   flex: none;
@@ -287,6 +303,7 @@ input::placeholder{
   /* margin: 10px 0px; */
 
   border: 1px solid #0072CE;
+  /* border: 4px solid #0072CE; */
   color: #FFFFFF;
 }
 
@@ -727,7 +744,7 @@ input::placeholder{
 
 .noImageContainer {
   width : 95%;
-  /* height: 87%; */
+
   margin: auto;
   background: #EBEBEB;
   border: 1px solid #DCDCDC;
@@ -764,7 +781,8 @@ input::placeholder{
   height: 64px;
   left: 25.32%;
   right: 25%;
-  top: calc(50% - 64px/2 - 27px);
+  /* top: calc(50% - 64px/2 - 27px); */
+  margin-top:50%;
 
   font-family: Noto Sans KR;
   font-style: normal;
@@ -782,7 +800,8 @@ input::placeholder{
   height: 34px;
   left: 0%;
   right: 0%;
-  top: calc(50% - 34px/2 + 42px);
+  margin-top: 20px;
+  /* top: calc(50% - 34px/2 + 42px); */
 
   font-family: Noto Sans KR;
   font-style: normal;
@@ -1094,6 +1113,7 @@ color: #7F7F7F;
   padding: 0px 13px 0px 13px;
   position: static;
   height: 50px;
+  /* height: 200px; */
   left: calc(50% - 320px/2);
   top: 23px;
   background: #FFFFFF;
@@ -1122,6 +1142,7 @@ color: #7F7F7F;
 .sendInfo {
   width: 25%;
   height: 50px;
+  /* height: 200px; */
   color: #FFFFFF;
   background: #0072CE;
   border-radius: 4px;
@@ -1159,6 +1180,8 @@ color: #7F7F7F;
   position: static;
   width: 100%;
   height: 50px;
+  font-weight: 400;
+  /* height: 200px; */
   left: calc(50% - 320px/2);
   top: 23px;
   background: #FFFFFF;

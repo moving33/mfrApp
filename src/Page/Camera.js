@@ -176,7 +176,7 @@ function Camera() {
         if (
           topLeft[0] > 80 &&
           topLeft[0] < 470 &&
-          topLeft[1] > 150 && // 80
+          topLeft[1] > 80 && // 80
           topLeft[1] < 740 &&
           bottomRight[0] > 80 &&
           bottomRight[0] < 470 &&
@@ -662,14 +662,21 @@ function Camera() {
       )}
       {step === 3 && (
         <>
-          <div className={style.resultMessage}>
-            <div>얼굴등록이</div>
-            <div>완료되었습니다</div>
-          </div>
-          <div className={style.resultSubMessage}>
-            <div>출입등록이 가능해지면</div>
-            <div>문자로 알려 드릴게요!</div>
-            {close()}
+          <div>
+            <div className={style.errorBoxContainer}>
+              <div className={style.inputInfo}>
+                <p>얼굴등록이</p>
+                <p>완료되었습니다</p>
+              </div>
+            </div>
+
+            <div className={style.errorSubBoxContainer}>
+              <p className="ErrorSubscript">
+                출입등록이 가능해지면<br />
+                문자로 알려 드릴게요!
+              </p>
+              {close()}
+            </div>
           </div>
         </>
       )}
@@ -687,10 +694,10 @@ const CameraModal = ({ text1, text2, Disagree, open, setStep, fullScreen, userOS
         </div>
         <div className={style.ButtonWrapper}>
           {userOS === 'A'
-          ?<button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1); fullScreen.enter(); }} >촬영하기</button>
-          :<button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1);}} >촬영하기</button>
-        }
-          
+            ? <button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1); fullScreen.enter(); }} >촬영하기</button>
+            : <button className={style.usefulModalButton} onClick={() => { Disagree(!open); setStep(1); }} >촬영하기</button>
+          }
+
         </div>
       </div>
     </div>

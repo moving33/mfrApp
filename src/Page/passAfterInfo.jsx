@@ -193,7 +193,7 @@ function PassAfterInfo() {
             </div>
           </div>
 
-          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop:'4%' }}>회사</div>
+          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop:'5%' }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
 
           <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginBottom: "2%",  marginTop:'5%' }}>사번</div>
