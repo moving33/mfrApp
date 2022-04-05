@@ -20,6 +20,7 @@ const Agreements = () => {
     const [sendData1, setSendDate1] = useState([]);
     const history = useHistory();
 
+
     const changeHandler = (checked, id) => {
         if (checked) {
             setCheckedInputs([...checkedInputs, id]);
@@ -102,7 +103,7 @@ const Agreements = () => {
     }, [window.location.href]);
 
     return (
-        <div className={style.container}>
+        <div className={style.container} style={{height:'110vh'}}>
             <Box step={2} text1="개인정보" text2="수집•이용 동의" />
             <div className={style.group17}></div>
             <div className={style.agree}>
@@ -168,11 +169,15 @@ const Agreements = () => {
                     </tr>
                 </table>
             </div>
+
+            <div className={style.gradientWapper}>
+            <div className={style.gradient} />
             {
                 !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
-                ? <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
-                : <SubmitButton label={"동의합니다"} onClick={handleClick} />
+                ?<div style={{position:'absolute', bottom:0}}> <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} /></div>
+                :<div style={{position:'absolute', bottom:0}}> <SubmitButton label={"동의합니다"} onClick={handleClick} /></div>
             }
+            </div>
 
         </div>
     );

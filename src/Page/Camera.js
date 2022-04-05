@@ -133,8 +133,8 @@ function Camera() {
       _imgList[(captureIdxRef.current) + 2] = { src: imageSrc2 };
 
       setImgList(_imgList);
-      fullScreen.exit();
       clearInterval(intervalIdRef.current);
+      if(userOS === 'A') fullScreen.exit();
       setStep(2);
     }, 100);
   };
@@ -332,8 +332,8 @@ function Camera() {
 
     if (step === 2) {
       const canvas = document.createElement("canvas");
-      canvas.width = imgW; //200
-      canvas.height = 450;  //300
+      canvas.width  = imgW; //200
+      canvas.height = imgW;  //300
       const ctx = canvas.getContext("2d");
 
       const imageObj = new Image();
