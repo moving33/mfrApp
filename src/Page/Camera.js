@@ -59,10 +59,10 @@ function Camera() {
   const [imgW, setImgW] = useState();
   const [imgP, setImgP] = useState();
   const [noImageHight, setNoImageHight] = useState();
+  const [noImageWidth, setNoImageWidth] = useState();
   const [userOS, setUserOS] = useState();
 
   const fullScreen = useFullScreenHandle();
-
 
   useEffect(() => {
 
@@ -70,18 +70,14 @@ function Camera() {
     console.log(varUA);
     if (varUA.indexOf('android') > -1) {
       setUserOS('A');
-      console.log(userOS);
       return userOS;
     } else if (varUA.indexOf("iphone") > -1 || varUA.indexOf("ipad") > -1 || varUA.indexOf("ipod") > -1) {
       setUserOS('I');
-      console.log(userOS);
       return userOS;
     } else {
       setUserOS('Oß');
-      console.log(userOS);
       return "other";
     }
-
   })
 
   useEffect(() => {
@@ -101,9 +97,12 @@ function Camera() {
 
   useEffect(() => {
     if (step === 2) {
-      let noIMG = document?.getElementById('twoImg')?.offsetHeight;
-      setNoImageHight(noIMG);
+      let noIMGH = document?.getElementById('twoImg')?.offsetHeight;
+      let noIMGW = document?.getElementById('twoImg')?.offsetWidth;
+      setNoImageHight(noIMGH);
+      setNoImageWidth(noIMGW);
       console.log('noImageHight', noImageHight);
+      console.log('noImageHight', noImageWidth);
     }
   }, [imgList]);
 
@@ -332,8 +331,13 @@ function Camera() {
 
     if (step === 2) {
       const canvas = document.createElement("canvas");
-      canvas.width  = imgW; //200
-      canvas.height = imgW;  //300
+      // if(data?.isGlass){
+      //   canvas.width  = imgW * 0.4;  //200
+      //   canvas.height = imgW * 0.4;  //300
+      // }else{
+        canvas.width  = imgW;  //200
+        canvas.height = imgW;  //300
+      // }
       const ctx = canvas.getContext("2d");
 
       const imageObj = new Image();
@@ -343,11 +347,11 @@ function Camera() {
         const sy = 0; //
         //
         const sw = imgW; //800 2000
-        const sh = 400; //800 2000
+        const sh = imgW; //800 2000
         const dx = 0;
         const dy = 0;
         const dw = imgW; //1000 
-        const dh = 450; //1000
+        const dh = imgW; //1000
         // ctx.drawImage(imageObj, sx, sy, sh, sw, dx, dy, dw, dh);
         ctx.drawImage(imageObj, sx, sy);
 

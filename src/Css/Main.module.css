@@ -738,13 +738,14 @@ input::placeholder{
 }
 
 .confirmImageContainer2 {
+  width:48%;
   margin: 10% 0;
   text-align: center;
   flex: 1;
 }
 
 .twoImage {
-  width: 95%; 
+  height:40%;
 }
 
 .confirmImageContainer2Wrapper {
@@ -753,8 +754,7 @@ input::placeholder{
 }
 
 .noImageContainer {
-  width : 95%;
-
+  /* width : 95%; */
   margin: auto;
   background: #EBEBEB;
   border: 1px solid #DCDCDC;
