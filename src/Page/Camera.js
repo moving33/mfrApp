@@ -133,7 +133,7 @@ function Camera() {
 
       setImgList(_imgList);
       clearInterval(intervalIdRef.current);
-      if(userOS === 'A') fullScreen.exit();
+      if (userOS === 'A') fullScreen.exit();
       setStep(2);
     }, 100);
   };
@@ -335,8 +335,8 @@ function Camera() {
       //   canvas.width  = imgW * 0.4;  //200
       //   canvas.height = imgW * 0.4;  //300
       // }else{
-        canvas.width  = imgW;  //200
-        canvas.height = imgW;  //300
+      canvas.width = imgW;  //200
+      canvas.height = imgW;  //300
       // }
       const ctx = canvas.getContext("2d");
 
@@ -386,7 +386,7 @@ function Camera() {
     }, 2000)
   };
   return (
-    <>
+    <div className={style.body}>
       {step === 0 && (
         <div className={style.container}>
 
@@ -554,7 +554,7 @@ function Camera() {
       }
 
       {step === 2 && (
-        <div className={style.container} style={{ paddingTop: '5%' }}>
+        <div className={style.container} style={{ paddingTop: '5%', position:'relative', height:'90vh' }}>
           {data?.isGlass && imgList.length < 4 && (
             <Box step={5} text1="안경을 벗고" text2="한번 더 찍어주세요" />
           )}
@@ -584,9 +584,7 @@ function Camera() {
             <>
               {imgList[0]?.croped && (
                 <div className={style.confirmImageContainer2Wrapper}>
-
-                  <div className={style.confirmImageContainer2}>
-
+                  <div className={style.confirmImageContainer2} style={{ marginRight: '1%' }}>
                     {imgList[0]?.croped && (
                       <img
                         src={imgList[0]?.croped}
@@ -605,7 +603,7 @@ function Camera() {
                     </div>
                   </div>
 
-                  <div className={style.confirmImageContainer2}>
+                  <div className={style.confirmImageContainer2} style={{ marginLeft: '1%' }}>
                     {imgList[1]?.croped && (
                       <img
                         src={imgList[1]?.croped}
@@ -638,7 +636,6 @@ function Camera() {
             </>
           )}
 
-          <div style={{ justifyContent: 'center' }}>
             <div className={style.cameraButtonsContainer}>
               <button
                 onClick={cancel}
@@ -658,9 +655,8 @@ function Camera() {
               >
                 사진 등록
               </button>
-            </div>
-          </div>
 
+          </div>
         </div>
 
       )}
@@ -684,7 +680,7 @@ function Camera() {
           </div>
         </>
       )}
-    </>
+    </div>
   );
 }
 

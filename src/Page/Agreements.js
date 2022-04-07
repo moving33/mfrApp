@@ -104,7 +104,7 @@ const Agreements = () => {
 
     return (
         <div className={style.container} style={{height:'110vh'}}>
-            <Box step={2} text1="개인정보" text2="수집•이용 동의" />
+            <Box step={2} text1="개인정보" text2="수집 • 이용 동의" />
             <div className={style.group17}></div>
             <div className={style.agree}>
                 <input id="check" type="checkbox" style={{ marginRight: "10px" }}
@@ -128,7 +128,7 @@ const Agreements = () => {
                     }}
                         checked={checkedInputs.includes('check') ? true : false}
                     ></input>
-                    <div style={{fontSize:'15px', fontWeight:700}}>얼굴사진 특징정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                    <div style={{fontSize:'16px', fontWeight:700}}>얼굴사진 특징정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
                 </div>
                 <table className={style.tableWrapper}>
                     <tr>
@@ -156,7 +156,7 @@ const Agreements = () => {
                     }}
                         checked={checkedInputs.includes('check2') ? true : false}
                     ></input>
-                    <div style={{fontSize:'15px', fontWeight:700}}>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                    <div style={{fontSize:'16px', fontWeight:700}}>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
                 </div>
                 <table className={style.tableWrapper}>
                     <tr>
@@ -170,14 +170,13 @@ const Agreements = () => {
                 </table>
             </div>
 
-            <div className={style.gradientWapper}>
-            <div className={style.gradient} />
+            {/* <div className={style.gradientWapper}> */}
+            {/* <div className={style.gradient} /> */}
             {
                 !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
-                ?<div style={{position:'absolute', bottom:0}}> <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} /></div>
-                :<div style={{position:'absolute', bottom:0}}> <SubmitButton label={"동의합니다"} onClick={handleClick} /></div>
+                ?<div style={{ bottom:0 }}> <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} /></div>
+                :<div style={{ bottom:0 }}> <SubmitButton label={"동의합니다"} onClick={handleClick} /></div>
             }
-            </div>
 
         </div>
     );
