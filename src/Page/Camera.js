@@ -88,6 +88,7 @@ function Camera() {
     return () => {
       clearInterval(intervalIdRef.current);
     };
+
   }, []);
 
   const capture = () => {
@@ -119,14 +120,14 @@ function Camera() {
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({ width: imgW, height: 512 }); //사진 원본 촬영 
+    const imageSrc = webcamRef.current.getScreenshot({ width: imgW, height: 1024 }); //사진 원본 촬영 
     // const imageSrc = webcamRef.current.getScreenshot(); //사진 원본 촬영 
     console.log(imageSrc);
 
     _imgList[captureIdxRef.current] = { src: imageSrc };   //사진 배열 안에 넣기
 
     setTimeout(() => {
-      const imageSrc2 = webcamRef.current.getScreenshot({ width: imgW, height: 512 });
+      const imageSrc2 = webcamRef.current.getScreenshot({ width: imgW, height: 1024 });
       // const imageSrc2 = webcamRef.current.getScreenshot();
 
       _imgList[(captureIdxRef.current) + 2] = { src: imageSrc2 };
@@ -149,7 +150,7 @@ function Camera() {
   const detect = async (net) => {
 
     let element = document.getElementById('cameraCanvas');
-    let _h = 512 / element?.clientHeight;
+    let _h = 1024 / element?.clientHeight;
     let _w = _h * window.innerWidth;
     setImgP(_h);
     setImgW(_w);
@@ -316,6 +317,9 @@ function Camera() {
   };
 
   useEffect(() => {
+
+    window.scrollTo({top:0, left:0, behavior:'auto'});
+    
     if (step === 1) {
       const stepData = {
         step_idx: data.step_idx,
@@ -391,11 +395,11 @@ function Camera() {
         <div className={style.container}>
 
           <Box step={4} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
-          <div>
+          <div className={style.cameraFiled}>
             <CheckTextFields />
           </div>
 
-          <form className={style.mainForm} style={{ bottom: 0, marginTop: '20%' }}>
+          <form className={style.mainForm} style={{ bottom: 0 }}>
             <SubmitButton
               type="button"
               label={"촬영하기"}

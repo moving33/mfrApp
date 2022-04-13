@@ -101,7 +101,7 @@ function PassAfterInfo() {
     setDefaultState(data);
 
     console.log(defaultState);
-
+    window.scrollTo({top:0, left:0, behavior:'auto'});
   }, []);
 
   //인증완료 클릭시
@@ -189,7 +189,7 @@ function PassAfterInfo() {
             <div style={{ display: "flex", width: '100%' }}>
                 <input label="전화번호" value={defaultState?.tel || tel} id='telInput' 
                 onChange={telHandler} placeholder={"숫자만 입력해주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
-              <button className={style.sendInfoSuccess} onClick={PassButton}>인증 완료</button>
+              <button className={style.sendInfoSuccess} onClick={PassButton} style={{fontSize:'15px'}}>인증 완료</button>
             </div>
           </div>
 

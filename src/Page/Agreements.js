@@ -19,7 +19,26 @@ const Agreements = () => {
     const [sendData, setSendDate] = useState([]);
     const [sendData1, setSendDate1] = useState([]);
     const history = useHistory();
+    var intFrameHeight = window.innerHeight;
+    var nowScroll = window.pageYOffset;
+    const [ScrollY, setScrollY] = useState(0);  // 스크롤값을 저장하기 위한 상태
+    const handleFollow = () => {
+        setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
+    }
 
+    useEffect(() => {
+        console.log("ScrollY is ", ScrollY); // ScrollY가 변화할때마다 값을 콘솔에 출력
+    }, [ScrollY])
+
+    useEffect(() => {
+        const watch = () => {
+            window.addEventListener('scroll', handleFollow);
+        }
+        watch(); // addEventListener 함수를 실행
+        return () => {
+            window.removeEventListener('scroll', handleFollow); // addEventListener 함수를 삭제
+        }
+    })
 
     const changeHandler = (checked, id) => {
         if (checked) {
@@ -50,6 +69,9 @@ const Agreements = () => {
         const { q } = qs.parse(window.location.search.slice(1));
         setSendDate(JSON.parse(utils.decode(q)))
         console.log('agreements q : ', JSON.parse(utils.decode(q)));
+
+        window.scrollTo({top:0, left:0, behavior:'auto'});
+
     }, []);
 
     useEffect(() => {
@@ -103,11 +125,12 @@ const Agreements = () => {
     }, [window.location.href]);
 
     return (
-        <div className={style.container} style={{height:'110vh'}}>
+        <div className={style.container} style={{ height: '110vh' }}>
             <Box step={2} text1="개인정보" text2="수집 • 이용 동의" />
             <div className={style.group17}></div>
+
             <div className={style.agree}>
-                <input id="check" type="checkbox" style={{ marginRight: "10px" }}
+                <input id="check" type="checkbox"
                     onChange={(e) => {
                         if (checkedInputs.length === 0) {
                             setCheckedInputs(['check', 'check2']);
@@ -118,18 +141,23 @@ const Agreements = () => {
                         }
                     }}
                     checked={checkedInputs.length === 2}
-                ></input>
+                    id='check1'
+                /><label style={{ marginRight: "10px" }} for='check1'></label>
                 <div className={style.borderBtm}>전체 동의하기</div>
             </div>
+
             <div className={style.contentWrapper}>
+
                 <div className={style.secondCheck}>
                     <input label="check" type="checkbox" style={{ marginRight: '10px' }} onChange={e => {
                         changeHandler(e.currentTarget.checked, 'check');
                     }}
+                        id='check2'
                         checked={checkedInputs.includes('check') ? true : false}
-                    ></input>
-                    <div style={{fontSize:'16px', fontWeight:700}}>얼굴사진 특징정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                    /><label style={{ marginRight: "10px" }} for='check2'></label>
+                    <div style={{ fontSize: '16px', fontWeight: 700 }}>얼굴사진 특징정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
                 </div>
+
                 <table className={style.tableWrapper}>
                     <tr>
                         <th className={style.agreementsTh}>수집•이용 목적</th>
@@ -144,20 +172,23 @@ const Agreements = () => {
                 <div className={style.infoWrapper}>
                     <div className={style.info}>{sendData1.contents3}</div>
                     <div className={style.info} style={{ marginTop: '3%' }}>
-                    {sendData1.contents6}
+                        {sendData1.contents6}
                     </div>
                 </div>
             </div>
 
             <div className={style.contentWrapper}>
+
                 <div className={style.secondCheck}>
                     <input id="check2" type="checkbox" style={{ marginRight: '10px' }} onChange={e => {
                         changeHandler1(e.currentTarget.checked, 'check2');
                     }}
                         checked={checkedInputs.includes('check2') ? true : false}
-                    ></input>
-                    <div style={{fontSize:'16px', fontWeight:700}}>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                        id='check3'
+                    /><label style={{ marginRight: "10px" }} for='check3'></label>
+                    <div style={{ fontSize: '16px', fontWeight: 700 }}>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
                 </div>
+
                 <table className={style.tableWrapper}>
                     <tr>
                         <th className={style.agreementsTh}>수집•이용 목적</th>
@@ -170,14 +201,19 @@ const Agreements = () => {
                 </table>
             </div>
 
-            {/* <div className={style.gradientWapper}> */}
-            {/* <div className={style.gradient} /> */}
-            {
-                !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
-                ?<div style={{ bottom:0 }}> <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} /></div>
-                :<div style={{ bottom:0 }}> <SubmitButton label={"동의합니다"} onClick={handleClick} /></div>
-            }
+            <div className={style.gradientWapper}>
+                {
+                    ScrollY > 15
+                        ? null
+                        : <div className={style.gradient} />
+                }
 
+                {
+                    !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
+                        ? <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} /></div>
+                        : <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> <SubmitButton label={"동의합니다"} onClick={handleClick} /></div>
+                }
+            </div>
         </div>
     );
 };

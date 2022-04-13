@@ -1,10 +1,10 @@
 import React from 'react';
 import style from "../Css/Main.module.css";
-import ChalkboardTeacher from '../assets/ChalkboardTeacher.png';
-import Eyeglasses from '../assets/Eyeglasses.png';
-import Group121 from '../assets/Group121.png';
-import good from '../assets/good.png';
-import faceCheck from '../assets/faceCheck.png';
+import ChalkboardTeacher from '../assets/ChalkboardTeacher.svg';
+import Eyeglasses from '../assets/Eyeglasses.svg';
+import Group121 from '../assets/FaceMask.svg';
+import good from '../assets/good.svg';
+import faceCheck from '../assets/UserFocus.svg';
 
 
 

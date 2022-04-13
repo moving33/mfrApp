@@ -113,12 +113,7 @@ function Info() {
       .then((res) => {
         if (res.data === null || res.data.result === '잘못된 요청입니다.') { history.push("/errorpage") }
         console.log("intro.js::::");
-        console.log(res.data);
-
-        console.log(res.data.site_idx);
-
         setDefaultState(res.data);
-
         const siteIdx = res.data.site_idx;
 
         axios({
@@ -140,7 +135,7 @@ function Info() {
         //css
         //history.push("/errorpage")
       });
-
+      window.scrollTo({top:0, left:0, behavior:'auto'});
   }, []);
 
   const PassButton = () => {
@@ -214,7 +209,6 @@ function Info() {
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="정보를 입력해주세요" />
 
-
         <div>
           <Input label="사업장" value={defaultState?.site_name || ""} disable="true" background={'#F2F2F2'} color={'#B2B2B2'}  title='true' />
 
@@ -226,7 +220,7 @@ function Info() {
               <button
                 className={style.sendInfo}
                 onClick={PassButton}
-                style={{ backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC"}}
+                style={{ fontFamily:'Noto Sans KR', backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC", fontSize:'15px', fontWeight:500}}
               >인증 요청</button>
             </div>
 

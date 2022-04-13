@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import style from "../Css/Main.module.css";
-import glassPng from '../assets/glass.png';
-import noGlassPng from '../assets/no-glass.png';
+import glassPng from   '../assets/Group.svg';
+import noGlassPng from '../assets/Group2.svg';
 import utils from '../utils';
 import qs from 'qs';
 import { useHistory } from 'react-router';
@@ -32,9 +32,9 @@ function Select() {
     _data.isGlass = isGlass;
     history.replace(`${PREFIX}/camera?q=${utils.encode(JSON.stringify(_data))}`);
   }
-
 //뒤로가기 방지
   useEffect(() => {
+    window.scrollTo({top:0, left:0, behavior:'auto'});
     window.history.pushState(null, document.title, window.location.href); 
     window.addEventListener('popstate', function(event) { window.history.pushState(null, document.title, window.location.href); });
   }, [window.location.href]);
@@ -67,7 +67,7 @@ function Select() {
         }
         
       </div>
-      <div style={{marginTop:'5%'}}>
+      <div>
       {
         btnAble === false
         ?<SubmitButton label={'다음'} color={"#dcdcdc"} borderColor={"#dcdcdc"} />
