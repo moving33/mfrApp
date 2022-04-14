@@ -201,19 +201,25 @@ const Agreements = () => {
                 </table>
             </div>
 
-            <div className={style.gradientWapper}>
+            {/* <div className={style.gradientWapper}>
                 {
                     ScrollY > 15
                         ? null
                         : <div className={style.gradient} />
-                }
+                } */}
 
                 {
                     !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
-                        ? <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} /></div>
-                        : <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> <SubmitButton label={"동의합니다"} onClick={handleClick} /></div>
+                        ?
+                        // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
+                        <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
+                        // </div>
+                        :
+                        // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
+                        <SubmitButton label={"동의합니다"} onClick={handleClick} />
+                        // </div>
                 }
-            </div>
+            {/* </div> */}
         </div>
     );
 };

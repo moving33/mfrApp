@@ -156,6 +156,9 @@ input::placeholder{
   flex-direction: column;
   margin-top: 5%;
   margin-bottom: 5%;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 
 .inputInfo p {
@@ -199,6 +202,9 @@ input::placeholder{
   order: 1;
   align-self: stretch;
   flex-grow: 0;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 .primaryInput:focus{
   border: 1px solid #0072CE;
@@ -1181,6 +1187,9 @@ color: #7F7F7F;
   /* order: 1; */
   align-self: stretch;
   flex-grow: 0;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
 }
 .inputPhone:focus{
   border: 1px solid #0072CE; 
@@ -1216,7 +1225,7 @@ color: #7F7F7F;
   order: 0;
   flex-grow: 0;
 
-  margin-left: 5%;
+  margin-left: 2%;
   border:none;
 }
 .sendInfoSuccess{

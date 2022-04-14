@@ -220,7 +220,7 @@ function Info() {
               <button
                 className={style.sendInfo}
                 onClick={PassButton}
-                style={{ fontFamily:'Noto Sans KR', backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC", fontSize:'15px', fontWeight:500}}
+                style={{ fontFamily:'Noto Sans KR', width:'28%', backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC", fontSize:'15px', fontWeight:500}}
               >인증 요청</button>
             </div>
 

@@ -12,7 +12,7 @@ import { PREFIX, API_URL } from '../config';
 
 const Button = (props) => {
   return (
-    <button type="button" onClick={props?.onClick} className={`${style.toggleButton} ${props.active ? style.active : ''}`}>
+    <button type="button" onClick={props?.onClick} className={`${style.toggleButton} ${props.active ? style.active : ''}`} style={props?.border}>
       {props.label}
     </button>
   )
@@ -56,8 +56,8 @@ function Select() {
         {btnAble === false
         ?
         <>
-        <Button onClick={() => { setIsGlass(true);  setBtnAble(true)}}  label="네" />
-        <Button onClick={() => { setIsGlass(false); setBtnAble(true) }} label="아니오" />
+        <Button onClick={() => { setIsGlass(true);  setBtnAble(true)}}  label="네" border={{borderRight:'0.5px'}} />
+        <Button onClick={() => { setIsGlass(false); setBtnAble(true) }} label="아니오" border={{borderLeftt:'0.5px'}} />
         </>
         :
         <>
