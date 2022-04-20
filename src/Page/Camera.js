@@ -61,13 +61,19 @@ function Camera() {
   const [noImageHight, setNoImageHight] = useState();
   const [noImageWidth, setNoImageWidth] = useState();
   const [userOS, setUserOS] = useState();
+  const progressRef = useRef(null);
+
 
   const fullScreen = useFullScreenHandle();
+
+  useEffect(()=>{
+    console.log(progressRef);
+  },[progressRef])
 
   useEffect(() => {
 
     var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
-    console.log(varUA);
+    // console.log(varUA);
     if (varUA.indexOf('android') > -1) {
       setUserOS('A');
       return userOS;
@@ -102,42 +108,56 @@ function Camera() {
       let noIMGW = document?.getElementById('twoImg')?.offsetWidth;
       setNoImageHight(noIMGH);
       setNoImageWidth(noIMGW);
-      console.log('noImageHight', noImageHight);
-      console.log('noImageHight', noImageWidth);
+      // console.log('noImageHight', noImageHight);
+      // console.log('noImageHight', noImageWidth);
     }
   }, [imgList]);
 
   const _imgList = JSON.parse(JSON.stringify(imgList));
 
-  const handleCaptureComplete = async (detected) => {
-    console.log(imgW);
-    setReady(false);
-    setDetected(false);
-    setCaptured(false);
-    setCapturePlay(false);
+  const handleCaptureComplete = async (detected, step) => {
 
-    if (!webcamRef.current || !detected) {
+    if (detected) {
+
+      console.log(step);
+
+      setReady(false);
+      setDetected(false);
+      setCaptured(false);
+      setCapturePlay(false);
+
+      if (!webcamRef.current || !detected) {
+        return;
+      }
+
+      const imageSrc = webcamRef.current.getScreenshot({ width: imgW, height: 512 }); //사진 원본 촬영 
+      // console.log(imageSrc);
+      _imgList[captureIdxRef.current] = { src: imageSrc };   //사진 배열 안에 넣기
+
+
+      setTimeout(() => {
+        const imageSrc2 = webcamRef.current.getScreenshot({ width: imgW, height: 512 });
+        console.log('imageSrc2', imageSrc2);
+        _imgList[(captureIdxRef.current) + 2] = { src: imageSrc2 };
+
+        setImgList(_imgList);
+        clearInterval(intervalIdRef.current);
+
+        if (userOS === 'A') fullScreen.exit();
+        setStep(2);
+
+      }, 100);
+
+    } else {
+      setReady(false);
+      setDetected(false);
+      setCaptured(false);
+      setCapturePlay(false);
       return;
     }
 
-    const imageSrc = webcamRef.current.getScreenshot({ width: imgW, height: 1024 }); //사진 원본 촬영 
-    // const imageSrc = webcamRef.current.getScreenshot(); //사진 원본 촬영 
-    console.log(imageSrc);
-
-    _imgList[captureIdxRef.current] = { src: imageSrc };   //사진 배열 안에 넣기
-
-    setTimeout(() => {
-      const imageSrc2 = webcamRef.current.getScreenshot({ width: imgW, height: 1024 });
-      // const imageSrc2 = webcamRef.current.getScreenshot();
-
-      _imgList[(captureIdxRef.current) + 2] = { src: imageSrc2 };
-
-      setImgList(_imgList);
-      clearInterval(intervalIdRef.current);
-      if (userOS === 'A') fullScreen.exit();
-      setStep(2);
-    }, 100);
   };
+
 
   const runFacemesh = async () => {
     const net = await blazeface.load();
@@ -150,13 +170,12 @@ function Camera() {
   const detect = async (net) => {
 
     let element = document.getElementById('cameraCanvas');
-    let _h = 1024 / element?.clientHeight;
+    let _h = 512 / element?.clientHeight;
     let _w = _h * window.innerWidth;
     setImgP(_h);
     setImgW(_w);
-    console.log(_h);
-    // console.log(window.innerWidth);
-    console.log(_w);
+    // console.log(_h);
+    // console.log(_w);
 
     if (
       typeof webcamRef.current !== "undefined" &&
@@ -170,7 +189,7 @@ function Camera() {
       webcamRef.current.video.height = videoHeight;
 
       const _webFace = await net.estimateFaces(video);
-      console.log(_webFace);
+      // console.log(_webFace);
       if (_webFace.length === 1) {
         const { topLeft, bottomRight, landmarks } = _webFace[0];
         if (
@@ -200,7 +219,7 @@ function Camera() {
   };
 
   const closeCam = () => {
-    fullScreen.exit();
+    if (userOS === 'A') fullScreen?.exit();
     if (data.isGlass && imgList?.length > 0) {
       // 안경 썻음 (2회 촬영)
       setStep(2);
@@ -221,7 +240,7 @@ function Camera() {
     let payload = {}
 
     if (imgList.length === 4) {
-
+      console.log(imgList);
       const img = imgList[0].src.split(',')[1];
       const img2 = imgList[1].src.split(',')[1];
       const img3 = imgList[2].src.split(',')[1];
@@ -318,8 +337,8 @@ function Camera() {
 
   useEffect(() => {
 
-    window.scrollTo({top:0, left:0, behavior:'auto'});
-    
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+
     if (step === 1) {
       const stepData = {
         step_idx: data.step_idx,
@@ -369,7 +388,7 @@ function Camera() {
         setImgList(_imgList);
       };
 
-      imageObj.src = imgList[captureIdxRef.current].src;
+      imageObj.src = imgList[captureIdxRef.current]?.src;
     }
 
   }, [step]);
@@ -473,6 +492,8 @@ function Camera() {
                       onComplete={handleCaptureComplete}
                       detected={detected}
                       setDetected={setDetected}
+                      step={step}
+
                     />
                   </div>
                   : <div className={style.webcamInfoText}>
@@ -480,6 +501,8 @@ function Camera() {
                     <ProgressCircle
                       capturePlay={capturePlay}
                       onComplete={handleCaptureComplete}
+                      step={step}
+
                     />
                   </div>}
               </div>
@@ -542,6 +565,8 @@ function Camera() {
                       onComplete={handleCaptureComplete}
                       detected={detected}
                       setDetected={setDetected}
+                      step={step}
+
                     />
                   </div>
                   : <div className={style.webcamInfoText}>
@@ -549,6 +574,9 @@ function Camera() {
                     <ProgressCircle
                       capturePlay={capturePlay}
                       onComplete={handleCaptureComplete}
+                      detected={detected}
+                      step={step}
+
                     />
                   </div>}
               </div>
@@ -558,7 +586,7 @@ function Camera() {
       }
 
       {step === 2 && (
-        <div className={style.container} style={{ paddingTop: '5%', position:'relative', height:'90vh' }}>
+        <div className={style.container} style={{ paddingTop: '5%', position: 'relative', height: '90vh' }}>
           {data?.isGlass && imgList.length < 4 && (
             <Box step={5} text1="안경을 벗고" text2="한번 더 찍어주세요" />
           )}
@@ -617,7 +645,9 @@ function Camera() {
                     {(!imgList[1]?.croped && noImageHight) && (
                       <NoImage
                         onClick={() => {
-                          reopenCamera(1);
+                          setTimeout(() => {
+                            reopenCamera(1);
+                          }, 100)
                         }}
                         height={noImageHight}
                       />
@@ -640,25 +670,25 @@ function Camera() {
             </>
           )}
 
-            <div className={style.cameraButtonsContainer}>
-              <button
-                onClick={cancel}
-                className={style.cameraCancelButton}
-                style={{ marginRight: '1%' }}
-              >
-                등록 취소
-                { }
-              </button>
-              <button
-                onClick={submit}
-                className={style.cameraSubmitButton}
-                style={{ marginLeft: '1%' }}
-                disabled={
-                  data.isGlass ? imgList.length !== 4 : imgList.length !== 3
-                }
-              >
-                사진 등록
-              </button>
+          <div className={style.cameraButtonsContainer}>
+            <button
+              onClick={cancel}
+              className={style.cameraCancelButton}
+              style={{ marginRight: '1%' }}
+            >
+              등록 취소
+              { }
+            </button>
+            <button
+              onClick={submit}
+              className={style.cameraSubmitButton}
+              style={{ marginLeft: '1%' }}
+              disabled={
+                data.isGlass ? imgList.length !== 4 : imgList.length !== 3
+              }
+            >
+              사진 등록
+            </button>
 
           </div>
         </div>
@@ -673,8 +703,7 @@ function Camera() {
                 <p>완료되었습니다</p>
               </div>
             </div>
-
-            <div className={style.errorSubBoxContainer}>
+            <div className={style.errorSubBoxContainer} style={{marginTop:'-3%'}}>
               <p className="ErrorSubscript">
                 출입등록이 가능해지면<br />
                 문자로 알려 드릴게요!
