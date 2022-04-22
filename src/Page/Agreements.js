@@ -111,6 +111,7 @@ const Agreements = () => {
                 if (res.data.result === 'true') {
                     history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
                 } else {
+                    alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
                     history.replace('/Errorpage');
                 }
             })

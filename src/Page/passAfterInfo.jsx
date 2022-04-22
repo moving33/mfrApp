@@ -155,6 +155,7 @@ function PassAfterInfo() {
             console.log('pass _data to info : ', _data);
             history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
           } else {
+            alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
             history.replace('/errornopeople');
           }
         })

@@ -111,7 +111,10 @@ function Info() {
 
     axios.post(`${API_URL}/v1/siteInfo`, payload)
       .then((res) => {
-        if (res.data === null || res.data.result === '잘못된 요청입니다.') { history.push("/errorpage") }
+        if (res.data === null || res.data.result === '잘못된 요청입니다.') { 
+          alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
+          history.push("/errorpage") 
+        }
         console.log("intro.js::::");
         setDefaultState(res.data);
         const siteIdx = res.data.site_idx;
@@ -183,6 +186,7 @@ function Info() {
       .then((res) => {
         let checkEmployeeNumber = res.data.result
         if (checkEmployeeNumber === 'false') {
+          alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
           history.replace('/Errorpage')
         } else {
           _data.step_idx = res.data.step_idx;
