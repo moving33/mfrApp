@@ -566,7 +566,6 @@ function Camera() {
                       detected={detected}
                       setDetected={setDetected}
                       step={step}
-
                     />
                   </div>
                   : <div className={style.webcamInfoText}>
@@ -576,7 +575,6 @@ function Camera() {
                       onComplete={handleCaptureComplete}
                       detected={detected}
                       step={step}
-
                     />
                   </div>}
               </div>
@@ -703,7 +701,7 @@ function Camera() {
                 <p>완료되었습니다</p>
               </div>
             </div>
-            <div className={style.errorSubBoxContainer} style={{marginTop:'-3%'}}>
+            <div className={style.errorSubBoxContainer} style={{marginTop:'-2%'}}>
               <p className="ErrorSubscript">
                 출입등록이 가능해지면<br />
                 문자로 알려 드릴게요!

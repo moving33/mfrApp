@@ -388,7 +388,7 @@ input::placeholder{
 
 .subBoxContainer {
   width: 320px;
-  margin-top: -7%;
+  /* margin-top: -7%; */
 }
 
 .textFieldsContainer {
@@ -620,6 +620,7 @@ input::placeholder{
   display: flex;
   justify-content: space-between;
   background-color: #000000;
+  /* background-color: white; */
   text-align: center;
   font-family: Noto Sans KR;
   font-style: normal;
@@ -640,8 +641,9 @@ input::placeholder{
 }
 
 .singleImage {
-  /* width: 80%; */
-  height: 65%;
+  width: 80%;
+  /* height: 65%; */
+  margin-bottom: 5px;
 }
 
 .cameraCancelButton {
@@ -749,7 +751,7 @@ input::placeholder{
   order: 1;
   flex-grow: 0;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-left: -6%;
 
 }
@@ -776,7 +778,10 @@ input::placeholder{
 }
 
 .twoImage {
-  height:45%;
+  /* height:45%;
+   */
+  width:98%;
+  border-radius: 3px;
 }
 
 .confirmImageContainer2Wrapper {
@@ -897,6 +902,7 @@ input::placeholder{
 .wireframeIcon {
   position: absolute;
   height: 130%;
+  /* height: 110%; */
   width: 100%;
   color: red;
   opacity: 0.7;
@@ -909,9 +915,10 @@ input::placeholder{
 }
 
 .glassImage {
-  width: 30vh;
+  /* width: 30vh; */
   /* width: 20vh; */
-  max-width: 192px;
+  /* max-width: 192px; */
+  width: 192px;
 }
 
 .moveCameraInfo {
@@ -1270,6 +1277,12 @@ color: #7F7F7F;
   border: 1px solid #0072CE;
   background: url('../Image/blueArrow.png') no-repeat 97% 50%;
 }
+@media (width > 700px){
+  .wireframeIcon{
+    height:180%;
+  }
+
+}
 
 @media ( height < 670px ) {
   .cameraBackground{
@@ -1299,9 +1312,9 @@ color: #7F7F7F;
     display: flex;
   }
   .glassImage {
-    width: 30vh;
-    /* width: 20vh; */
-    max-width: 152px;
+    /* width: 30vh; */
+    /* max-width: 152px; */
+    width: 152px;
   }
   .moveCameraInfo {
     display: flex;
@@ -1339,16 +1352,20 @@ color: #7F7F7F;
   .confirmImageContainer2 {
     width:48vw;
     height: 50vh;
-    margin: auto 0px;
+    /* margin: auto 0px; */
     text-align: center;
     flex: 1;
   }
   
-  .twoImage {
-    height:47%;
-  }
+  /* .twoImage {
+    height:49%;
+  } */
 
-
+.webcamInfoText{
+  position:fixed;
+  bottom:0;
+  padding:2%;
+}
 
 }
 
