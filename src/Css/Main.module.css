@@ -616,7 +616,7 @@ input::placeholder{
   /* position: fixed; */
   bottom: 3%;
   width: 100vw;
-  padding: 3%;
+  padding: 2%;
   display: flex;
   justify-content: space-between;
   background-color: #000000;
@@ -637,7 +637,6 @@ input::placeholder{
 .progressCircle {
   width: 56px;
   height: 56px;
-
   margin-left: 1rem;
 }
 
@@ -918,9 +917,8 @@ input::placeholder{
 
 .glassImage {
   /* width: 30vh; */
-  /* width: 20vh; */
   /* max-width: 192px; */
-  width: 192px;
+  width:210px;
 }
 
 .moveCameraInfo {
@@ -1279,14 +1277,42 @@ color: #7F7F7F;
   border: 1px solid #0072CE;
   background: url('../Image/blueArrow.png') no-repeat 97% 50%;
 }
-@media (width > 700px){
+@media (width > 600px){
   .wireframeIcon{
-    height:180%;
+    height:120%;
+    bottom:-40%;
   }
-
+  .webcamInfoText{
+    position:fixed;
+    bottom:0;
+    padding:2%;
+  }
+  .moveCameraInfo {
+    margin-top: 3%;
+  }
+  .mainForm{
+    margin-top: 0;
+  }
+  .cameraBackground{
+    position: relative;
+  }
+  .closeButton {
+    padding: 3%;
+    position: fixed;
+    /* top: 90px; */
+    right: 0;
+    z-index: 999999999;
+    color: blue;
+  }
+  .camera {
+    /* object-fit: fill */
+    width: 100vw;
+    /* height: calc(100vw / 3 * 4); */
+    height: 100vh;
+  }
 }
 
-@media ( height < 670px ) {
+@media ( height < 600px ) {
   .cameraBackground{
     position: relative;
     /* background-color:#fff; */

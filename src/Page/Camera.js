@@ -1,10 +1,10 @@
 import style from "../Css/Main.module.css";
-import React, { useRef, useState, useCallback, useEffect } from "react";
+import React, { useRef, useState, useCallback, useEffect, Suspense } from "react";
 import * as tf from "@tensorflow/tfjs";
 import * as facemesh from "@tensorflow-models/facemesh";
 import * as blazeface from "@tensorflow-models/blazeface";
 import Webcam from "react-webcam";
-
+import LoadingPaper from "../Component/loadingPage/LoadingPaper";
 import qs from "qs";
 
 import closePng from "../assets/close.png";
@@ -56,6 +56,7 @@ function Camera() {
   const [capturePlay, setCapturePlay] = useState(false);
   //모달 오픈
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [imgW, setImgW] = useState();
   const [imgP, setImgP] = useState();
   const [noImageHight, setNoImageHight] = useState();
@@ -71,7 +72,6 @@ function Camera() {
   },[progressRef])
 
   useEffect(() => {
-
     var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
     // console.log(varUA);
     if (varUA.indexOf('android') > -1) {
@@ -113,10 +113,18 @@ function Camera() {
     }
   }, [imgList]);
 
+  useEffect(()=>{
+      navigator.mediaDevices
+      .getUserMedia({video:true})
+      .then(()=>{})
+      .catch((error)=>{
+        console.error(error);
+      })
+  },[])
+
   const _imgList = JSON.parse(JSON.stringify(imgList));
 
   const handleCaptureComplete = async (detected, step) => {
-
     if (detected) {
 
       console.log(step);
@@ -236,7 +244,7 @@ function Camera() {
   };
 
   const submit = () => {
-
+    setLoading(true);
     let payload = {}
 
     if (imgList.length === 4) {
@@ -322,8 +330,10 @@ function Camera() {
     axios.post(`${API_URL}/v1/fileTrans`, payload)
       .then((res) => {
         if (res.data.result === 'true') {
+          setLoading(false);
           setStep(3);
         } else {
+          setLoading(false);
           setStep(3);
         }
       })
@@ -408,7 +418,7 @@ function Camera() {
       window.location.href = 'https://www.s1.co.kr/';
     }, 2000)
   };
-  return (
+  return (      
     <div className={style.body}>
       {step === 0 && (
         <div className={style.container}>
@@ -690,8 +700,10 @@ function Camera() {
 
           </div>
         </div>
-
       )}
+      {
+        loading && <LoadingPaper />
+      }
       {step === 3 && (
         <>
           <div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Suspense } from "react";
 import style from "../Css/Main.module.css";
 import Box from "../Component/Box";
 import Input from "../Component/Input";
@@ -7,7 +7,7 @@ import SubmitButton from "../Component/SubmitButton";
 import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
 import Errorpage from './Errorpage'
-
+import LoadingPaper from "../Component/loadingPage/LoadingPaper";
 import UsefulModal from "../Component/UsefulModal";
 
 import qs from "qs";
@@ -169,6 +169,7 @@ function PassAfterInfo() {
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
+    <Suspense fallback={<LoadingPaper />} >
     <div>
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
@@ -232,6 +233,7 @@ function PassAfterInfo() {
       }
 
     </div>
+    </Suspense>
   );
 }
 

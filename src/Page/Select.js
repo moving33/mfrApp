@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import style from "../Css/Main.module.css";
 import glassPng from '../assets/Group.svg';
 import noGlassPng from '../assets/Group2.svg';
@@ -9,6 +9,7 @@ import Box from '../Component/Box';
 import SubmitButton from '../Component/SubmitButton';
 import SubBox from '../Component/SubBox';
 import { PREFIX, API_URL } from '../config';
+import LoadingPaper from "../Component/loadingPage/LoadingPaper";
 
 const Button = (props) => {
   return (
@@ -40,7 +41,7 @@ function Select() {
   }, [window.location.href]);
 
   return (
-
+    <Suspense fallback={<LoadingPaper />} >
     <div className={style.container}>
 
       <Box step={3} text1="안경을" text2="쓰고 있나요?" />
@@ -81,6 +82,7 @@ function Select() {
       </div>
 
     </div>
+    </Suspense>
   )
 }
 

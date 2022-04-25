@@ -1,0 +1,15 @@
+.loading{
+width: 100vw;
+height: 100vh;
+top:0;
+left:0;
+position: fixed;
+justify-content: center;
+align-items: center;
+display:flex ;
+background-color: rgba(00, 00, 00, 0.7);
+z-index: 9999;
+}
+.loadingImg{
+  width:100px;
+}

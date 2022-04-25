@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import style from "../Css/Main.module.css";
 import Box from "../Component/Box";
 import SubmitButton from "../Component/SubmitButton";
@@ -10,9 +10,10 @@ import UsefulModal from "../Component/UsefulModal";
 import { useHistory } from "react-router";
 import { PREFIX, API_URL } from "../config";
 import axios from "axios";
+import LoadingPaper from "../Component/loadingPage/LoadingPaper";
 
 const Agreements = () => {
-
+    const [loading, setLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [checkModal, setCheckModal] = useState(false);
     const [checkedInputs, setCheckedInputs] = useState([]);
@@ -63,6 +64,7 @@ const Agreements = () => {
             const { data } = await axios.post(`${API_URL}/v1/codeTextApi`)
             console.log(data)
             setSendDate1(data)
+            setLoading(false);
         }
         fetchAgreement();
 
@@ -70,7 +72,7 @@ const Agreements = () => {
         setSendDate(JSON.parse(utils.decode(q)))
         console.log('agreements q : ', JSON.parse(utils.decode(q)));
 
-        window.scrollTo({top:0, left:0, behavior:'auto'});
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 
     }, []);
 
@@ -126,9 +128,17 @@ const Agreements = () => {
     }, [window.location.href]);
 
     return (
+        <>
+        
+        {
+            loading && <LoadingPaper />
+        }
+
         <div className={style.container} style={{ height: '110vh' }}>
             <Box step={2} text1="개인정보" text2="수집 • 이용 동의" />
             <div className={style.group17}></div>
+
+            {/* <LoadingPaper /> */}
 
             <div className={style.agree}>
                 <input id="check" type="checkbox"
@@ -209,19 +219,20 @@ const Agreements = () => {
                         : <div className={style.gradient} />
                 } */}
 
-                {
-                    !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
-                        ?
-                        // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
-                        <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
-                        // </div>
-                        :
-                        // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
-                        <SubmitButton label={"동의합니다"} onClick={handleClick} />
-                        // </div>
-                }
+            {
+                !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
+                    ?
+                    // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
+                    <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
+                    // </div>
+                    :
+                    // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
+                    <SubmitButton label={"동의합니다"} onClick={handleClick} />
+                // </div>
+            }
             {/* </div> */}
-        </div>
+        </div >
+        </>
     );
 };
 
