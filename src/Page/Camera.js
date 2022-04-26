@@ -496,7 +496,7 @@ function Camera() {
 
                 {detected === true
                   ? <div className={style.webcamInfoText}>
-                    <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>정면을 계속 응시해주세요</span>
+                    <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity:3 }}>정면을 계속 응시해주세요</span>
                     <ProgressCircle
                       capturePlay={capturePlay}
                       onComplete={handleCaptureComplete}
@@ -507,7 +507,7 @@ function Camera() {
                     />
                   </div>
                   : <div className={style.webcamInfoText}>
-                    <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
+                    <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity:3 }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
                     <ProgressCircle
                       capturePlay={capturePlay}
                       onComplete={handleCaptureComplete}
@@ -569,7 +569,7 @@ function Camera() {
 
                 {detected === true
                   ? <div className={style.webcamInfoText}>
-                    <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>정면을 계속 응시해주세요</span>
+                    <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity:3 }}>정면을 계속 응시해주세요</span>
                     <ProgressCircle
                       capturePlay={capturePlay}
                       onComplete={handleCaptureComplete}
@@ -579,7 +579,7 @@ function Camera() {
                     />
                   </div>
                   : <div className={style.webcamInfoText}>
-                    <span style={{ textAlign: 'left', margin: "0 0 0 10px" }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
+                    <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity:3 }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
                     <ProgressCircle
                       capturePlay={capturePlay}
                       onComplete={handleCaptureComplete}

@@ -1317,11 +1317,7 @@ color: #7F7F7F;
     position: relative;
     /* background-color:#fff; */
   }
-  .webcamInfoText{
-    position: absolute;
-    bottom:-33%;
-    opacity: 0.7;
-  }
+  
   .gradient{
     width: 90vw;
     height: 150px;
@@ -1393,7 +1389,7 @@ color: #7F7F7F;
   position:fixed;
   bottom:0;
   padding:2%;
+  background-color: rgba(0, 0, 0, 0.5);
 }
-
 }
 
