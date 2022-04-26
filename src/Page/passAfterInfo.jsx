@@ -169,7 +169,7 @@ function PassAfterInfo() {
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
-    <Suspense fallback={<LoadingPaper />} >
+
     <div>
       <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
         <input type="hidden" name="m" value="checkplusSerivce" />
@@ -233,7 +233,6 @@ function PassAfterInfo() {
       }
 
     </div>
-    </Suspense>
   );
 }
 

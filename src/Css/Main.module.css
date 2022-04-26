@@ -1312,7 +1312,7 @@ color: #7F7F7F;
   }
 }
 
-@media ( height < 600px ) {
+@media ( height < 630px ) {
   .cameraBackground{
     position: relative;
     /* background-color:#fff; */
@@ -1362,7 +1362,7 @@ color: #7F7F7F;
     margin-bottom: 5%;
   }
   .closeButton {
-    padding: 4%;
+    padding: 3%;
   }
   .confirmImageContainer {
     width:90vw;
@@ -1387,8 +1387,10 @@ color: #7F7F7F;
 
 .webcamInfoText{
   position:fixed;
-  bottom:0;
+  bottom:4px;
   padding:2%;
+  
+  /* background-color: white; */
   background-color: rgba(0, 0, 0, 0.5);
 }
 }
