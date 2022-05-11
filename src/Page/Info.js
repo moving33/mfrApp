@@ -61,6 +61,8 @@ function Info() {
   const [openNxtBtnModal, setOpenNxtBtnModal] = useState(false);
   const [openEmptyPhoneNumModal, setOpenEmptyPhoneNumModal] = useState(false);
   const [openEmptyNameModal, setOpenEmptyNameModal] = useState(false);
+  const [employeeNumberModal, setEmployeeNumberModal] = useState(false);
+  const [companyModal, setCompanyModal] = useState(false);
 
   const [telOn, setTelOn] = useState(false);
   const [nameOn, setNameOn] = useState(false);
@@ -98,7 +100,6 @@ function Info() {
   useEffect(() => {
 
     // if (!isMobile) history.push("/weberrorpage");
-    //css수정
     const { workplace } = qs.parse(window.location.search.slice(1));
 
     console.log(" workplace : ", workplace);
@@ -111,9 +112,9 @@ function Info() {
 
     axios.post(`${API_URL}/v1/siteInfo`, payload)
       .then((res) => {
-        if (res.data === null || res.data.result === '잘못된 요청입니다.') { 
+        if (res.data === null || res.data.result === '잘못된 요청입니다.') {
           alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
-          history.push("/errorpage") 
+          history.push("/errorpage")
         }
         console.log("intro.js::::");
         setDefaultState(res.data);
@@ -135,10 +136,9 @@ function Info() {
         });
       })
       .catch((err) => {
-        //css
         //history.push("/errorpage")
       });
-      window.scrollTo({top:0, left:0, behavior:'auto'});
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, []);
 
   const PassButton = () => {
@@ -209,31 +209,28 @@ function Info() {
         <input type="hidden" name="m" value="checkplusSerivce" />
         <input type="hidden" name="EncodeData" value={encData} />
       </form>
-
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="정보를 입력해주세요" />
-
         <div>
-          <Input label="사업장" value={defaultState?.site_name || ""} disable="true" background={'#F2F2F2'} color={'#B2B2B2'}  title='true' />
-
+          <Input label="사업장" value={defaultState?.site_name || ""} disable="true" background={'#F2F2F2'} color={'#B2B2B2'} title='true' />
           <Input label="이름" placeholder={"이름을 입력해주세요"} value={name} setValue={setName} onChange={nameHandler} />
-
-          <div className={style.inputLabelStyle} style={{ marginTop:'5%', bottom:'2%' }}>전화번호</div>
-            <div style={{ display: "flex", width: '100%' }}>
-              <input value={tel} onChange={telHandler} placeholder={"숫자만 입력해주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
-              <button
-                className={style.sendInfo}
-                onClick={PassButton}
-                style={{ fontFamily:'Noto Sans KR', width:'28%', backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC", fontSize:'15px', fontWeight:500}}
-              >인증 요청</button>
-            </div>
-
-
-          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop:'5%' }}>회사</div>
-          <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} />
-
-          <Input {...{ register, formName: "employeeNumber" }} label="사번" placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler} />
-
+          <div className={style.inputLabelStyle} style={{ marginTop: '5%', bottom: '2%' }}>전화번호</div>
+          <div style={{ display: "flex", width: '100%' }}>
+            <input value={tel} onChange={telHandler} placeholder={"숫자만 입력해주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
+            <button
+              className={style.sendInfo}
+              onClick={PassButton}
+              style={{ fontFamily: 'Noto Sans KR', width: '28%', backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC", fontSize: '15px', fontWeight: 500 }}
+            >인증 요청</button>
+          </div>
+          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%' }}>회사</div>
+          <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} disabled={true} 
+          onClick={setEmployeeNumberModal}
+          open={employeeNumberModal} />
+          <Input {...{ register, formName: "employeeNumber" }} label="사번" placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler}
+            onClick={() => {
+              setEmployeeNumberModal(!employeeNumberModal)
+            }} />
           <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width: '100%' }} />
 
           {/* </form> */}
@@ -258,6 +255,12 @@ function Info() {
             ? (<UsefulModal text1={emptyName} Disagree={setOpenEmptyNameModal} open={openEmptyNameModal} />)
             : null
         }
+        {
+          employeeNumberModal
+          ?(<UsefulModal text1={'회사 및 사번 입력은 본인인증 완료 후 입력할 수 있습니다.'} Disagree={setEmployeeNumberModal} open={employeeNumberModal} />)
+          :null
+        }
+
       </div>
     </div>
   );

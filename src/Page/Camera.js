@@ -68,8 +68,8 @@ function Camera() {
   const fullScreen = useFullScreenHandle();
 
   useEffect(()=>{
-    console.log(progressRef);
-  },[progressRef])
+    console.log(userOS);
+  },[step])
 
   useEffect(() => {
     var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
@@ -342,7 +342,10 @@ function Camera() {
 
   const reopenCamera = (captureIdx) => {
     captureIdxRef.current = captureIdx;
-    setStep(1);
+    setTimeout(()=>{
+      if(userOS === 'A') fullScreen.enter();
+      setStep(1);
+    },100)
   };
 
   useEffect(() => {
@@ -445,7 +448,9 @@ function Camera() {
           }
         </div>
       )}
-      {userOS === 'A'
+
+      {
+      userOS === 'A'
         ?
         <FullScreen handle={fullScreen}>
           {step === 1 && (
@@ -667,7 +672,6 @@ function Camera() {
                           reopenCamera(1);
                         }}
                       >
-
                         <img src={cameraPng} className={style.cameraImage} style={{}} />
                         다시찍기
                       </div>
