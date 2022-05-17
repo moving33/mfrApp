@@ -90,7 +90,7 @@ function Camera() {
     const { q } = qs.parse(window.location.search.slice(1));
     const _data = JSON.parse(utils.decode(q));
     setData(_data);
-
+    console.log('camera data', data);
     return () => {
       clearInterval(intervalIdRef.current);
     };
@@ -327,7 +327,7 @@ function Camera() {
       }
     }
 
-    axios.post(`${API_URL}/v1/fileTrans`, payload)
+    axios.post(`${API_URL}/v1/fileTrans`, payload,  { headers : {'Authorization' : `Bearer ${data.jwt}`}})
       .then((res) => {
         if (res.data.result === 'true') {
           setLoading(false);
@@ -335,6 +335,16 @@ function Camera() {
         } else {
           setLoading(false);
           setStep(3);
+        }
+      })
+      .catch( err => {
+        console.log(err.response.status);
+        if(err.response.status === 401 ){
+          alert('유효하지 않은 접근입니다.')
+          window.location.href = 'https://www.s1.co.kr/';
+        }else{
+          alert(`오류로 인해 요청을 완료할 수 없습니다.나중에 다시 시도하십시오.`);
+          window.location.href = 'https://www.s1.co.kr/';
         }
       })
   };
@@ -351,15 +361,27 @@ function Camera() {
   useEffect(() => {
 
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-
     if (step === 1) {
+      console.log('jwt', data.jwt);
+
       const stepData = {
         step_idx: data.step_idx,
       }
 
-      axios.post(`${API_URL}/v1/info/pictureEntered`, stepData)
-        .then(res => { })
-        .catch(err => { });
+      axios.post(`${API_URL}/v1/info/pictureEntered`, stepData, { headers : {'Authorization' : `Bearer ${data.jwt}`}} )
+        .then(res => {
+          console.log(res.status);
+        })
+        .catch(err => {
+          console.log(err.response.status);
+          if(err?.response?.status === 401 ){
+            alert('유효하지 않은 접근입니다.')
+            window.location.href = 'https://www.s1.co.kr/';
+          }else{
+            alert(`오류로 인해 요청을 완료할 수 없습니다.나중에 다시 시도하십시오.`);
+            window.location.href = 'https://www.s1.co.kr/';
+          }
+        });
 
       setWebFace([]);
       runFacemesh();

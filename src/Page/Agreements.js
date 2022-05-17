@@ -67,7 +67,6 @@ const Agreements = () => {
             setLoading(false);
         }
         fetchAgreement();
-
         const { q } = qs.parse(window.location.search.slice(1));
         setSendDate(JSON.parse(utils.decode(q)))
         console.log('agreements q : ', JSON.parse(utils.decode(q)));
@@ -99,7 +98,6 @@ const Agreements = () => {
         const _data = JSON.parse(utils.decode(q));
         console.log("_data :", _data);
         _data.agree = true;
-
         let payload = {
             site_manage_phone: sendData.tel,
             site_manage_name: sendData.name,
@@ -108,13 +106,23 @@ const Agreements = () => {
         };
 
         console.log('agreements payload : ', payload);
-        axios.post(`${API_URL}/v1/info/personalAcceptData`, payload)
+        axios.post(`${API_URL}/v1/info/personalAcceptData`, payload, { headers: { 'Authorization': `Bearer ${sendData.jwt}` } })
             .then((res) => {
                 if (res.data.result === 'true') {
                     history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
                 } else {
                     alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
                     history.replace('/Errorpage');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                if (err?.response?.status === 401) {
+                    alert('유효하지 않은 접근입니다.')
+                    window.location.href = 'https://www.s1.co.kr/';
+                } else {
+                    alert(`오류로 인해 요청을 완료할 수 없습니다.나중에 다시 시도하십시오.`);
+                    window.location.href = 'https://www.s1.co.kr/';
                 }
             })
     }
@@ -129,109 +137,109 @@ const Agreements = () => {
 
     return (
         <>
-        
-        {
-            loading && <LoadingPaper />
-        }
 
-        <div className={style.container} style={{ height: '110vh' }}>
-            <Box step={2} text1="개인정보" text2="수집 • 이용 동의" />
-            <div className={style.group17}></div>
+            {
+                loading && <LoadingPaper />
+            }
 
-            {/* <LoadingPaper /> */}
+            <div className={style.container} style={{ height: '110vh' }}>
+                <Box step={2} text1="개인정보" text2="수집 • 이용 동의" />
+                <div className={style.group17}></div>
 
-            <div className={style.agree}>
-                <input id="check" type="checkbox"
-                    onChange={(e) => {
-                        if (checkedInputs.length === 0) {
-                            setCheckedInputs(['check', 'check2']);
-                        } else if (checkedInputs.length === 1) {
-                            setCheckedInputs(['check', 'check2']);
-                        } else {
-                            setCheckedInputs([]);
-                        }
-                    }}
-                    checked={checkedInputs.length === 2}
-                    id='check1'
-                /><label style={{ marginRight: "10px" }} for='check1'></label>
-                <div className={style.borderBtm}>전체 동의하기</div>
-            </div>
+                {/* <LoadingPaper /> */}
 
-            <div className={style.contentWrapper}>
-
-                <div className={style.secondCheck}>
-                    <input label="check" type="checkbox" style={{ marginRight: '10px' }} onChange={e => {
-                        changeHandler(e.currentTarget.checked, 'check');
-                    }}
-                        id='check2'
-                        checked={checkedInputs.includes('check') ? true : false}
-                    /><label style={{ marginRight: "10px" }} for='check2'></label>
-                    <div style={{ fontSize: '16px', fontWeight: 700 }}>얼굴사진 특징정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                <div className={style.agree}>
+                    <input id="check" type="checkbox"
+                        onChange={(e) => {
+                            if (checkedInputs.length === 0) {
+                                setCheckedInputs(['check', 'check2']);
+                            } else if (checkedInputs.length === 1) {
+                                setCheckedInputs(['check', 'check2']);
+                            } else {
+                                setCheckedInputs([]);
+                            }
+                        }}
+                        checked={checkedInputs.length === 2}
+                        id='check1'
+                    /><label style={{ marginRight: "10px" }} for='check1'></label>
+                    <div className={style.borderBtm}>전체 동의하기</div>
                 </div>
 
-                <table className={style.tableWrapper}>
-                    <tr>
-                        <th className={style.agreementsTh}>수집•이용 목적</th>
-                        <td classNAme={style.agreementsTd}>{sendData1.contents1}</td>
-                    </tr>
-                    <tr>
-                        <th className={style.agreementsTh}>보유 및 이용 기간</th>
-                        <td classNAme={style.agreementsTd}>{sendData1.contents2}</td>
-                    </tr>
-                </table>
+                <div className={style.contentWrapper}>
 
-                <div className={style.infoWrapper}>
-                    <div className={style.info}>{sendData1.contents3}</div>
-                    <div className={style.info} style={{ marginTop: '3%' }}>
-                        {sendData1.contents6}
+                    <div className={style.secondCheck}>
+                        <input label="check" type="checkbox" style={{ marginRight: '10px' }} onChange={e => {
+                            changeHandler(e.currentTarget.checked, 'check');
+                        }}
+                            id='check2'
+                            checked={checkedInputs.includes('check') ? true : false}
+                        /><label style={{ marginRight: "10px" }} for='check2'></label>
+                        <div style={{ fontSize: '16px', fontWeight: 700 }}>얼굴사진 특징정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                    </div>
+
+                    <table className={style.tableWrapper}>
+                        <tr>
+                            <th className={style.agreementsTh}>수집•이용 목적</th>
+                            <td classNAme={style.agreementsTd}>{sendData1.contents1}</td>
+                        </tr>
+                        <tr>
+                            <th className={style.agreementsTh}>보유 및 이용 기간</th>
+                            <td classNAme={style.agreementsTd}>{sendData1.contents2}</td>
+                        </tr>
+                    </table>
+
+                    <div className={style.infoWrapper}>
+                        <div className={style.info}>{sendData1.contents3}</div>
+                        <div className={style.info} style={{ marginTop: '3%' }}>
+                            {sendData1.contents6}
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div className={style.contentWrapper}>
+                <div className={style.contentWrapper}>
 
-                <div className={style.secondCheck}>
-                    <input id="check2" type="checkbox" style={{ marginRight: '10px' }} onChange={e => {
-                        changeHandler1(e.currentTarget.checked, 'check2');
-                    }}
-                        checked={checkedInputs.includes('check2') ? true : false}
-                        id='check3'
-                    /><label style={{ marginRight: "10px" }} for='check3'></label>
-                    <div style={{ fontSize: '16px', fontWeight: 700 }}>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                    <div className={style.secondCheck}>
+                        <input id="check2" type="checkbox" style={{ marginRight: '10px' }} onChange={e => {
+                            changeHandler1(e.currentTarget.checked, 'check2');
+                        }}
+                            checked={checkedInputs.includes('check2') ? true : false}
+                            id='check3'
+                        /><label style={{ marginRight: "10px" }} for='check3'></label>
+                        <div style={{ fontSize: '16px', fontWeight: 700 }}>얼굴사진 원본정보 수집•이용 동의<span style={{ color: '#0172ce' }}>(필수)</span></div>
+                    </div>
+
+                    <table className={style.tableWrapper}>
+                        <tr>
+                            <th className={style.agreementsTh}>수집•이용 목적</th>
+                            <td classNAme={style.agreementsTd}>{sendData1.contents4}</td>
+                        </tr>
+                        <tr>
+                            <th className={style.agreementsTh}>보유 및 이용 기간</th>
+                            <td classNAme={style.agreementsTd}>{sendData1.contents5}</td>
+                        </tr>
+                    </table>
                 </div>
 
-                <table className={style.tableWrapper}>
-                    <tr>
-                        <th className={style.agreementsTh}>수집•이용 목적</th>
-                        <td classNAme={style.agreementsTd}>{sendData1.contents4}</td>
-                    </tr>
-                    <tr>
-                        <th className={style.agreementsTh}>보유 및 이용 기간</th>
-                        <td classNAme={style.agreementsTd}>{sendData1.contents5}</td>
-                    </tr>
-                </table>
-            </div>
-
-            {/* <div className={style.gradientWapper}>
+                {/* <div className={style.gradientWapper}>
                 {
                     ScrollY > 15
                         ? null
                         : <div className={style.gradient} />
                 } */}
 
-            {
-                !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
-                    ?
-                    // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
-                    <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
+                {
+                    !(checkedInputs.includes('check', 'check2')) || !(checkedInputs.includes('check')) || !(checkedInputs.includes('check2'))
+                        ?
+                        // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
+                        <SubmitButton label={"동의합니다"} color={'#dcdcdc'} borderColor={'#dcdcdc'} />
+                        // </div>
+                        :
+                        // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
+                        <SubmitButton label={"동의합니다"} onClick={handleClick} />
                     // </div>
-                    :
-                    // <div className={style.AgreementsPageButton} style={{ bottom: 0, zIndex: 999 }}> 
-                    <SubmitButton label={"동의합니다"} onClick={handleClick} />
-                // </div>
-            }
-            {/* </div> */}
-        </div >
+                }
+                {/* </div> */}
+            </div >
         </>
     );
 };

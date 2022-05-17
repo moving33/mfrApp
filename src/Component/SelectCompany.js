@@ -36,17 +36,23 @@ const SelectCompany = ({ company, setCompany, selectKey, setSelectKey, disabled,
   const onClickEvent = () => {
     onClick && onClick(!open)
   }
+
   return (
     <div onClick={onClickEvent}>
-      <select className={style.selectCompany} label="회사" defaultValue={selectKey} key={selectKey} onChange={selectKeyValue} disabled={disabled}>
-        {
-          company.map((item) => {
-            return (
-              <option value={item.company_idx} key={item.company_idx} >{item.company_name}</option>
-            )
-          })
-        }
-      </select>
+      {disabled
+        ?
+        <div className={style.selectCompany} />
+        :
+        <select className={style.selectCompany} label="회사" defaultValue={selectKey} key={selectKey} onChange={selectKeyValue} >
+          {
+            company.map((item) => {
+              return (
+                <option value={item.company_idx} key={item.company_idx} >{item.company_name}</option>
+              )
+            })
+          }
+        </select>
+      }
     </div>
   )
 }

@@ -33,6 +33,7 @@ function Select() {
     history.replace(`${PREFIX}/camera?q=${utils.encode(JSON.stringify(_data))}`);
   }
   //뒤로가기 방지
+  
   useEffect(() => {
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     window.history.pushState(null, document.title, window.location.href);

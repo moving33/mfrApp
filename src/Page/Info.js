@@ -38,6 +38,7 @@ function ErrorPage({ onClick }) {
   );
 }
 
+
 function Info() {
 
   const history = useHistory();
@@ -224,13 +225,15 @@ function Info() {
             >인증 요청</button>
           </div>
           <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%' }}>회사</div>
-          <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} disabled={true} 
-          onClick={setEmployeeNumberModal}
-          open={employeeNumberModal} />
+          <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} disabled={true}
+            onClick={setEmployeeNumberModal}
+            open={employeeNumberModal} />
+
           <Input {...{ register, formName: "employeeNumber" }} label="사번" placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler}
-            onClick={() => {
-              setEmployeeNumberModal(!employeeNumberModal)
-            }} />
+            disabled={true}
+            onClick={setEmployeeNumberModal}
+            open={employeeNumberModal} />
+
           <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width: '100%' }} />
 
           {/* </form> */}
@@ -257,8 +260,8 @@ function Info() {
         }
         {
           employeeNumberModal
-          ?(<UsefulModal text1={'회사 및 사번 입력은 본인인증 완료 후 입력할 수 있습니다.'} Disagree={setEmployeeNumberModal} open={employeeNumberModal} />)
-          :null
+            ? (<UsefulModal text1={'본인인증 후 정보를 입력해주시기 바랍니다.'} Disagree={setEmployeeNumberModal} open={employeeNumberModal} />)
+            : null
         }
 
       </div>

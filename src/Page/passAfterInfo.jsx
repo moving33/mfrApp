@@ -33,6 +33,7 @@ function ErrorPage({ onClick }) {
   );
 }
 
+
 function PassAfterInfo() {
 
   const history = useHistory();
@@ -65,6 +66,7 @@ function PassAfterInfo() {
   let [tel, setTel] = useState('');
   let [emNum, setEmNum] = useState('');
   const fRef = useRef();
+  console.log('window ::::::',window);
 
   function nameHandler(e) {
     setName(e.target.value)
@@ -108,9 +110,9 @@ function PassAfterInfo() {
   const PassButton = () => {
     setOpenAfterPassModal(!openAfterPassModal);
   }
+
   //다음 버튼 클릭시
   const onSubmit = (data) => {
-
     console.log('data', data);
     console.log('defaultState', defaultState);
 
@@ -124,10 +126,8 @@ function PassAfterInfo() {
     if (emNum === '') {
       setOpenEmNumModal(!openEmNumModal);
       return;
-
     } else {
-
-      //const _data = { ...defaultState, employeeNumber };
+      // const _data = { ...defaultState, employeeNumber };
       const _data = { ...defaultState, emNum };
 
       console.log('_data : ', _data);
@@ -151,11 +151,11 @@ function PassAfterInfo() {
           let checkEmployeeNumber = res.data.result
           if (checkEmployeeNumber === 'true') {
             _data.step_idx = res.data.step_idx;
-            // _data.class_id = res.data.class_id;
+            _data.jwt = res.data.jwt;
             console.log('pass _data to info : ', _data);
             history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
           } else {
-            alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
+            // alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
             history.replace('/errornopeople');
           }
         })

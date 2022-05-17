@@ -6,6 +6,8 @@ let apiUrl = '';
 // apiUrl = "https://mfr-stg.s1.co.kr:8901"
 //개발계
 apiUrl = "https://mfr-dev.s1.co.kr:8901"
+// apiUrl = "https://192.168.10.49:8888"
+
 
 
 // apiUrl = "https://121.165.242.171:10000"
