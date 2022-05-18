@@ -16,6 +16,7 @@ import TestPage from "./Page/TestPage";
 import ClosePage from "./Page/ClosePage";
 import SuccessAdminSignup from "./Page/SuccessAdminSignup";
 import { Suspense } from "react";
+import Test from "./Page/Test";
 import LoadingPaper from "./Component/loadingPage/LoadingPaper";
 // import StartPass from "./Page/StartPass";
 
@@ -35,9 +36,10 @@ function App() {
           <Route path={`${PREFIX}/errornopeople`} component={ErrorNoPeople} exact />
           <Route path={`${PREFIX}/weberrorpage`} component={WebErrorPage} exact />
           <Route path={`${PREFIX}/badaccesserror`} component={BadAccessError} exact />
-          <Route path={`${PREFIX}/test`} component={TestPage} exact />
+          {/* <Route path={`${PREFIX}/test`} component={TestPage} exact /> */}
           <Route path={`${PREFIX}/closepage`} component={ClosePage} exact />
           <Route path={`${PREFIX}/adminsignup`} component={AdminSignup} exact />
+          <Route path={`${PREFIX}/test`} component={Test} exact />
           <Route path={`${PREFIX}/successadminsignup`} component={SuccessAdminSignup} exact />
         </Switch>
       </div>

@@ -22,6 +22,8 @@ import { ReactComponent as WrieframeDetectSvg } from "../assets/wireframe-detect
 import { useHistory } from "react-router";
 import { PREFIX, API_URL } from "../config";
 import axios from "axios";
+import { useRecoilState } from "recoil";
+import {tokenSaver} from '../atom/index'; 
 
 const videoConstraints = {
   width: 640,
@@ -63,6 +65,7 @@ function Camera() {
   const [noImageWidth, setNoImageWidth] = useState();
   const [userOS, setUserOS] = useState();
   const progressRef = useRef(null);
+  const [token, setToken] = useRecoilState(tokenSaver);
 
 
   const fullScreen = useFullScreenHandle();
@@ -327,7 +330,7 @@ function Camera() {
       }
     }
 
-    axios.post(`${API_URL}/v1/fileTrans`, payload,  { headers : {'Authorization' : `Bearer ${data.jwt}`}})
+    axios.post(`${API_URL}/v1/fileTrans`, payload,  { headers : {'Authorization' : `Bearer ${token}`}})
       .then((res) => {
         if (res.data.result === 'true') {
           setLoading(false);
@@ -368,7 +371,7 @@ function Camera() {
         step_idx: data.step_idx,
       }
 
-      axios.post(`${API_URL}/v1/info/pictureEntered`, stepData, { headers : {'Authorization' : `Bearer ${data.jwt}`}} )
+      axios.post(`${API_URL}/v1/info/pictureEntered`, stepData, { headers : {'Authorization' : `Bearer ${token}`}} )
         .then(res => {
           console.log(res.status);
         })
@@ -451,6 +454,7 @@ function Camera() {
           <Box step={4} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
           <div className={style.cameraFiled}>
             <CheckTextFields />
+            {token}
           </div>
 
           <form className={style.mainForm} style={{ bottom: 0 }}>

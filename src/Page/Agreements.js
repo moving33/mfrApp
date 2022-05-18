@@ -11,6 +11,8 @@ import { useHistory } from "react-router";
 import { PREFIX, API_URL } from "../config";
 import axios from "axios";
 import LoadingPaper from "../Component/loadingPage/LoadingPaper";
+import { useRecoilState } from "recoil";
+import { tokenSaver } from "../atom";
 
 const Agreements = () => {
     const [loading, setLoading] = useState(false);
@@ -19,6 +21,7 @@ const Agreements = () => {
     const [checkedInputs, setCheckedInputs] = useState([]);
     const [sendData, setSendDate] = useState([]);
     const [sendData1, setSendDate1] = useState([]);
+    const [token, setToken] = useRecoilState(tokenSaver);
     const history = useHistory();
     var intFrameHeight = window.innerHeight;
     var nowScroll = window.pageYOffset;
@@ -106,7 +109,7 @@ const Agreements = () => {
         };
 
         console.log('agreements payload : ', payload);
-        axios.post(`${API_URL}/v1/info/personalAcceptData`, payload, { headers: { 'Authorization': `Bearer ${sendData.jwt}` } })
+        axios.post(`${API_URL}/v1/info/personalAcceptData`, payload, { headers: { 'Authorization': `Bearer ${token}` } })
             .then((res) => {
                 if (res.data.result === 'true') {
                     history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
@@ -134,7 +137,7 @@ const Agreements = () => {
             window.history.pushState(null, document.title, window.location.href);
         });
     }, [window.location.href]);
-
+    console.log(token);
     return (
         <>
 
@@ -147,7 +150,6 @@ const Agreements = () => {
                 <div className={style.group17}></div>
 
                 {/* <LoadingPaper /> */}
-
                 <div className={style.agree}>
                     <input id="check" type="checkbox"
                         onChange={(e) => {

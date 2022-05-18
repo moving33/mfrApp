@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import Errorpage from './Errorpage'
 import LoadingPaper from "../Component/loadingPage/LoadingPaper";
 import UsefulModal from "../Component/UsefulModal";
-
+import { useRecoilState } from "recoil";
 import qs from "qs";
 import utils from "../utils";
 import ErrorBox from "../Component/ErrorBox";
@@ -19,6 +19,7 @@ import axios from "axios";
 import { faUserInjured } from "@fortawesome/free-solid-svg-icons";
 import SeleteComapny from '../Component/SelectCompany'
 import { isMobile, MobileView } from 'react-device-detect';
+import { tokenSaver } from "../atom";
 
 function ErrorPage({ onClick }) {
   return (
@@ -57,7 +58,7 @@ function PassAfterInfo() {
 
   const [nameOn, setNameOn] = useState(false);
   const [telOn, setTelOn] = useState(false);
-
+  const [token, setToken] = useRecoilState(tokenSaver)
   const [openAfterPassModal, setOpenAfterPassModal] = useState(false);
   const [openEmNumModal, setOpenEmNumModal] = useState(false);
   const [openSelectKeyUndefinedModal, setOpenSelectKeyUndefinedModal] = useState(false);
@@ -151,11 +152,10 @@ function PassAfterInfo() {
           let checkEmployeeNumber = res.data.result
           if (checkEmployeeNumber === 'true') {
             _data.step_idx = res.data.step_idx;
-            _data.jwt = res.data.jwt;
-            console.log('pass _data to info : ', _data);
+            setToken(res.data.jwt);
             history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
           } else {
-            // alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
+            alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
             history.replace('/errornopeople');
           }
         })
