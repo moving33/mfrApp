@@ -224,15 +224,19 @@ function Info() {
               style={{ fontFamily: 'Noto Sans KR', width: '28%', backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC", fontSize: '15px', fontWeight: 500 }}
             >인증 요청</button>
           </div>
+
+          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%', color: "#808080" }}>본인인증 완료 후 입력가능합니다. </div>
           <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%' }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} disabled={true}
-            onClick={setEmployeeNumberModal}
-            open={employeeNumberModal} />
+            // onClick={setEmployeeNumberModal}
+            // open={employeeNumberModal} 
+            />
 
           <Input {...{ register, formName: "employeeNumber" }} label="사번" placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler}
             disabled={true}
-            onClick={setEmployeeNumberModal}
-            open={employeeNumberModal} />
+            // onClick={setEmployeeNumberModal}
+            // open={employeeNumberModal} 
+            />
 
           <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width: '100%' }} />
 
