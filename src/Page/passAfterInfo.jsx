@@ -55,6 +55,8 @@ function PassAfterInfo() {
   const [inputPassword, setInputPassword] = useState();
   const [company, setCompany] = useState([]);
   const [selectKey, setSelectKey] = useState();
+  const [loading, setLoading] = useState(false);
+
 
   const [nameOn, setNameOn] = useState(false);
   const [telOn, setTelOn] = useState(false);
@@ -132,6 +134,7 @@ function PassAfterInfo() {
       const sendUserInfo = { data: jsonEncUserInfo || null }
 
       // console.log('sendUserInfo : ', sendUserInfo);
+      setLoading(true);
       axios.post(`${API_URL}/v1/userBusinessIdInfo`, sendUserInfo)
         .then((res) => {
           // console.log('res',res);
@@ -150,10 +153,12 @@ function PassAfterInfo() {
             history.replace('/errornopeople');
           }
         }).catch(err => {
-          if (err?.response?.status === 400) {
+          if (err?.response?.status === 401) {
             alert('유효하지 않은 접근입니다.')
             window.location.href = 'https://www.s1.co.kr/';
-          } else {
+          } else if(err?.response?.status === 400){
+            history.replace('/errornopeople');
+          }else{
             alert(`오류로 인해 요청을 완료할 수 없습니다.나중에 다시 시도하십시오.`);
             window.location.href = 'https://www.s1.co.kr/';
           }
@@ -175,6 +180,9 @@ function PassAfterInfo() {
         <input type="hidden" name="EncodeData" value={encData} />
       </form>
       <div className={style.container}>
+      {
+        loading && <LoadingPaper />
+      }
         <Box step={1} text1="본인 확인을 위해" text2="정보를 입력해주세요" />
         <div>
           <Input label="사업장" value={defaultState?.site_name || ""} disable background={'#F2F2F2'} color={'#B2B2B2'} title='true' />

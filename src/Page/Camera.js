@@ -381,7 +381,7 @@ function Camera() {
         })
         .catch(err => {
           // console.log(err.response.status);
-          if (err?.response?.status === 400) {
+          if (err?.response?.status === 401) {
             alert('유효하지 않은 접근입니다.')
             window.location.href = 'https://www.s1.co.kr/';
           } else {
@@ -458,7 +458,6 @@ function Camera() {
           <Box step={4} text1="이렇게 하면" text2="얼굴인식이 잘 돼요" />
           <div className={style.cameraFiled}>
             <CheckTextFields />
-            {token}
           </div>
 
           <form className={style.mainForm} style={{ bottom: 0 }}>

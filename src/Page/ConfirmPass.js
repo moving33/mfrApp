@@ -9,11 +9,11 @@ import { encrypt, decrypt } from '../config/encOrdec';
 
 const getData = (d, k) => {
 
-  console.log(d);
-  console.log(k);
+  // console.log(d);
+  // console.log(k);
 
   let base64ToString = JSON.parse(Buffer.from(d, "base64").toString());
-  console.log(base64ToString);
+  // console.log(base64ToString);
 
   if (k == 'NAME') {
     return decodeURI(base64ToString.NAME,'utf-8');

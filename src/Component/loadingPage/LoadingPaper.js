@@ -20,7 +20,7 @@ import loading_014 from "../../assets/loading_014.png"
 
 const LoadingPaper = () => {
   
-  console.log('loading...');
+  // console.log('loading...');
 
   const [imgscr, setImgsrc] = useState()
   const loadingArr = [
