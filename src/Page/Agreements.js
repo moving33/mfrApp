@@ -2,7 +2,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import style from "../Css/Main.module.css";
 import Box from "../Component/Box";
 import SubmitButton from "../Component/SubmitButton";
-import ReactModal from 'react-modal'
+import { decrypt, encrypt } from '../config/encOrdec';
 import qs from "qs";
 import utils from "../utils";
 import AgreementsModal from "../Component/AgreementsModal";
@@ -101,6 +101,7 @@ const Agreements = () => {
         const _data = JSON.parse(utils.decode(q));
         console.log("_data :", _data);
         _data.agree = true;
+
         let payload = {
             site_manage_phone: sendData.tel,
             site_manage_name: sendData.name,
@@ -108,10 +109,16 @@ const Agreements = () => {
             step_idx: sendData.step_idx,
         };
 
-        console.log('agreements payload : ', payload);
-        axios.post(`${API_URL}/v1/info/personalAcceptData`, payload, { headers: { 'Authorization': `Bearer ${token}` } })
+        const JsonPayload = JSON.stringify(payload)
+        console.log("JsonPayload :", JsonPayload)
+        const EncJsonPayload = encrypt(JsonPayload)
+        console.log("EncJsonPayload :", EncJsonPayload)
+        const AxiosSendData = { data : EncJsonPayload }
+
+        console.log('agreements payload : ', AxiosSendData);
+        axios.post(`${API_URL}/v1/info/personalAcceptData`, AxiosSendData, { headers: { 'Authorization': `Bearer ${token}` } })
             .then((res) => {
-                if (res.data.result === 'true') {
+                if (res.data.result === '200') {
                     history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
                 } else {
                     alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");

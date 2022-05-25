@@ -4,16 +4,12 @@ import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { isMobile, MobileView, BrowserView } from 'react-device-detect';
-
 import style from "../Css/Main.module.css";
 import Box from "../Component/Box";
 import Input from "../Component/Input";
 import InputTel from "../Component/InputTel";
 import SubmitButton from "../Component/SubmitButton";
-
 import "../Css/Main.module.css";
-
-
 import UsefulModal from "../Component/UsefulModal";
 import AgreementsModal from "../Component/AgreementsModal";
 import Errorpage from './Errorpage'
@@ -23,7 +19,7 @@ import ErrorSubBox from "../Component/ErrorSubBox";
 import { PREFIX, API_URL } from "../config";
 import { faUserInjured } from "@fortawesome/free-solid-svg-icons";
 import SeleteComapny from '../Component/SelectCompany'
-
+import { decrypt, encrypt } from '../config/encOrdec';
 
 function ErrorPage({ onClick }) {
   return (
@@ -37,7 +33,6 @@ function ErrorPage({ onClick }) {
     </div>
   );
 }
-
 
 function Info() {
 
@@ -76,7 +71,7 @@ function Info() {
 
   const passModaltext = '국내 통신사로만 본인인증이 가능하며 해당 URL접속 시 데이터 통신비용이 발생할 수 있습니다.';
   const nextBtnModalText = '인증을 먼저해 주셔야 합니다.';
-  const emptyPhoneNum = '전화번호를 입력해 주세요'
+  const emptyPhoneNum = '전화번호를 입력해 주세요';
   const emptyName = '이름을 입력해 주세요';
 
   function nameHandler(e) {
@@ -99,17 +94,17 @@ function Info() {
   }, [window.location.href]);
 
   useEffect(() => {
-
     // if (!isMobile) history.push("/weberrorpage");
-    const { workplace } = qs.parse(window.location.search.slice(1));
-
-    console.log(" workplace : ", workplace);
-
     // if (workplace === null || workplace === undefined || workplace === "") history.push("/errorpage");
-
-    const payload = {
-      uuid: workplace || null
-    };
+    const { workplace } = qs.parse(window.location.search.slice(1));
+    
+    const enworkplace = { uuid : workplace || null }
+    console.log(" workplace : ", eworkplace);
+    const jsonPayload = JSON.stringify(enworkplace);
+    const eworkplace = encrypt(jsonPayload);
+    const payload = { data : eworkplace || null };
+    
+    console.log(" jsonPayload : ", jsonPayload);
 
     axios.post(`${API_URL}/v1/siteInfo`, payload)
       .then((res) => {
@@ -117,14 +112,17 @@ function Info() {
           alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
           history.push("/errorpage")
         }
-        console.log("intro.js::::");
-        setDefaultState(res.data);
-        const siteIdx = res.data.site_idx;
-
+        const { data } = res.data.data
+        console.log("intro.js::::", data);
+        console.log('res.data',res);
+        const decryptData = decrypt(res.data.data)
+        const realData = JSON.parse(decryptData);
+        setDefaultState(realData);
+        const siteIdx = realData.site_idx;    
+        console.log("siteIdx :::: 복호화 완료", siteIdx);
         axios({
           method: 'POST',
           data: { "siteIdx": siteIdx },
-          //url: 'http://121.165.242.171:9998/checkplus_json',
           url: `${API_URL}/v1/niceApiCodeController`,
           timeout: 5000,
         }).then((res) => {
@@ -161,16 +159,12 @@ function Info() {
 
     console.log('formData:', data);
     const { employeeNumber } = data;
-
     //사번을 입력하지 못하면 못 지나간다.
-
     if (emNum === '') {
       setOpenNxtBtnModal(!openNxtBtnModal)
       return;
     }
-
     const _data = { ...defaultState, employeeNumber };
-
     console.log('info.js::::::::::::::');
     console.log(_data);
 
@@ -185,8 +179,8 @@ function Info() {
 
     axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo)
       .then((res) => {
-        let checkEmployeeNumber = res.data.result
-        if (checkEmployeeNumber === 'false') {
+        // let checkEmployeeNumber = res.data.result
+        if (!(res.status === 200)) {
           alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
           history.replace('/Errorpage')
         } else {
@@ -200,6 +194,9 @@ function Info() {
   const handleCloseErrorPage = () => {
     setIsError(false);
   };
+  const IV_LENGTH = 16; // For AES, this is always 16
+
+
 
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
@@ -228,15 +225,15 @@ function Info() {
           <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%', color: "#808080" }}>본인인증 완료 후 입력가능합니다. </div>
           <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%' }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} disabled={true}
-            // onClick={setEmployeeNumberModal}
-            // open={employeeNumberModal} 
-            />
+          // onClick={setEmployeeNumberModal}
+          // open={employeeNumberModal} 
+          />
 
           <Input {...{ register, formName: "employeeNumber" }} label="사번" placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler}
             disabled={true}
-            // onClick={setEmployeeNumberModal}
-            // open={employeeNumberModal} 
-            />
+          // onClick={setEmployeeNumberModal}
+          // open={employeeNumberModal} 
+          />
 
           <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width: '100%' }} />
 

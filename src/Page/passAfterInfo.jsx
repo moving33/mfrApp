@@ -34,7 +34,6 @@ function ErrorPage({ onClick }) {
   );
 }
 
-
 function PassAfterInfo() {
 
   const history = useHistory();
@@ -67,7 +66,7 @@ function PassAfterInfo() {
   let [tel, setTel] = useState('');
   let [emNum, setEmNum] = useState('');
   const fRef = useRef();
-  console.log('window ::::::',window);
+  console.log('window ::::::', window);
 
   function nameHandler(e) {
     setName(e.target.value)
@@ -88,42 +87,30 @@ function PassAfterInfo() {
 
   //전 화면에서 받아오는 url q값 지금은 진행을 위해서 주석 처리 웹 접근 분기도 여기서 처리
   useEffect(() => {
-
     // if (!isMobile) history.replace("/weberrorpage");
-
     const { q } = qs.parse(window.location.search.slice(1));
-
     if (!q) {
       history.replace("/");
     }
-
     const data = JSON.parse(utils.decode(q));
-
     console.log('data : ', data);
-
     setDefaultState(data);
-
     console.log(defaultState);
-    window.scrollTo({top:0, left:0, behavior:'auto'});
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, []);
-
   //인증완료 클릭시
   const PassButton = () => {
     setOpenAfterPassModal(!openAfterPassModal);
   }
-
   //다음 버튼 클릭시
   const onSubmit = (data) => {
     console.log('data', data);
     console.log('defaultState', defaultState);
-
     const { employeeNumber } = data;
-
     if (selectKey === undefined || company.company_idx === 0) {
       setOpenSelectKeyUndefinedModal(!openSelectKeyUndefinedModal);
       return;
     }
-
     if (emNum === '') {
       setOpenEmNumModal(!openEmNumModal);
       return;
@@ -132,8 +119,6 @@ function PassAfterInfo() {
       const _data = { ...defaultState, emNum };
 
       console.log('_data : ', _data);
-
-      console.log('info.js::::::::::::::');
 
       const userInfo = {
         id: emNum,
@@ -149,14 +134,22 @@ function PassAfterInfo() {
       axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo)
         .then((res) => {
           console.log('res.data in info : ', res.data);
-          let checkEmployeeNumber = res.data.result
-          if (checkEmployeeNumber === 'true') {
+          // let checkEmployeeNumber = res.data.result
+          if (!(res.status === 200)) {
             _data.step_idx = res.data.step_idx;
             setToken(res.data.jwt);
             history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
           } else {
             alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
             history.replace('/errornopeople');
+          }
+        }).catch(err => {
+          if (err?.response?.status === 400) {
+            alert('유효하지 않은 접근입니다.')
+            window.location.href = 'https://www.s1.co.kr/';
+          } else {
+            alert(`오류로 인해 요청을 완료할 수 없습니다.나중에 다시 시도하십시오.`);
+            window.location.href = 'https://www.s1.co.kr/';
           }
         })
     }
@@ -186,19 +179,19 @@ function PassAfterInfo() {
 
           <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} setValue={setName} />
 
-          <div style={{ marginTop:'5%'}}>
+          <div style={{ marginTop: '5%' }}>
             <div className={style.inputLabelStyle}>전화번호</div>
             <div style={{ display: "flex", width: '100%' }}>
-                <input label="전화번호" value={defaultState?.tel || tel} id='telInput' 
+              <input label="전화번호" value={defaultState?.tel || tel} id='telInput'
                 onChange={telHandler} placeholder={"숫자만 입력해주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
-              <button className={style.sendInfoSuccess} onClick={PassButton} style={{fontSize:'15px', width:'28%'}}>인증 완료</button>
+              <button className={style.sendInfoSuccess} onClick={PassButton} style={{ fontSize: '15px', width: '28%' }}>인증 완료</button>
             </div>
           </div>
 
-          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop:'5%' }}>회사</div>
-          <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} disabled={false}/>
+          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%' }}>회사</div>
+          <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} disabled={false} />
 
-          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginBottom: "2%",  marginTop:'5%' }}>사번</div>
+          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginBottom: "2%", marginTop: '5%' }}>사번</div>
           <div className={style.inputTeam}>
             <input className={style.inputPhone} placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler} />
           </div>

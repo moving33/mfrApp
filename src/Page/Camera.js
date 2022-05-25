@@ -23,7 +23,8 @@ import { useHistory } from "react-router";
 import { PREFIX, API_URL } from "../config";
 import axios from "axios";
 import { useRecoilState } from "recoil";
-import {tokenSaver} from '../atom/index'; 
+import { tokenSaver } from '../atom/index';
+
 
 const videoConstraints = {
   width: 640,
@@ -70,13 +71,10 @@ function Camera() {
 
   const fullScreen = useFullScreenHandle();
 
-  useEffect(()=>{
-    console.log(userOS);
-  },[step])
 
   useEffect(() => {
     var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
-    // console.log(varUA);
+    console.log(varUA);
     if (varUA.indexOf('android') > -1) {
       setUserOS('A');
       return userOS;
@@ -97,7 +95,6 @@ function Camera() {
     return () => {
       clearInterval(intervalIdRef.current);
     };
-
   }, []);
 
   const capture = () => {
@@ -116,14 +113,14 @@ function Camera() {
     }
   }, [imgList]);
 
-  useEffect(()=>{
-      navigator.mediaDevices
-      .getUserMedia({video:true})
-      .then(()=>{})
-      .catch((error)=>{
+  useEffect(() => {
+    navigator.mediaDevices
+      .getUserMedia({ video: true })
+      .then(() => { })
+      .catch((error) => {
         console.error(error);
       })
-  },[])
+  }, [])
 
   const _imgList = JSON.parse(JSON.stringify(imgList));
 
@@ -330,7 +327,7 @@ function Camera() {
       }
     }
 
-    axios.post(`${API_URL}/v1/fileTrans`, payload,  { headers : {'Authorization' : `Bearer ${token}`}})
+    axios.post(`${API_URL}/v1/fileTrans`, payload, { headers: { 'Authorization': `Bearer ${token}` } })
       .then((res) => {
         if (res.data.result === 'true') {
           setLoading(false);
@@ -340,12 +337,12 @@ function Camera() {
           setStep(3);
         }
       })
-      .catch( err => {
+      .catch(err => {
         console.log(err.response.status);
-        if(err.response.status === 401 ){
+        if (err.response.status === 401) {
           alert('유효하지 않은 접근입니다.')
           window.location.href = 'https://www.s1.co.kr/';
-        }else{
+        } else {
           alert(`오류로 인해 요청을 완료할 수 없습니다.나중에 다시 시도하십시오.`);
           window.location.href = 'https://www.s1.co.kr/';
         }
@@ -355,10 +352,10 @@ function Camera() {
 
   const reopenCamera = (captureIdx) => {
     captureIdxRef.current = captureIdx;
-    setTimeout(()=>{
-      if(userOS === 'A') fullScreen.enter();
+    setTimeout(() => {
+      if (userOS === 'A') fullScreen.enter();
       setStep(1);
-    },100)
+    }, 100)
   };
 
   useEffect(() => {
@@ -371,16 +368,16 @@ function Camera() {
         step_idx: data.step_idx,
       }
 
-      axios.post(`${API_URL}/v1/info/pictureEntered`, stepData, { headers : {'Authorization' : `Bearer ${token}`}} )
+      axios.post(`${API_URL}/v1/info/pictureEntered`, stepData, { headers: { 'Authorization': `Bearer ${token}` } })
         .then(res => {
           console.log(res.status);
         })
         .catch(err => {
           console.log(err.response.status);
-          if(err?.response?.status === 401 ){
+          if (err?.response?.status === 400) {
             alert('유효하지 않은 접근입니다.')
             window.location.href = 'https://www.s1.co.kr/';
-          }else{
+          } else {
             alert(`오류로 인해 요청을 완료할 수 없습니다.나중에 다시 시도하십시오.`);
             window.location.href = 'https://www.s1.co.kr/';
           }
@@ -446,7 +443,7 @@ function Camera() {
       window.location.href = 'https://www.s1.co.kr/';
     }, 2000)
   };
-  return (      
+  return (
     <div className={style.body}>
       {step === 0 && (
         <div className={style.container}>
@@ -476,152 +473,152 @@ function Camera() {
       )}
 
       {
-      userOS === 'A'
-        ?
-        <FullScreen handle={fullScreen}>
-          {step === 1 && (
-            <div className={style.cameraBackground} id='cameraBack'>
-              <div className={style.cameraTopContainer}>
-                <img
-                  src={closePng}
-                  className={style.closeButton}
-                  onClick={closeCam}
-                />
-                {cameraButton}
-              </div>
-
-              <div className={style.coverDiv}>
-                <div className={style.drowingContainer}>
-                  <div className={style.drowingContainer2}>
-                    <WrieframeSvg className={style.wireframeIcon} />
-                  </div>
-                </div>
-
-                <div className={style.webcamContainer}>
-                  {detected === true
-                    ?
-                    <canvas
-                      ref={canvasRef}
-                      className={style.camera}
-                      style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
-                      id='cameraCanvas'
-                    ></canvas>
-                    :
-                    <canvas
-                      ref={canvasRef}
-                      className={style.camera}
-                      style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
-                      id='cameraCanvas'
-                    ></canvas>
-                  }
-                  <Webcam
-                    ref={webcamRef}
-                    videoConstraints={videoConstraints}
-                    mirrored={true}
-                    className={style.camera}
-                    screenshotFormat="image/jpeg"
-                    width={480}
-                    height={640}
+        userOS === 'A'
+          ?
+          <FullScreen handle={fullScreen}>
+            {step === 1 && (
+              <div className={style.cameraBackground} id='cameraBack'>
+                <div className={style.cameraTopContainer}>
+                  <img
+                    src={closePng}
+                    className={style.closeButton}
+                    onClick={closeCam}
                   />
+                  {cameraButton}
                 </div>
 
-                {detected === true
-                  ? <div className={style.webcamInfoText}>
-                    <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity:3 }}>정면을 계속 응시해주세요</span>
-                    <ProgressCircle
-                      capturePlay={capturePlay}
-                      onComplete={handleCaptureComplete}
-                      detected={detected}
-                      setDetected={setDetected}
-                      step={step}
+                <div className={style.coverDiv}>
+                  <div className={style.drowingContainer}>
+                    <div className={style.drowingContainer2}>
+                      <WrieframeSvg className={style.wireframeIcon} />
+                    </div>
+                  </div>
 
+                  <div className={style.webcamContainer}>
+                    {detected === true
+                      ?
+                      <canvas
+                        ref={canvasRef}
+                        className={style.camera}
+                        style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
+                        id='cameraCanvas'
+                      ></canvas>
+                      :
+                      <canvas
+                        ref={canvasRef}
+                        className={style.camera}
+                        style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
+                        id='cameraCanvas'
+                      ></canvas>
+                    }
+                    <Webcam
+                      ref={webcamRef}
+                      videoConstraints={videoConstraints}
+                      mirrored={true}
+                      className={style.camera}
+                      screenshotFormat="image/jpeg"
+                      width={480}
+                      height={640}
                     />
                   </div>
-                  : <div className={style.webcamInfoText}>
-                    <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity:3 }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
-                    <ProgressCircle
-                      capturePlay={capturePlay}
-                      onComplete={handleCaptureComplete}
-                      step={step}
 
-                    />
-                  </div>}
-              </div>
-            </div>
-          )}
-        </FullScreen>
-        :
-        <>
-          {step === 1 && (
-            <div className={style.cameraBackground} id='cameraBack'>
-              <div className={style.cameraTopContainer}>
-                <img
-                  src={closePng}
-                  className={style.closeButton}
-                  onClick={closeCam}
-                />
-                {cameraButton}
-              </div>
-
-              <div className={style.coverDiv}>
-                <div className={style.drowingContainer}>
-                  <div className={style.drowingContainer2}>
-                    <WrieframeSvg className={style.wireframeIcon} />
-                  </div>
-                </div>
-
-                <div className={style.webcamContainer}>
                   {detected === true
-                    ?
-                    <canvas
-                      ref={canvasRef}
-                      className={style.camera}
-                      style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
-                      id='cameraCanvas'
-                    ></canvas>
-                    :
-                    <canvas
-                      ref={canvasRef}
-                      className={style.camera}
-                      style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
-                      id='cameraCanvas'
-                    ></canvas>
-                  }
-                  <Webcam
-                    ref={webcamRef}
-                    videoConstraints={videoConstraints}
-                    mirrored={true}
-                    className={style.camera}
-                    screenshotFormat="image/jpeg"
-                    width={480}
-                    height={640}
+                    ? <div className={style.webcamInfoText}>
+                      <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity: 3 }}>정면을 계속 응시해주세요</span>
+                      <ProgressCircle
+                        capturePlay={capturePlay}
+                        onComplete={handleCaptureComplete}
+                        detected={detected}
+                        setDetected={setDetected}
+                        step={step}
+
+                      />
+                    </div>
+                    : <div className={style.webcamInfoText}>
+                      <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity: 3 }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
+                      <ProgressCircle
+                        capturePlay={capturePlay}
+                        onComplete={handleCaptureComplete}
+                        step={step}
+
+                      />
+                    </div>}
+                </div>
+              </div>
+            )}
+          </FullScreen>
+          :
+          <>
+            {step === 1 && (
+              <div className={style.cameraBackground} id='cameraBack'>
+                <div className={style.cameraTopContainer}>
+                  <img
+                    src={closePng}
+                    className={style.closeButton}
+                    onClick={closeCam}
                   />
+                  {cameraButton}
                 </div>
 
-                {detected === true
-                  ? <div className={style.webcamInfoText}>
-                    <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity:3 }}>정면을 계속 응시해주세요</span>
-                    <ProgressCircle
-                      capturePlay={capturePlay}
-                      onComplete={handleCaptureComplete}
-                      detected={detected}
-                      setDetected={setDetected}
-                      step={step}
+                <div className={style.coverDiv}>
+                  <div className={style.drowingContainer}>
+                    <div className={style.drowingContainer2}>
+                      <WrieframeSvg className={style.wireframeIcon} />
+                    </div>
+                  </div>
+
+                  <div className={style.webcamContainer}>
+                    {detected === true
+                      ?
+                      <canvas
+                        ref={canvasRef}
+                        className={style.camera}
+                        style={{ position: "absolute", zIndex: 3, border: "4px solid blue" }}
+                        id='cameraCanvas'
+                      ></canvas>
+                      :
+                      <canvas
+                        ref={canvasRef}
+                        className={style.camera}
+                        style={{ position: "absolute", zIndex: 3, border: "3px solid red" }}
+                        id='cameraCanvas'
+                      ></canvas>
+                    }
+                    <Webcam
+                      ref={webcamRef}
+                      videoConstraints={videoConstraints}
+                      mirrored={true}
+                      className={style.camera}
+                      screenshotFormat="image/jpeg"
+                      width={480}
+                      height={640}
                     />
                   </div>
-                  : <div className={style.webcamInfoText}>
-                    <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity:3 }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
-                    <ProgressCircle
-                      capturePlay={capturePlay}
-                      onComplete={handleCaptureComplete}
-                      detected={detected}
-                      step={step}
-                    />
-                  </div>}
+
+                  {detected === true
+                    ? <div className={style.webcamInfoText}>
+                      <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity: 3 }}>정면을 계속 응시해주세요</span>
+                      <ProgressCircle
+                        capturePlay={capturePlay}
+                        onComplete={handleCaptureComplete}
+                        detected={detected}
+                        setDetected={setDetected}
+                        step={step}
+                      />
+                    </div>
+                    : <div className={style.webcamInfoText}>
+                      <span style={{ textAlign: 'left', margin: "0 0 0 10px", opacity: 3 }}>눈썹, 눈, 코, 입이 잘 보이도록 안내선에 <br /> 맞춰 촬영해주세요</span>
+                      <ProgressCircle
+                        capturePlay={capturePlay}
+                        onComplete={handleCaptureComplete}
+                        detected={detected}
+                        step={step}
+                      />
+                    </div>}
+                </div>
               </div>
-            </div>
-          )}
-        </>
+            )}
+          </>
       }
 
       {step === 2 && (
@@ -743,7 +740,7 @@ function Camera() {
                 <p>완료되었습니다</p>
               </div>
             </div>
-            <div className={style.errorSubBoxContainer} style={{marginTop:'-2%'}}>
+            <div className={style.errorSubBoxContainer} style={{ marginTop: '-2%' }}>
               <p className="ErrorSubscript">
                 출입등록이 가능해지면<br />
                 문자로 알려 드릴게요!

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { PREFIX, API_URL } from "../config";
 import style from "../Css/Main.module.css";
+import { decrypt, encrypt } from '../config/encOrdec';
 
 const SelectCompany = ({ company, setCompany, selectKey, setSelectKey, disabled, onClick, open }) => {
 
@@ -11,20 +12,16 @@ const SelectCompany = ({ company, setCompany, selectKey, setSelectKey, disabled,
     //console.log(selectKey);
   }
 
-  //   useEffect(() => {
-  //  axios.post(`${API_URL}/v1/info/companyCode`)
-  //  .then((res) => {
-  //    setCompany(res.data)
-  //  })
-  //   }, []);
-
-
   // 페이지에서 비동기 요청이 필요할 때 useEffect 안에서 async await 처리를 해 데이터를 받아와야함
   useEffect(() => {
     const fetchCompany = async () => {
       const { data } = await axios.post(`${API_URL}/v1/info/companyCode`)
-      setCompany(data)
-      console.log(data)
+      console.log('company data',data)
+      const EncData = data.data
+      console.log('company EncData',EncData)
+      const decData = decrypt(EncData)
+      console.log('company decData',decData)
+      setCompany(decData);
     }
     fetchCompany()
   }, [])
