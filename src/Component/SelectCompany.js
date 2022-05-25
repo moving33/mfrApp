@@ -16,12 +16,10 @@ const SelectCompany = ({ company, setCompany, selectKey, setSelectKey, disabled,
   useEffect(() => {
     const fetchCompany = async () => {
       const { data } = await axios.post(`${API_URL}/v1/info/companyCode`)
-      console.log('company data',data)
       const EncData = data.data
-      console.log('company EncData',EncData)
       const decData = decrypt(EncData)
-      console.log('company decData',decData)
-      setCompany(decData);
+      const jsonParseData = JSON.parse(decData)
+      setCompany(jsonParseData);
     }
     fetchCompany()
   }, [])

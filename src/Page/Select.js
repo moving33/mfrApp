@@ -27,7 +27,7 @@ function Select() {
 
   const handleClick = () => {
     const { q } = qs.parse(window.location.search.slice(1));
-    console.log("_data :", q);
+    // console.log("_data :", q);
     const _data = JSON.parse(utils.decode(q));
     _data.isGlass = isGlass;
     history.replace(`${PREFIX}/camera?q=${utils.encode(JSON.stringify(_data))}`);

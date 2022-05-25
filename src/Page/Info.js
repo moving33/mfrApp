@@ -99,7 +99,6 @@ function Info() {
     const { workplace } = qs.parse(window.location.search.slice(1));
     
     const enworkplace = { uuid : workplace || null }
-    console.log(" workplace : ", eworkplace);
     const jsonPayload = JSON.stringify(enworkplace);
     const eworkplace = encrypt(jsonPayload);
     const payload = { data : eworkplace || null };
@@ -113,13 +112,10 @@ function Info() {
           history.push("/errorpage")
         }
         const { data } = res.data.data
-        console.log("intro.js::::", data);
-        console.log('res.data',res);
         const decryptData = decrypt(res.data.data)
         const realData = JSON.parse(decryptData);
         setDefaultState(realData);
         const siteIdx = realData.site_idx;    
-        console.log("siteIdx :::: 복호화 완료", siteIdx);
         axios({
           method: 'POST',
           data: { "siteIdx": siteIdx },
@@ -127,15 +123,13 @@ function Info() {
           timeout: 5000,
         }).then((res) => {
           localStorage.setItem('workplace', JSON.stringify(workplace));
-          console.log('default', defaultState);
-          console.log(res);
           setEncData(res.data.enc_data);
         }).catch(() => {
           // window.location.reload();
         });
       })
       .catch((err) => {
-        //history.push("/errorpage")
+        //history.push("/errorpage");
       });
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, []);
@@ -157,7 +151,6 @@ function Info() {
 
   const onSubmit = (data) => {
 
-    console.log('formData:', data);
     const { employeeNumber } = data;
     //사번을 입력하지 못하면 못 지나간다.
     if (emNum === '') {
@@ -165,8 +158,6 @@ function Info() {
       return;
     }
     const _data = { ...defaultState, employeeNumber };
-    console.log('info.js::::::::::::::');
-    console.log(_data);
 
     const userInfo = {
       id: employeeNumber,
@@ -175,7 +166,6 @@ function Info() {
       site_idx: _data.site_idx,
       company_idx: selectKey
     }
-    console.log(userInfo)
 
     axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo)
       .then((res) => {
@@ -194,7 +184,6 @@ function Info() {
   const handleCloseErrorPage = () => {
     setIsError(false);
   };
-  const IV_LENGTH = 16; // For AES, this is always 16
 
 
 

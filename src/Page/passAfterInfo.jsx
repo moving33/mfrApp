@@ -20,6 +20,7 @@ import { faUserInjured } from "@fortawesome/free-solid-svg-icons";
 import SeleteComapny from '../Component/SelectCompany'
 import { isMobile, MobileView } from 'react-device-detect';
 import { tokenSaver } from "../atom";
+import { encrypt, decrypt } from "../config/encOrdec";
 
 function ErrorPage({ onClick }) {
   return (
@@ -66,7 +67,7 @@ function PassAfterInfo() {
   let [tel, setTel] = useState('');
   let [emNum, setEmNum] = useState('');
   const fRef = useRef();
-  console.log('window ::::::', window);
+  // console.log('window ::::::', window);
 
   function nameHandler(e) {
     setName(e.target.value)
@@ -93,9 +94,9 @@ function PassAfterInfo() {
       history.replace("/");
     }
     const data = JSON.parse(utils.decode(q));
-    console.log('data : ', data);
+    // console.log('data : ', data);
     setDefaultState(data);
-    console.log(defaultState);
+    // console.log(defaultState);
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
   }, []);
   //인증완료 클릭시
@@ -104,8 +105,8 @@ function PassAfterInfo() {
   }
   //다음 버튼 클릭시
   const onSubmit = (data) => {
-    console.log('data', data);
-    console.log('defaultState', defaultState);
+    // console.log('data', data);
+    // console.log('defaultState', defaultState);
     const { employeeNumber } = data;
     if (selectKey === undefined || company.company_idx === 0) {
       setOpenSelectKeyUndefinedModal(!openSelectKeyUndefinedModal);
@@ -115,10 +116,8 @@ function PassAfterInfo() {
       setOpenEmNumModal(!openEmNumModal);
       return;
     } else {
-      // const _data = { ...defaultState, employeeNumber };
-      const _data = { ...defaultState, emNum };
 
-      console.log('_data : ', _data);
+      const _data = { ...defaultState, emNum };
 
       const userInfo = {
         id: emNum,
@@ -128,16 +127,23 @@ function PassAfterInfo() {
         company_idx: selectKey,
         classId: _data.class_id,
       }
+      const jsonUserInfo = JSON.stringify(userInfo);
+      const jsonEncUserInfo = encrypt(jsonUserInfo);
+      const sendUserInfo = { data: jsonEncUserInfo || null }
 
-      console.log('userInfo : ', userInfo);
-
-      axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo)
+      // console.log('sendUserInfo : ', sendUserInfo);
+      axios.post(`${API_URL}/v1/userBusinessIdInfo`, sendUserInfo)
         .then((res) => {
-          console.log('res.data in info : ', res.data);
-          // let checkEmployeeNumber = res.data.result
-          if (!(res.status === 200)) {
-            _data.step_idx = res.data.step_idx;
-            setToken(res.data.jwt);
+          // console.log('res',res);
+          // console.log('res status',res.status);
+          if (res.status === 200) {
+            // const { data } = res.data
+            const decryptData = decrypt(res.data.data)
+            const realData = JSON.parse(decryptData);
+            _data.step_idx = realData.step_idx;
+            // _data.step_idx = res.data.step_idx;
+            // setToken(res.data.jwt);
+            setToken(realData.jwt);
             history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
           } else {
             alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
@@ -159,7 +165,7 @@ function PassAfterInfo() {
     setIsError(false);
   };
 
-  if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
+  // if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
 
@@ -168,17 +174,11 @@ function PassAfterInfo() {
         <input type="hidden" name="m" value="checkplusSerivce" />
         <input type="hidden" name="EncodeData" value={encData} />
       </form>
-
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="정보를 입력해주세요" />
-
-
         <div>
-
           <Input label="사업장" value={defaultState?.site_name || ""} disable background={'#F2F2F2'} color={'#B2B2B2'} title='true' />
-
           <Input label="이름" value={defaultState?.name || name} onChange={nameHandler} setValue={setName} />
-
           <div style={{ marginTop: '5%' }}>
             <div className={style.inputLabelStyle}>전화번호</div>
             <div style={{ display: "flex", width: '100%' }}>
@@ -187,15 +187,12 @@ function PassAfterInfo() {
               <button className={style.sendInfoSuccess} onClick={PassButton} style={{ fontSize: '15px', width: '28%' }}>인증 완료</button>
             </div>
           </div>
-
           <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%' }}>회사</div>
           <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} disabled={false} />
-
           <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginBottom: "2%", marginTop: '5%' }}>사번</div>
           <div className={style.inputTeam}>
             <input className={style.inputPhone} placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler} />
           </div>
-
           <div className={style.submitButtonWrapper} style={{ position: 'relative' }}>
             <button className={style.submitButton}
               style={{ width: '100%' }}
@@ -224,7 +221,6 @@ function PassAfterInfo() {
           ? (<UsefulModal text1='회사를 선택해 주세요' Disagree={setOpenSelectKeyUndefinedModal} open={openSelectKeyUndefinedModal} />)
           : null
       }
-
     </div>
   );
 }

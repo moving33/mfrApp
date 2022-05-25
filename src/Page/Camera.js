@@ -24,6 +24,7 @@ import { PREFIX, API_URL } from "../config";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { tokenSaver } from '../atom/index';
+import { encrypt, decrypt } from "../config/encOrdec";
 
 
 const videoConstraints = {
@@ -74,7 +75,7 @@ function Camera() {
 
   useEffect(() => {
     var varUA = navigator.userAgent.toLowerCase(); //userAgent 값 얻기
-    console.log(varUA);
+    // console.log(varUA);
     if (varUA.indexOf('android') > -1) {
       setUserOS('A');
       return userOS;
@@ -91,7 +92,7 @@ function Camera() {
     const { q } = qs.parse(window.location.search.slice(1));
     const _data = JSON.parse(utils.decode(q));
     setData(_data);
-    console.log('camera data', data);
+    // console.log('camera data', data);
     return () => {
       clearInterval(intervalIdRef.current);
     };
@@ -118,7 +119,7 @@ function Camera() {
       .getUserMedia({ video: true })
       .then(() => { })
       .catch((error) => {
-        console.error(error);
+        // console.error(error);
       })
   }, [])
 
@@ -127,7 +128,7 @@ function Camera() {
   const handleCaptureComplete = async (detected, step) => {
     if (detected) {
 
-      console.log(step);
+      // console.log(step);
 
       setReady(false);
       setDetected(false);
@@ -142,10 +143,9 @@ function Camera() {
       // console.log(imageSrc);
       _imgList[captureIdxRef.current] = { src: imageSrc };   //사진 배열 안에 넣기
 
-
       setTimeout(() => {
         const imageSrc2 = webcamRef.current.getScreenshot({ width: imgW, height: 512 });
-        console.log('imageSrc2', imageSrc2);
+        // console.log('imageSrc2', imageSrc2);
         _imgList[(captureIdxRef.current) + 2] = { src: imageSrc2 };
 
         setImgList(_imgList);
@@ -240,7 +240,10 @@ function Camera() {
   };
 
   const cancel = () => {
-    window.location.reload();
+    // window.location.reload();
+    captureIdxRef.current = 0;
+    setImgList([])
+    setStep(0);
   };
 
   const submit = () => {
@@ -248,7 +251,7 @@ function Camera() {
     let payload = {}
 
     if (imgList.length === 4) {
-      console.log(imgList);
+      // console.log(imgList);
       const img = imgList[0].src.split(',')[1];
       const img2 = imgList[1].src.split(',')[1];
       const img3 = imgList[2].src.split(',')[1];
@@ -327,9 +330,13 @@ function Camera() {
       }
     }
 
-    axios.post(`${API_URL}/v1/fileTrans`, payload, { headers: { 'Authorization': `Bearer ${token}` } })
+    const jsonUserInfo = JSON.stringify(payload);
+    const jsonEncUserInfo = encrypt(jsonUserInfo);
+    const sendUserInfo = { data: jsonEncUserInfo || null }
+
+    axios.post(`${API_URL}/v1/fileTrans`, sendUserInfo, { headers: { 'Authorization': `Bearer ${token}` } })
       .then((res) => {
-        if (res.data.result === 'true') {
+        if (res.status === 200) {
           setLoading(false);
           setStep(3);
         } else {
@@ -338,7 +345,7 @@ function Camera() {
         }
       })
       .catch(err => {
-        console.log(err.response.status);
+        // console.log(err.response.status);
         if (err.response.status === 401) {
           alert('유효하지 않은 접근입니다.')
           window.location.href = 'https://www.s1.co.kr/';
@@ -362,7 +369,7 @@ function Camera() {
 
     window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
     if (step === 1) {
-      console.log('jwt', data.jwt);
+      // console.log('jwt', data.jwt);
 
       const stepData = {
         step_idx: data.step_idx,
@@ -370,10 +377,10 @@ function Camera() {
 
       axios.post(`${API_URL}/v1/info/pictureEntered`, stepData, { headers: { 'Authorization': `Bearer ${token}` } })
         .then(res => {
-          console.log(res.status);
+          // console.log(res.status);
         })
         .catch(err => {
-          console.log(err.response.status);
+          // console.log(err.response.status);
           if (err?.response?.status === 400) {
             alert('유효하지 않은 접근입니다.')
             window.location.href = 'https://www.s1.co.kr/';

@@ -30,9 +30,9 @@ const Agreements = () => {
         setScrollY(window.pageYOffset); // window 스크롤 값을 ScrollY에 저장
     }
 
-    useEffect(() => {
-        console.log("ScrollY is ", ScrollY); // ScrollY가 변화할때마다 값을 콘솔에 출력
-    }, [ScrollY])
+    // useEffect(() => {
+    //     console.log("ScrollY is ", ScrollY); // ScrollY가 변화할때마다 값을 콘솔에 출력
+    // }, [ScrollY])
 
     useEffect(() => {
         const watch = () => {
@@ -56,7 +56,7 @@ const Agreements = () => {
     const changeHandler1 = (checked, id) => {
         if (checked) {
             setCheckedInputs([...checkedInputs, id]);
-            console.log(checkedInputs);
+            // console.log(checkedInputs);
         } else {
             setCheckedInputs(checkedInputs.filter(el => el !== id));
         }
@@ -65,25 +65,25 @@ const Agreements = () => {
     useEffect(() => {
         const fetchAgreement = async () => {
             const { data } = await axios.post(`${API_URL}/v1/codeTextApi`)
-            console.log(data)
+            // console.log(data)
             setSendDate1(data)
             setLoading(false);
         }
         fetchAgreement();
         const { q } = qs.parse(window.location.search.slice(1));
         setSendDate(JSON.parse(utils.decode(q)))
-        console.log('agreements q : ', JSON.parse(utils.decode(q)));
+        // console.log('agreements q : ', JSON.parse(utils.decode(q)));
 
         window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
 
     }, []);
 
     useEffect(() => {
-        console.log(checkedInputs)
+        // console.log(checkedInputs)
     }, [checkedInputs])
 
     const handleClick = () => {
-        console.log('run');
+        // console.log('run');
         // if (!(checkedInputs.includes('check', 'check2')) ||
         //     !(checkedInputs.includes('check')) ||
         //     !(checkedInputs.includes('check2'))) {
@@ -96,10 +96,10 @@ const Agreements = () => {
 
     const nextBtn = () => {
         const { q } = qs.parse(window.location.search.slice(1));
-        console.log(q);
-        console.log('sendData :', sendData); // 전 페이지에서 넘어온 정보들
+        // console.log(q);
+        // console.log('sendData :', sendData); // 전 페이지에서 넘어온 정보들
         const _data = JSON.parse(utils.decode(q));
-        console.log("_data :", _data);
+        // console.log("_data :", _data);
         _data.agree = true;
 
         let payload = {
@@ -110,15 +110,15 @@ const Agreements = () => {
         };
 
         const JsonPayload = JSON.stringify(payload)
-        console.log("JsonPayload :", JsonPayload)
+        // console.log("JsonPayload :", JsonPayload)
         const EncJsonPayload = encrypt(JsonPayload)
-        console.log("EncJsonPayload :", EncJsonPayload)
+        // console.log("EncJsonPayload :", EncJsonPayload)
         const AxiosSendData = { data : EncJsonPayload }
+        // console.log('agreements payload : ', AxiosSendData);
 
-        console.log('agreements payload : ', AxiosSendData);
         axios.post(`${API_URL}/v1/info/personalAcceptData`, AxiosSendData, { headers: { 'Authorization': `Bearer ${token}` } })
             .then((res) => {
-                if (res.data.result === '200') {
+                if (res.status === 200) {
                     history.replace(`${PREFIX}/select?q=${utils.encode(JSON.stringify(_data))}`);
                 } else {
                     alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
@@ -138,13 +138,13 @@ const Agreements = () => {
     }
 
     useEffect(() => {
-        console.log(window.history.state)
+        // console.log(window.history.state)
         window.history.pushState(null, document.title, window.location.href);
         window.addEventListener('popstate', function (event) {
             window.history.pushState(null, document.title, window.location.href);
         });
     }, [window.location.href]);
-    console.log(token);
+    // console.log(token);
     return (
         <>
 

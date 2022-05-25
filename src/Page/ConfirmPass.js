@@ -5,6 +5,7 @@ import { API_URL, PREFIX } from '../config';
 import utils from '../utils';
 import { useHistory } from 'react-router-dom';
 import { encode } from "qs/lib/utils";
+import { encrypt, decrypt } from '../config/encOrdec';
 
 const getData = (d, k) => {
 
@@ -40,49 +41,38 @@ function ConfirmPass() { // 1. 첫시작
 
   useEffect(() => {
     const p = qs.parse(window.location.search.slice(1));
-
     let workplace = localStorage.getItem('workplace');
-    console.log(workplace);
+    let cutplace = workplace.slice(1, workplace.length - 1);
 
-    try {
-      //workplace = JSON.parse(workplace); 
-      workplace = JSON.parse(workplace);
-    } catch (err) {
-      console.log(err);
-    }
+    const enworkplace = { uuid : cutplace || null }
+    const jsonPayload = JSON.stringify(enworkplace);
+    const eworkplace = encrypt(jsonPayload);
+    const payload = { data : eworkplace || null };
 
-    const payload = {
-      uuid: workplace || null
-    }
-
-    //uuid 사업장 호출
+    // uuid 사업장 호출
     axios.post(`${API_URL}/v1/siteInfo`, payload)
 
       .then((res) => {
-        console.log(res);
         if (res.data === null || res.data.result === '잘못된 요청입니다.') {
-          history.replace("/errorpage")
+          // history.replace("/errorpage")
         }
-        console.log("intro.js::::")
         //setWorkplace(res.data)
-        console.log(res.data);
-
+        const { data } = res.data.data
+        const decryptData = decrypt(res.data.data)
+        const realData = JSON.parse(decryptData);
         const _data = {
-          //workplace,
-          //resData,
-          site_name: res.data.site_name,
-          site_idx: res.data.site_idx,
-          class_id: res.data.class_id,
-
+          // workplace,
+          // resData,
+          site_name: realData.site_name,
+          site_idx:  realData.site_idx,
+          class_id:  realData.class_id,
           name: getData(p.data, 'NAME'),
           tel: getData(p.data, 'MOBILE_NO'),
         }
-
-        console.log(_data);
         history.replace(`${PREFIX}/info?q=${utils.encode(JSON.stringify(_data))}`);
       })
       .catch((err) => {
-        history.replace("/errorpage")
+        // history.replace("/errorpage")
       })
 
   }, []);

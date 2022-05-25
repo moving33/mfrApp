@@ -50,14 +50,14 @@ function ProgressCircle({ capturePlay, onComplete, detected, ref }) {
 
 
   const playCapture = async (timer, state) => {
-    console.log(state);
+    // console.log(state);
     if (!detected) {
       return;
     } 
       let _timer = timer;
       _timer += 25;
       if(state.isOffedCamera){
-        console.log(state.isOffedCamera);
+        // console.log(state.isOffedCamera);
         setTimer(0)
         _timer = 0
         return;
@@ -65,22 +65,22 @@ function ProgressCircle({ capturePlay, onComplete, detected, ref }) {
       timeoutIds.current.push(await sleep(4500 / 4));
       setTimer(_timer);
       _timer += 25;
-      console.log(_timer);
-      console.log(state);
+      // console.log(_timer);
+      // console.log(state);
       if(state.isOffedCamera){
-        console.log(state.isOffedCamera);
+        // console.log(state.isOffedCamera);
         setTimer(0)
         _timer = 0
         return;
       }
-      console.log(state);
+      // console.log(state);
       timeoutIds.current.push(await sleep(4500 / 4));
       setTimer(_timer);
       _timer += 25;
-      console.log(_timer);
-      console.log(state);
+      // console.log(_timer);
+      // console.log(state);
       if(state.isOffedCamera){
-        console.log(state.isOffedCamera);
+        // console.log(state.isOffedCamera);
         setTimer(0)
         _timer = 0
         return;
@@ -88,10 +88,10 @@ function ProgressCircle({ capturePlay, onComplete, detected, ref }) {
       timeoutIds.current.push(await sleep(4500 / 4));
       setTimer(_timer);
       _timer += 25;
-      console.log(_timer);
-      console.log(state);
+      // console.log(_timer);
+      // console.log(state);
       if(state.isOffedCamera){
-        console.log(state.isOffedCamera);
+        // console.log(state.isOffedCamera);
         setTimer(0)
         _timer = 0
         return;

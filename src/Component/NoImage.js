@@ -5,7 +5,7 @@ import plusPng from '../assets/plus.png';
 
 function NoImage({onClick, height}) {
 
-  console.log('height',height);
+  // console.log('height',height);
 
   return (
     <div className={style.noImageContainer} onClick={onClick} style={{height:`${height}px`, width:`${height}px`}}>
