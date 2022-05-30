@@ -127,9 +127,7 @@ function Camera() {
 
   const handleCaptureComplete = async (detected, step) => {
     if (detected) {
-
       // console.log(step);
-
       setReady(false);
       setDetected(false);
       setCaptured(false);
@@ -472,14 +470,14 @@ function Camera() {
 
           {
             open === true
-              ? <CameraModal open={open} Disagree={setOpen} fullScreen={fullScreen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'} userOS={userOS} />
+              ? <CameraModal open={open} Disagree={setOpen} fullScreen={fullScreen} setStep={setStep} text1={'카메라 권한 거부 시'} text2={'사진 촬영이 불가합니다'} text3={'본인 외 타인 얼굴, 사진을 도용하는 경우 법적 처벌 또는 소속회사의 제재를 받을 수 있습니다.'}userOS={userOS} />
               : null
           }
         </div>
       )}
 
       {
-        userOS === 'A'
+        userOS === 'A' 
           ?
           <FullScreen handle={fullScreen}>
             {step === 1 && (
@@ -537,7 +535,6 @@ function Camera() {
                         detected={detected}
                         setDetected={setDetected}
                         step={step}
-
                       />
                     </div>
                     : <div className={style.webcamInfoText}>
@@ -546,7 +543,6 @@ function Camera() {
                         capturePlay={capturePlay}
                         onComplete={handleCaptureComplete}
                         step={step}
-
                       />
                     </div>}
                 </div>
@@ -760,13 +756,14 @@ function Camera() {
   );
 }
 
-const CameraModal = ({ text1, text2, Disagree, open, setStep, fullScreen, userOS }) => {
+const CameraModal = ({ text1, text2,text3, Disagree, open, setStep, fullScreen, userOS }) => {
   return (
     <div className={style.Modal} >
       <div className={style.ModalWrapper}>
         <div className={style.ModalTextWrapper}>
           <p style={{ margin: 'auto' }}>{text1}</p>
           <p style={{ margin: 'auto' }}>{text2}</p>
+          <p style={{ margin: 15, color:'red', fontSize: 13, textAlign:'center' }}>{text3}</p>
         </div>
         <div className={style.ButtonWrapper}>
           {userOS === 'A'
