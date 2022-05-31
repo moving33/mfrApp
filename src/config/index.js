@@ -3,9 +3,10 @@ export const PREFIX = "";
 
 let apiUrl = '';
 //품질계
-apiUrl = "https://mfr-stg.s1.co.kr:8901"
+// apiUrl = "https://mfr-stg.s1.co.kr:8901"
 //개발계
-// apiUrl = "https://mfr-dev.s1.co.kr:8901"
+apiUrl = "https://mfr-dev.s1.co.kr:8901"
+//local
 // apiUrl = "https://192.168.10.49:8888"
 
 
