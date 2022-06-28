@@ -24,7 +24,10 @@ const ErrorNoPeople = () => {
       <div className={style.errorBoxContainer}>
         <div className={style.inputInfo}>
           <p>출입자 명단에</p>
-          <p>존재하지 않습니다</p>
+          <p>존재하지 않거나,</p>
+          <p>본인인증 정보와</p> 
+          <p>출입자 명단의 정보가</p>
+          <p>일치하지 않습니다.</p>
         </div>
       </div>
 

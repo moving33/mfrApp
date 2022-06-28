@@ -1,25 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
-import qs from "qs";
+import { isMobile, MobileView, BrowserView } from "react-device-detect";
+import { faUserInjured } from "@fortawesome/free-solid-svg-icons";
+import AgreementsModal from "../Component/AgreementsModal";
+import SeleteComapny from "../Component/SelectCompany";
+import { decrypt, encrypt } from "../config/encOrdec";
+import SubmitButton from "../Component/SubmitButton";
+import UsefulModal from "../Component/UsefulModal";
+import ErrorSubBox from "../Component/ErrorSubBox";
+import InputTel from "../Component/InputTel";
+import ErrorBox from "../Component/ErrorBox";
+import { PREFIX, API_URL } from "../config";
+import style from "../Css/Main.module.css";
 import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
-import axios from "axios";
-import { isMobile, MobileView, BrowserView } from 'react-device-detect';
-import style from "../Css/Main.module.css";
-import Box from "../Component/Box";
 import Input from "../Component/Input";
-import InputTel from "../Component/InputTel";
-import SubmitButton from "../Component/SubmitButton";
+import Errorpage from "./Errorpage";
+import Box from "../Component/Box";
 import "../Css/Main.module.css";
-import UsefulModal from "../Component/UsefulModal";
-import AgreementsModal from "../Component/AgreementsModal";
-import Errorpage from './Errorpage'
 import utils from "../utils";
-import ErrorBox from "../Component/ErrorBox";
-import ErrorSubBox from "../Component/ErrorSubBox";
-import { PREFIX, API_URL } from "../config";
-import { faUserInjured } from "@fortawesome/free-solid-svg-icons";
-import SeleteComapny from '../Component/SelectCompany'
-import { decrypt, encrypt } from '../config/encOrdec';
+import axios from "axios";
+import qs from "qs";
 
 function ErrorPage({ onClick }) {
   return (
@@ -35,7 +35,6 @@ function ErrorPage({ onClick }) {
 }
 
 function Info() {
-
   const history = useHistory();
 
   const {
@@ -47,7 +46,7 @@ function Info() {
   const [payload, setPayload] = useState();
   const [encData, setEncData] = useState();
   const [defaultState, setDefaultState] = useState();
-  let [emNum, setEmNum] = useState('');
+  let [emNum, setEmNum] = useState("");
   const [isError, setIsError] = useState(false);
   const [siteName, setSiteName] = useState();
   const [inputName, setInputName] = useState();
@@ -65,96 +64,103 @@ function Info() {
 
   const [company, setCompany] = useState([]);
   const [selectKey, setSelectKey] = useState();
-  let [name, setName] = useState('');
-  let [tel, setTel] = useState('');
+  let [name, setName] = useState("");
+  let [tel, setTel] = useState("");
   const fRef = useRef();
 
-  const passModaltext = '국내 통신사로만 본인인증이 가능하며 해당 URL접속 시 데이터 통신비용이 발생할 수 있습니다.';
-  const nextBtnModalText = '인증을 먼저해 주셔야 합니다.';
-  const emptyPhoneNum = '전화번호를 입력해 주세요';
-  const emptyName = '이름을 입력해 주세요';
+  const passModaltext =
+    "국내 통신사로만 본인인증이 가능하며 해당 URL접속 시 데이터 통신비용이 발생할 수 있습니다.";
+  const nextBtnModalText = "인증을 먼저해 주셔야 합니다.";
+  const emptyPhoneNum = "전화번호를 입력해 주세요";
+  const emptyName = "이름을 입력해 주세요";
 
   function nameHandler(e) {
-    setName(e.target.value)
+    setName(e.target.value);
   }
   function telHandler(e) {
-    setTel(e.target.value)
+    setTel(e.target.value);
   }
   function emNumHandler(e) {
-    setEmNum(e.target.value)
+    setEmNum(e.target.value);
   }
   function inputPasswordHandler(e) {
-    setInputPassword(e.target.value)
+    setInputPassword(e.target.value);
   }
 
   //전 화면에서 받아오는 url q값 지금은 진행을 위해서 주석 처리 웹 접근 분기도 여기서 처리
   useEffect(() => {
     window.history.pushState(null, document.title, window.location.href);
-    window.addEventListener('popstate', function (event) { window.history.pushState(null, document.title, window.location.href); });
+    window.addEventListener("popstate", function (event) {
+      window.history.pushState(null, document.title, window.location.href);
+    });
   }, [window.location.href]);
 
   useEffect(() => {
     // if (!isMobile) history.push("/weberrorpage");
     // if (workplace === null || workplace === undefined || workplace === "") history.push("/errorpage");
     const { workplace } = qs.parse(window.location.search.slice(1));
-    
-    const enworkplace = { uuid : workplace || null }
+
+    const enworkplace = { uuid: workplace || null };
     const jsonPayload = JSON.stringify(enworkplace);
     const eworkplace = encrypt(jsonPayload);
-    const payload = { data : eworkplace || null };
-    
+    const payload = { data: eworkplace || null };
+
     console.log(" jsonPayload : ", jsonPayload);
 
-    axios.post(`${API_URL}/v1/siteInfo`, payload)
+    axios
+      .post(`${API_URL}/v1/siteInfo`, payload)
       .then((res) => {
-        if (res.data === null || res.data.result === '잘못된 요청입니다.') {
-          alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
-          history.push("/errorpage")
+        if (res.data === null || res.data.result === "잘못된 요청입니다.") {
+          alert(
+            "오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오."
+          );
+          history.push("/errorpage");
         }
-        const { data } = res.data.data
-        const decryptData = decrypt(res.data.data)
+        const { data } = res.data.data;
+        const decryptData = decrypt(res.data.data);
         const realData = JSON.parse(decryptData);
         setDefaultState(realData);
-        const siteIdx = realData.site_idx;    
+        const siteIdx = realData.site_idx;
         axios({
-          method: 'POST',
-          data: { "siteIdx": siteIdx },
+          method: "POST",
+          data: { siteIdx: siteIdx },
           url: `${API_URL}/v1/niceApiCodeController`,
           timeout: 5000,
-        }).then((res) => {
-          localStorage.setItem('workplace', JSON.stringify(workplace));
-          setEncData(res.data.enc_data);
-        }).catch(() => {
-          // window.location.reload();
-        });
+        })
+          .then((res) => {
+            localStorage.setItem("workplace", JSON.stringify(workplace));
+            setEncData(res.data.enc_data);
+          })
+          .catch((err) => {
+            if (err?.response?.status === 423) history.push("/closepage");
+          });
       })
       .catch((err) => {
-        //history.push("/errorpage");
+        if (err?.response?.status === 423) history.push("/closepage");
       });
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, []);
 
   const PassButton = () => {
-    if (tel === '') {
+    if (tel === "") {
       setOpenEmptyPhoneNumModal(!openEmptyPhoneNumModal);
       return;
     }
-    if (name === '') {
+    if (name === "") {
       setOpenEmptyNameModal(!openEmptyNameModal);
       return;
     }
-    setOpenPassModal(!openPassModal)
-  }
+    setOpenPassModal(!openPassModal);
+  };
   const passAgree = () => {
     fRef.current.submit();
-  }
+  };
 
   const onSubmit = (data) => {
-
     const { employeeNumber } = data;
     //사번을 입력하지 못하면 못 지나간다.
-    if (emNum === '') {
-      setOpenNxtBtnModal(!openNxtBtnModal)
+    if (emNum === "") {
+      setOpenNxtBtnModal(!openNxtBtnModal);
       return;
     }
     const _data = { ...defaultState, employeeNumber };
@@ -164,96 +170,177 @@ function Info() {
       userName: _data.name,
       userPhone: _data.tel,
       site_idx: _data.site_idx,
-      company_idx: selectKey
-    }
+      company_idx: selectKey,
+    };
 
-    axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo)
-      .then((res) => {
-        // let checkEmployeeNumber = res.data.result
-        if (!(res.status === 200)) {
-          alert("오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오.");
-          history.replace('/Errorpage')
-        } else {
-          _data.step_idx = res.data.step_idx;
-          _data.class_id = res.data.class_id;
-          history.replace(`${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`);
-        }
-      })
+    axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo).then((res) => {
+      // let checkEmployeeNumber = res.data.result
+      if (!(res.status === 200)) {
+        alert(
+          "오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오."
+        );
+        history.replace("/Errorpage");
+      } else {
+        _data.step_idx = res.data.step_idx;
+        _data.class_id = res.data.class_id;
+        history.replace(
+          `${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`
+        );
+      }
+    });
   };
 
   const handleCloseErrorPage = () => {
     setIsError(false);
   };
 
-
-
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
     // <MobileView></MobileView>
     <div>
-      <form ref={fRef} action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb">
+      <form
+        ref={fRef}
+        action="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb"
+      >
         <input type="hidden" name="m" value="checkplusSerivce" />
         <input type="hidden" name="EncodeData" value={encData} />
       </form>
       <div className={style.container}>
         <Box step={1} text1="본인 확인을 위해" text2="정보를 입력해주세요" />
         <div>
-          <Input label="사업장" value={defaultState?.site_name || ""} disable="true" background={'#F2F2F2'} color={'#B2B2B2'} title='true' />
-          <Input label="이름" placeholder={"이름을 입력해주세요"} value={name} setValue={setName} onChange={nameHandler} />
-          <div className={style.inputLabelStyle} style={{ marginTop: '5%', bottom: '2%' }}>전화번호</div>
-          <div style={{ display: "flex", width: '100%' }}>
-            <input value={tel} onChange={telHandler} placeholder={"숫자만 입력해주세요"} className={style.inputPhone} type="number" style={{ width: '70%' }} />
+          <Input
+            // label="사업장"
+            label="개발계 빌드 테스트"
+            value={defaultState?.site_name || ""}
+            disable="true"
+            background={"#F2F2F2"}
+            color={"#B2B2B2"}
+            title="true"
+          />
+          <Input
+            label="이름"
+            placeholder={"이름을 입력해주세요"}
+            value={name}
+            setValue={setName}
+            onChange={nameHandler}
+          />
+          <div
+            className={style.inputLabelStyle}
+            style={{ marginTop: "5%", bottom: "2%" }}
+          >
+            전화번호
+          </div>
+          <div style={{ display: "flex", width: "100%" }}>
+            <input
+              value={tel}
+              onChange={telHandler}
+              placeholder={"숫자만 입력해주세요"}
+              className={style.inputPhone}
+              type="number"
+              style={{ width: "70%" }}
+            />
             <button
               className={style.sendInfo}
               onClick={PassButton}
-              style={{ fontFamily: 'Noto Sans KR', width: '28%', backgroundColor: "white", color: "#808080", border: "1px solid #DCDCDC", fontSize: '15px', fontWeight: 500 }}
-            >인증 요청</button>
+              style={{
+                fontFamily: "Noto Sans KR",
+                width: "28%",
+                backgroundColor: "white",
+                color: "#808080",
+                border: "1px solid #DCDCDC",
+                fontSize: "15px",
+                fontWeight: 500,
+              }}
+            >
+              인증 요청
+            </button>
           </div>
 
-          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%', color: "#808080" }}>본인인증 완료 후 입력가능합니다. </div>
-          <div className={style.inputLabelStyle} style={{ width: "91%", left: "0", marginTop: '5%' }}>회사</div>
-          <SeleteComapny company={company} setCompany={setCompany} selectKey={selectKey} setSelectKey={setSelectKey} disabled={true}
-          // onClick={setEmployeeNumberModal}
-          // open={employeeNumberModal} 
-          />
-
-          <Input {...{ register, formName: "employeeNumber" }} label="사번" placeholder="사번을 입력해주세요" value={emNum} onChange={emNumHandler}
+          <div
+            className={style.inputLabelStyle}
+            style={{
+              width: "91%",
+              left: "0",
+              marginTop: "5%",
+              color: "#808080",
+            }}
+          >
+            본인인증 완료 후 입력가능합니다.{" "}
+          </div>
+          <div
+            className={style.inputLabelStyle}
+            style={{ width: "91%", left: "0", marginTop: "5%" }}
+          >
+            회사
+          </div>
+          <SeleteComapny
+            company={company}
+            setCompany={setCompany}
+            selectKey={selectKey}
+            setSelectKey={setSelectKey}
             disabled={true}
-          // onClick={setEmployeeNumberModal}
-          // open={employeeNumberModal} 
+            // onClick={setEmployeeNumberModal}
+            // open={employeeNumberModal}
           />
 
-          <SubmitButton type="submit" label={"다음"} onClick={onSubmit} style={{ backgroun: "#dcdcdc", width: '100%' }} />
+          <Input
+            {...{ register, formName: "employeeNumber" }}
+            label="사번"
+            placeholder="사번을 입력해주세요"
+            value={emNum}
+            onChange={emNumHandler}
+            disabled={true}
+            // onClick={setEmployeeNumberModal}
+            // open={employeeNumberModal}
+          />
+
+          <SubmitButton
+            type="submit"
+            label={"다음"}
+            onClick={onSubmit}
+            style={{ backgroun: "#dcdcdc", width: "100%" }}
+          />
 
           {/* </form> */}
         </div>
-        {
-          openPassModal === true
-            ? (<AgreementsModal title={'인증 요청'} text1={passModaltext} setOpen={setOpenPassModal} open={openPassModal} nextBtn={passAgree} />)
-            : null
-        }
-        {
-          openNxtBtnModal === true
-            ? (<UsefulModal text1={nextBtnModalText} Disagree={setOpenNxtBtnModal} open={openNxtBtnModal} />)
-            : null
-        }
-        {
-          openEmptyPhoneNumModal === true
-            ? (<UsefulModal text1={emptyPhoneNum} Disagree={setOpenEmptyPhoneNumModal} open={openEmptyPhoneNumModal} />)
-            : null
-        }
-        {
-          openEmptyNameModal === true
-            ? (<UsefulModal text1={emptyName} Disagree={setOpenEmptyNameModal} open={openEmptyNameModal} />)
-            : null
-        }
-        {
-          employeeNumberModal
-            ? (<UsefulModal text1={'본인인증 후 정보를 입력해주시기 바랍니다.'} Disagree={setEmployeeNumberModal} open={employeeNumberModal} />)
-            : null
-        }
-
+        {openPassModal === true ? (
+          <AgreementsModal
+            title={"인증 요청"}
+            text1={passModaltext}
+            setOpen={setOpenPassModal}
+            open={openPassModal}
+            nextBtn={passAgree}
+          />
+        ) : null}
+        {openNxtBtnModal === true ? (
+          <UsefulModal
+            text1={nextBtnModalText}
+            Disagree={setOpenNxtBtnModal}
+            open={openNxtBtnModal}
+          />
+        ) : null}
+        {openEmptyPhoneNumModal === true ? (
+          <UsefulModal
+            text1={emptyPhoneNum}
+            Disagree={setOpenEmptyPhoneNumModal}
+            open={openEmptyPhoneNumModal}
+          />
+        ) : null}
+        {openEmptyNameModal === true ? (
+          <UsefulModal
+            text1={emptyName}
+            Disagree={setOpenEmptyNameModal}
+            open={openEmptyNameModal}
+          />
+        ) : null}
+        {employeeNumberModal ? (
+          <UsefulModal
+            text1={"본인인증 후 정보를 입력해주시기 바랍니다."}
+            Disagree={setEmployeeNumberModal}
+            open={employeeNumberModal}
+          />
+        ) : null}
       </div>
     </div>
   );

@@ -1,18 +1,18 @@
-import React, { useState, useEffect, Suspense } from "react";
-import style from "../Css/Main.module.css";
-import Box from "../Component/Box";
-import SubmitButton from "../Component/SubmitButton";
-import { decrypt, encrypt } from '../config/encOrdec';
-import qs from "qs";
-import utils from "../utils";
-import AgreementsModal from "../Component/AgreementsModal";
-import UsefulModal from "../Component/UsefulModal";
-import { useHistory } from "react-router";
-import { PREFIX, API_URL } from "../config";
-import axios from "axios";
-import LoadingPaper from "../Component/loadingPage/LoadingPaper";
-import { useRecoilState } from "recoil";
-import { tokenSaver } from "../atom";
+import React, { useState, useEffect, Suspense } from "react"
+import LoadingPaper from "../Component/loadingPage/LoadingPaper"
+import AgreementsModal from "../Component/AgreementsModal"
+import { decrypt, encrypt } from '../config/encOrdec'
+import SubmitButton from "../Component/SubmitButton"
+import UsefulModal from "../Component/UsefulModal"
+import { PREFIX, API_URL } from "../config"
+import style from "../Css/Main.module.css"
+import { useHistory } from "react-router"
+import { useRecoilState } from "recoil"
+import { tokenSaver } from "../atom"
+import Box from "../Component/Box"
+import utils from "../utils"
+import axios from "axios"
+import qs from "qs"
 
 const Agreements = () => {
     const [loading, setLoading] = useState(false);

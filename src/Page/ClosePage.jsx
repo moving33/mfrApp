@@ -23,8 +23,8 @@ const ClosePage = () => {
     <div>
       <div className={style.errorBoxContainer}>
         <div className={style.inputInfo}>
-          <p>패스 인증 API</p>
-          <p>TEST</p>
+          <p>등록가능한 사업장 주소가 없거나</p>
+          <p>운영 중지 상태입니다.</p>
         </div>
       </div>
       {/* <div className={style.errorSubBoxContainer}>
