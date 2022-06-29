@@ -1,23 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
-import { isMobile, MobileView, BrowserView } from "react-device-detect";
-import { faUserInjured } from "@fortawesome/free-solid-svg-icons";
 import AgreementsModal from "../Component/AgreementsModal";
 import SeleteComapny from "../Component/SelectCompany";
 import { decrypt, encrypt } from "../config/encOrdec";
 import SubmitButton from "../Component/SubmitButton";
 import UsefulModal from "../Component/UsefulModal";
 import ErrorSubBox from "../Component/ErrorSubBox";
-import InputTel from "../Component/InputTel";
 import ErrorBox from "../Component/ErrorBox";
-import { PREFIX, API_URL } from "../config";
+import { API_URL } from "../config";
 import style from "../Css/Main.module.css";
 import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
 import Input from "../Component/Input";
-import Errorpage from "./Errorpage";
 import Box from "../Component/Box";
 import "../Css/Main.module.css";
-import utils from "../utils";
 import axios from "axios";
 import qs from "qs";
 
@@ -43,27 +38,17 @@ function Info() {
     formState: { errors },
   } = useForm();
 
-  const [payload, setPayload] = useState();
-  const [encData, setEncData] = useState();
   const [defaultState, setDefaultState] = useState();
-  let [emNum, setEmNum] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [siteName, setSiteName] = useState();
-  const [inputName, setInputName] = useState();
-  const [inputPassword, setInputPassword] = useState();
-
-  const [openPassModal, setOpenPassModal] = useState(false);
-  const [openNxtBtnModal, setOpenNxtBtnModal] = useState(false);
-  const [openEmptyPhoneNumModal, setOpenEmptyPhoneNumModal] = useState(false);
-  const [openEmptyNameModal, setOpenEmptyNameModal] = useState(false);
-  const [employeeNumberModal, setEmployeeNumberModal] = useState(false);
-  const [companyModal, setCompanyModal] = useState(false);
-
-  const [telOn, setTelOn] = useState(false);
-  const [nameOn, setNameOn] = useState(false);
-
-  const [company, setCompany] = useState([]);
   const [selectKey, setSelectKey] = useState();
+  const [encData, setEncData] = useState();
+  const [openEmptyPhoneNumModal, setOpenEmptyPhoneNumModal] = useState(false);
+  const [employeeNumberModal, setEmployeeNumberModal] = useState(false);
+  const [openEmptyNameModal, setOpenEmptyNameModal] = useState(false);
+  const [openNxtBtnModal, setOpenNxtBtnModal] = useState(false);
+  const [openPassModal, setOpenPassModal] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [company, setCompany] = useState([]);
+  let [emNum, setEmNum] = useState("");
   let [name, setName] = useState("");
   let [tel, setTel] = useState("");
   const fRef = useRef();
@@ -83,11 +68,7 @@ function Info() {
   function emNumHandler(e) {
     setEmNum(e.target.value);
   }
-  function inputPasswordHandler(e) {
-    setInputPassword(e.target.value);
-  }
 
-  //전 화면에서 받아오는 url q값 지금은 진행을 위해서 주석 처리 웹 접근 분기도 여기서 처리
   useEffect(() => {
     window.history.pushState(null, document.title, window.location.href);
     window.addEventListener("popstate", function (event) {
@@ -95,17 +76,18 @@ function Info() {
     });
   }, [window.location.href]);
 
+  //전 화면에서 받아오는 url q값을 복호화 및 서버로 post요청
   useEffect(() => {
-    // if (!isMobile) history.push("/weberrorpage");
-    // if (workplace === null || workplace === undefined || workplace === "") history.push("/errorpage");
+    //url의 뒤에서 부터 한 블럭을 잘라내어 워크플레이스의 값을 가져온다
     const { workplace } = qs.parse(window.location.search.slice(1));
-
+    //인코딩 워크플레이스에 uuid:workplace 형태의 오브젝트를 만들어 넣어준다
     const enworkplace = { uuid: workplace || null };
+    //인코딩 워크플레이스를 제이슨형식으로 만들어 준다
     const jsonPayload = JSON.stringify(enworkplace);
+    //해당 제이슨 형식의 워크플레이스를 암호화해준다
     const eworkplace = encrypt(jsonPayload);
+    //암호화된 워크 플레이스를 다시한번 오브젝트 형식으로 담아준다
     const payload = { data: eworkplace || null };
-
-    console.log(" jsonPayload : ", jsonPayload);
 
     axios
       .post(`${API_URL}/v1/siteInfo`, payload)
@@ -116,10 +98,13 @@ function Info() {
           );
           history.push("/errorpage");
         }
-        const { data } = res.data.data;
+        //요청에 성공했다면 암호화된 데이터를 받아 복호화해 준다
         const decryptData = decrypt(res.data.data);
+        //복호화된 데이터를 제이슨 형태에서 오브젝트형태로 바꿔준다
         const realData = JSON.parse(decryptData);
+        //데이터를 state 안에 답아준다
         setDefaultState(realData);
+        //복호화된 데이터의 사이트 아이디엑스값을 변수로 지정한다
         const siteIdx = realData.site_idx;
         axios({
           method: "POST",
@@ -128,76 +113,53 @@ function Info() {
           timeout: 5000,
         })
           .then((res) => {
+            //요청에 성공했다면 로컬스토리지 워크플레이스를 담는다
             localStorage.setItem("workplace", JSON.stringify(workplace));
+            //암호화된 데이터를 받아 state에 저장한다
             setEncData(res.data.enc_data);
           })
           .catch((err) => {
+            //에러가 나면서 status값이 423이면 에러페이지로 이동
             if (err?.response?.status === 423) history.push("/closepage");
           });
       })
       .catch((err) => {
+        //에러가 나면서 status값이 423이면 에러페이지로 이동
         if (err?.response?.status === 423) history.push("/closepage");
       });
+
+    //페이지 로드시 윈도우 위치를 상단에 고정하는 함수
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, []);
 
   const PassButton = () => {
+    //tel이 비었으면 모달을 띄우고 함수를 리턴한다
     if (tel === "") {
       setOpenEmptyPhoneNumModal(!openEmptyPhoneNumModal);
       return;
     }
+    //name이 비었으면 모달을 띄우고 함수를 리턴한다
     if (name === "") {
       setOpenEmptyNameModal(!openEmptyNameModal);
       return;
     }
+    //두 값이 모두 있으면 패스라이브러리로 이어지는 모달을 띄운다
     setOpenPassModal(!openPassModal);
   };
+
   const passAgree = () => {
+    //동의 버튼을 눌렀을 때 fRef가 참조인 요소의 버튼 클릭 이벤트를 발생시킨다.
     fRef.current.submit();
   };
 
-  const onSubmit = (data) => {
-    const { employeeNumber } = data;
-    //사번을 입력하지 못하면 못 지나간다.
-    if (emNum === "") {
-      setOpenNxtBtnModal(!openNxtBtnModal);
-      return;
-    }
-    const _data = { ...defaultState, employeeNumber };
-
-    const userInfo = {
-      id: employeeNumber,
-      userName: _data.name,
-      userPhone: _data.tel,
-      site_idx: _data.site_idx,
-      company_idx: selectKey,
-    };
-
-    axios.post(`${API_URL}/v1/userBusinessIdInfo`, userInfo).then((res) => {
-      // let checkEmployeeNumber = res.data.result
-      if (!(res.status === 200)) {
-        alert(
-          "오류로 인해 요청을 완료할 수 없습니다. 나중에 다시 시도하십시오."
-        );
-        history.replace("/Errorpage");
-      } else {
-        _data.step_idx = res.data.step_idx;
-        _data.class_id = res.data.class_id;
-        history.replace(
-          `${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`
-        );
-      }
-    });
-  };
-
   const handleCloseErrorPage = () => {
+    //isError 값을 false로 바꿔준다
     setIsError(false);
   };
 
   if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
-    // <MobileView></MobileView>
     <div>
       <form
         ref={fRef}
@@ -210,7 +172,6 @@ function Info() {
         <Box step={1} text1="본인 확인을 위해" text2="정보를 입력해주세요" />
         <div>
           <Input
-            // label="사업장"
             label="개발계 빌드 테스트"
             value={defaultState?.site_name || ""}
             disable="true"
@@ -280,8 +241,6 @@ function Info() {
             selectKey={selectKey}
             setSelectKey={setSelectKey}
             disabled={true}
-            // onClick={setEmployeeNumberModal}
-            // open={employeeNumberModal}
           />
 
           <Input
@@ -291,18 +250,13 @@ function Info() {
             value={emNum}
             onChange={emNumHandler}
             disabled={true}
-            // onClick={setEmployeeNumberModal}
-            // open={employeeNumberModal}
           />
 
           <SubmitButton
             type="submit"
             label={"다음"}
-            onClick={onSubmit}
             style={{ backgroun: "#dcdcdc", width: "100%" }}
           />
-
-          {/* </form> */}
         </div>
         {openPassModal === true ? (
           <AgreementsModal

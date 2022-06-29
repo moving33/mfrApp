@@ -1,24 +1,17 @@
-import React, { useEffect, useState, useRef, Suspense } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import style from "../Css/Main.module.css";
 import Box from "../Component/Box";
 import Input from "../Component/Input";
-import InputTel from "../Component/InputTel";
-import SubmitButton from "../Component/SubmitButton";
 import { useHistory } from "react-router";
 import { useForm } from "react-hook-form";
-import Errorpage from "./Errorpage";
 import LoadingPaper from "../Component/loadingPage/LoadingPaper";
 import UsefulModal from "../Component/UsefulModal";
 import { useRecoilState } from "recoil";
 import qs from "qs";
 import utils from "../utils";
-import ErrorBox from "../Component/ErrorBox";
-import ErrorSubBox from "../Component/ErrorSubBox";
 import { PREFIX, API_URL } from "../config";
 import axios from "axios";
-import { faUserInjured } from "@fortawesome/free-solid-svg-icons";
 import SeleteComapny from "../Component/SelectCompany";
-import { isMobile, MobileView } from "react-device-detect";
 import { tokenSaver } from "../atom";
 import { encrypt, decrypt } from "../config/encOrdec";
 
@@ -31,44 +24,32 @@ function PassAfterInfo() {
     formState: { errors },
   } = useForm();
 
-  const [emnumOn, setEmnumOn] = useState(false);
-  const [payload, setPayload] = useState();
-  const [encData, setEncData] = useState();
-  const [defaultState, setDefaultState] = useState();
-  const [isError, setIsError] = useState(false);
-  const [siteName, setSiteName] = useState();
-  const [inputName, setInputName] = useState();
-  const [inputPassword, setInputPassword] = useState();
-  const [company, setCompany] = useState([]);
-  const [selectKey, setSelectKey] = useState();
-  const [loading, setLoading] = useState(false);
-
-  const [nameOn, setNameOn] = useState(false);
-  const [telOn, setTelOn] = useState(false);
   const [token, setToken] = useRecoilState(tokenSaver);
+
+  const [defaultState, setDefaultState] = useState();
+  const [selectKey, setSelectKey] = useState();
+  const [encData, setEncData] = useState();
+
+  const [company, setCompany] = useState([]);
+
   const [openAfterPassModal, setOpenAfterPassModal] = useState(false);
   const [openEmNumModal, setOpenEmNumModal] = useState(false);
   const [openSelectKeyUndefinedModal, setOpenSelectKeyUndefinedModal] =
     useState(false);
+  const [isError, setIsError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
+  let [emNum, setEmNum] = useState("");
   let [name, setName] = useState("");
   let [tel, setTel] = useState("");
-  let [emNum, setEmNum] = useState("");
-  const fRef = useRef();
-  // console.log('window ::::::', window);
 
-  function nameHandler(e) {
-    setName(e.target.value);
-  }
-  function telHandler(e) {
-    setTel(e.target.value);
-  }
+  const fRef = useRef();
+
   const emNumHandler = (e) => {
+    //enNum값을 e.target.value값으로 변경해준다
     setEmNum(e.target.value);
   };
-  function inputPasswordHandler(e) {
-    setInputPassword(e.target.value);
-  }
+
   useEffect(() => {
     window.history.pushState(null, document.title, window.location.href);
     window.addEventListener("popstate", function (event) {
@@ -76,38 +57,42 @@ function PassAfterInfo() {
     });
   }, [window.location.href]);
 
-  //전 화면에서 받아오는 url q값 지금은 진행을 위해서 주석 처리 웹 접근 분기도 여기서 처리
   useEffect(() => {
-    // if (!isMobile) history.replace("/weberrorpage");
+    //url에서 한 블럭을 잘라내어 q값에 담는다.
     const { q } = qs.parse(window.location.search.slice(1));
+    //q가 없으면 메인페이지로 이동시킨다.
     if (!q) {
       history.replace("/");
     }
+    //q에서 받아온 값을 data에 넣는다
     const data = JSON.parse(utils.decode(q));
-    // console.log('data : ', data);
+    //data를 defaultData에 넣어준다
     setDefaultState(data);
-    // console.log(defaultState);
+    //화면 로드시 상단 위치 고정
     window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, []);
+
   //인증완료 클릭시
   const PassButton = () => {
+    //openAfterPassModal 값을 변경하면서 모달이 나타난다.
     setOpenAfterPassModal(!openAfterPassModal);
   };
+
   //다음 버튼 클릭시
   const onSubmit = (data) => {
-    // console.log('data', data);
-    // console.log('defaultState', defaultState);
-    const { employeeNumber } = data;
+    //회사가 선택되지 않았다면 회사를 선택해 달라는 모달이 나온다
     if (selectKey === undefined || company.company_idx === 0) {
       setOpenSelectKeyUndefinedModal(!openSelectKeyUndefinedModal);
       return;
     }
+    //사번값이 비어있다면 모달이 나타난다.
     if (emNum === "") {
       setOpenEmNumModal(!openEmNumModal);
       return;
     } else {
+      //모든 조건을 통과했다면 defaultState에 사번을 추가해준다
       const _data = { ...defaultState, emNum };
-
+      //다음 페이지로 넘어가기 위해 해당 사용자가 등록이 되어있는지 확인하기 위한 데이터를 생성한다
       const userInfo = {
         id: emNum,
         userName: _data.name,
@@ -116,25 +101,27 @@ function PassAfterInfo() {
         company_idx: selectKey,
         classId: _data.class_id,
       };
+      //제이슨으러 변경
       const jsonUserInfo = JSON.stringify(userInfo);
+      //암호화
       const jsonEncUserInfo = encrypt(jsonUserInfo);
+      //암호화 된 값 오브젝트화
       const sendUserInfo = { data: jsonEncUserInfo || null };
-
-      // console.log('sendUserInfo : ', sendUserInfo);
+      //통신 중에는 로딩페이지를 보여준다
       setLoading(true);
       axios
         .post(`${API_URL}/v1/userBusinessIdInfo`, sendUserInfo)
         .then((res) => {
-          // console.log('res',res);
-          // console.log('res status',res.status);
           if (res.status === 200) {
-            // const { data } = res.data
+            //암호화된 데이터 복호화
             const decryptData = decrypt(res.data.data);
+            //복호화된 제이슨 오브젝트화
             const realData = JSON.parse(decryptData);
+            //_data오브젝트 안에 step_idx값을 만들어 realData.step_idx를 넣어준다
             _data.step_idx = realData.step_idx;
-            // _data.step_idx = res.data.step_idx;
-            // setToken(res.data.jwt);
+            //서버에서 날려준 데이터를 recoil기반의 토큰 저장소에 넣어준다
             setToken(realData.jwt);
+            //모든 값을 url에 넣어주고 다음 페이지로 넘어간다.
             history.replace(
               `${PREFIX}/agreements?q=${utils.encode(JSON.stringify(_data))}`
             );
@@ -143,6 +130,7 @@ function PassAfterInfo() {
           }
         })
         .catch((err) => {
+          //통신 실패시 에러페이지로 넘어가는 로직
           if (err?.response?.status === 401) {
             history.replace("/errornopeople");
           } else if (err?.response?.status === 400) {
@@ -153,12 +141,6 @@ function PassAfterInfo() {
         });
     }
   };
-
-  const handleCloseErrorPage = () => {
-    setIsError(false);
-  };
-
-  // if (isError) return <ErrorPage onClick={handleCloseErrorPage} />;
 
   return (
     <div>
@@ -184,7 +166,6 @@ function PassAfterInfo() {
           <Input
             label="이름"
             value={defaultState?.name || name}
-            onChange={nameHandler}
             setValue={setName}
           />
           <div style={{ marginTop: "5%" }}>
@@ -194,7 +175,6 @@ function PassAfterInfo() {
                 label="전화번호"
                 value={defaultState?.tel || tel}
                 id="telInput"
-                onChange={telHandler}
                 placeholder={"숫자만 입력해주세요"}
                 className={style.inputPhone}
                 type="number"
